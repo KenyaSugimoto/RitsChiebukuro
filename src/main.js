@@ -26,12 +26,10 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-store.dispatch('autoLogin').then(() => {
+store.dispatch('login/autoLogin').then(() => {
   new Vue({
     router,
     store,
     render: h => h(App),
   }).$mount("#app");
 });
-
-

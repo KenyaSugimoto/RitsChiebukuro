@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import store from "./store";
+// import store from "./store";
 
 
 const TopPage = () => import("./components/pages/TopPage.vue");
@@ -26,13 +26,6 @@ export default new Router({
         header: Header,
         search: Search,
       },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next();
-        }else {
-          next("/login");
-        }
-      }
     },
     {
       path: "/answer",
@@ -41,13 +34,6 @@ export default new Router({
         header: Header,
         search: Search,
       },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next();
-        }else {
-          next("/login");
-        }
-      }
     },
     {
       path: "/category",
@@ -56,13 +42,6 @@ export default new Router({
         header: Header,
         search: Search,
       },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next();
-        }else {
-          next("/login");
-        }
-      }
     },
     {
       path: "/my-page",
@@ -71,39 +50,18 @@ export default new Router({
         header: Header,
         search: Search,
       },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next();
-        }else {
-          next("/login");
-        }
-      }
     },
     {
       path: "/login",
       components: {
         default: Login,
       },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next("/");
-        }else {
-          next();
-        }
-      }
     },
     {
       path: "/register",
       components: {
         default: Register,
       },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next("/");
-        }else {
-          next();
-        }
-      }
     },
   ]
 })

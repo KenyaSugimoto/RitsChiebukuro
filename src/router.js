@@ -105,5 +105,10 @@ export default new Router({
         }
       }
     },
+    // 上記全てのURL以外
+    {
+      path: "*",
+      redirect: "/"
+    }
   ]
 })

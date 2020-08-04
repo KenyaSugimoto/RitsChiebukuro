@@ -1,6 +1,8 @@
 <template>
   <div>
     <h2>トップページ</h2>
+    <router-view name="search"></router-view>
+
     <h3>投稿</h3>
     <label for="title">タイトル</label>
     <input type="text" id="title" v-model="title">
@@ -9,6 +11,7 @@
     <textarea id="content" cols="30" rows="10" v-model="content"></textarea>
     <br>
     <button @click="postContent">投稿</button>
+
 
     <h3>投稿一覧</h3>
     <hr>
@@ -43,10 +46,9 @@ export default {
       }
     })
     .then(response => {
-      this.posts = response.data.documents
+      this.posts = response.data.documents;
       console.log(this.posts);
     });
-    // axios.get("/contents").then(response => this.posts = response.data.documents);
   },
   methods: {
     postContent() {

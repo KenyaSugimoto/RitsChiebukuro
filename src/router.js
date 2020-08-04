@@ -21,7 +21,6 @@ export default new Router({
   routes:[
     {
       path: "/",
-      component: TopPage,
       components: {
         default: TopPage,
         header: Header,

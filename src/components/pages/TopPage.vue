@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "../../axios/axios-post";
 export default {
   data(){
     return {

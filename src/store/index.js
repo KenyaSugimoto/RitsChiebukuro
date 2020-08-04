@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router";
-import axios from "../axios-auth";
-import axiosRefresh from "../axios-refresh";
+import axiosAuth from "../axios/axios-auth";
+import axiosRefresh from "../axios/axios-refresh";
 
 Vue.use(Vuex);
 
@@ -41,7 +41,7 @@ export default new Vuex.Store({
 
     },
     login({dispatch}, authData){
-      axios.post(
+      axiosAuth.post(
         "/accounts:signInWithPassword?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs",
         {
           email: authData.email,
@@ -73,7 +73,7 @@ export default new Vuex.Store({
       });
     },
     register({dispatch}, authData) {
-      axios.post(
+      axiosAuth.post(
         "/accounts:signUp?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs",
         {
           email: authData.email,

@@ -6,7 +6,6 @@ import store from "./store";
 
 Vue.config.productionTip = false;
 
-axios.defaults.baseURL = "https://firestore.googleapis.com/v1/projects/rits-chiebukuro/databases/(default)/documents";
 
 router.beforeEach((to, from, next) => {
   const withoutLogin = ["/login", "/register"];  // ログインなしで閲覧できるページ

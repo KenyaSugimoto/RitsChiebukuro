@@ -1,7 +1,7 @@
 import axiosRefresh from "../../axios/axios-refresh";
 
 const actions = {
-  refreshIdToken({dispatch}, refreshToken) {
+  refreshIdToken({commit, dispatch}, refreshToken) {
     axiosRefresh.post(
       "/token?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs",
       {
@@ -14,6 +14,7 @@ const actions = {
         refreshToken: response.data.refresh_token,
         expiresIn: response.data.expires_in
       }, {root: true});
+      commit('updateUserUid', response.data.user_id, {root: true});
     });
   },
   setAuthData({commit, dispatch}, authData) {

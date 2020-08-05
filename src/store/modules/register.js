@@ -2,7 +2,7 @@ import axiosAuth from "../../axios/axios-auth";
 import router from "../../router";
 
 const actions = {
-  register({dispatch}, authData) {
+  register({commit, dispatch}, authData) {
     axiosAuth.post(
       "/accounts:signUp?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs",
       {
@@ -18,6 +18,7 @@ const actions = {
         expiresIn: response.data.expiresIn
       }, {root: true});
       router.push('/login');
+      commit('updateUserUid', response.data.localId, {root: true});
     });
   },
 };

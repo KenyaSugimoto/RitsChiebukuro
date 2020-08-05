@@ -6,6 +6,7 @@ const actions = {
     localStorage.removeItem('idToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('expiryTimeMs');
+    commit('updateUserUid', null, {root: true});
     router.replace('/login');
   },
 };

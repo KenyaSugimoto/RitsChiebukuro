@@ -18,7 +18,7 @@ const actions = {
         expiresIn: response.data.expiresIn,
         userUid: response.data.localId,
       }, {root: true});
-      router.push('/login');
+      router.push('/');
     });
   },
 };

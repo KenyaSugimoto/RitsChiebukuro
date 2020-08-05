@@ -1,7 +1,7 @@
 import axiosRefresh from "../../axios/axios-refresh";
 
 const actions = {
-  refreshIdToken({commit, dispatch}, refreshToken) {
+  refreshIdToken({dispatch}, refreshToken) {
     axiosRefresh.post(
       "/token?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs",
       {
@@ -12,9 +12,9 @@ const actions = {
       dispatch('auth/setAuthData', {
         idToken: response.data.id_token,
         refreshToken: response.data.refresh_token,
-        expiresIn: response.data.expires_in
+        expiresIn: response.data.expires_in,
+        userUid: response.data.user_id,
       }, {root: true});
-      commit('updateUserUid', response.data.user_id, {root: true});
     });
   },
   setAuthData({commit, dispatch}, authData) {
@@ -26,6 +26,8 @@ const actions = {
     localStorage.setItem('idToken', authData.idToken);
     localStorage.setItem('refreshToken', authData.refreshToken);
     localStorage.setItem('expiryTimeMs', expiryTimeMs);
+
+    commit('updateUserUid', authData.userUid, {root: true});
 
     setTimeout(() => {
       dispatch('auth/refreshIdToken', authData.refreshToken, {root: true});

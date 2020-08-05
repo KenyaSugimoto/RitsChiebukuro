@@ -1,13 +1,15 @@
 <template>
   <div id="app">
+
     <template v-if="isAuthenticated">
       <header>
-        <router-link to="/" class="header-item">掲示板</router-link>
+        <!-- <router-link to="/" class="header-item">掲示板</router-link> -->
         <span class="header-item" @click="logout">ログアウト</span>
         <router-view name="header"></router-view>
       </header>
       <router-view name="search"></router-view>
     </template>
+
     <template v-if="!isAuthenticated">
       <header>
         <router-link to="/login" class="header-item">ログイン</router-link>
@@ -38,6 +40,10 @@ export default {
 .header-item{
   padding:  10px;
   cursor: pointer;
+}
+.header-item:hover {
+  background-color: #b1abab;
+  color: red;
 }
 </style>
 

@@ -3,7 +3,6 @@
 
     <template v-if="isAuthenticated">
       <header>
-        <!-- <router-link to="/" class="header-item">掲示板</router-link> -->
         <span class="header-item" @click="logout">ログアウト</span>
         <router-view name="header"></router-view>
       </header>

@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     signup(){
-      this.$store.dispatch('register/signUp', {
+      this.$store.dispatch('signUp/signUp', {
         email: this.email,
         password: this.password
       })

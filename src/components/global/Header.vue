@@ -1,43 +1,57 @@
 <template>
   <div>
-    <nav>
-      <ul class="manu">
-        <li>
-          <router-link
-            to="/"
-            class="link"
-            active-class="link--active"
-            exact
-            >Home</router-link>
-        </li>
-        <li>
-          <router-link
-            to="/my-page"
-            class="link"
-            active-class="link--active"
-            exact
-          >マイページ</router-link>
-        </li>
-        <li>
-          <router-link
-            to="/answer"
-            class="link"
-            active-class="link--active"
-            exact
-          >回答</router-link>
-        </li>
-        <li>
-          <router-link
-            to="/category"
-            class="link"
-            active-class="link--active"
-            exact
-          >カテゴリ一覧</router-link>
-        </li>
-      </ul>
-    </nav>
+    <header>
+      <span class="header-item" @click="logout">ログアウト</span>
+      <nav>
+        <ul class="manu">
+          <li>
+            <router-link
+              to="/"
+              class="link"
+              active-class="link--active"
+              exact
+              >Home</router-link>
+          </li>
+          <li>
+            <router-link
+              to="/my-page"
+              class="link"
+              active-class="link--active"
+              exact
+            >マイページ</router-link>
+          </li>
+          <li>
+            <router-link
+              to="/answer"
+              class="link"
+              active-class="link--active"
+              exact
+            >回答</router-link>
+          </li>
+          <li>
+            <router-link
+              to="/category"
+              class="link"
+              active-class="link--active"
+              exact
+            >カテゴリ一覧</router-link>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$store.dispatch('logout/logout');
+    }
+  },
+}
+</script>
 
 <style scoped>
   .link {
@@ -71,4 +85,15 @@
     background: #b1abab;
   }
 
+  .header-item{
+    padding:  10px;
+    cursor: pointer;
+  }
+  .header-item:hover {
+    background-color: #b1abab;
+    color: red;
+  }
+  header span {
+    float: right;
+  }
 </style>

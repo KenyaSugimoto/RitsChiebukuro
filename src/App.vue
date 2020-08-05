@@ -2,10 +2,7 @@
   <div id="app">
 
     <template v-if="isAuthenticated">
-      <header>
-        <span class="header-item" @click="logout">ログアウト</span>
-        <Header></Header>
-      </header>
+      <Header></Header>
       <router-view name="search"></router-view>
     </template>
 
@@ -15,8 +12,8 @@
         <router-link to="/register" class="header-item">登録</router-link>
       </header>
     </template>
-    <router-view></router-view>
 
+    <router-view></router-view>
   </div>
 </template>
 
@@ -26,11 +23,6 @@ export default {
   computed: {
     isAuthenticated(){
       return this.$store.getters.idToken !== null;
-    }
-  },
-  methods: {
-    logout() {
-      this.$store.dispatch('logout/logout');
     }
   },
   components: {
@@ -47,9 +39,6 @@ export default {
 .header-item:hover {
   background-color: #b1abab;
   color: red;
-}
-header span {
-  float: right;
 }
 </style>
 

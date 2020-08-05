@@ -12,10 +12,9 @@
     <br>
     <button @click="postContent">投稿</button>
 
-
     <h3>投稿一覧</h3>
     <hr>
-    <div v-for="post in posts" :key="post.name">
+    <div v-for="post in newPosts" :key="post.name">
       <div>タイトル：{{post.fields.title.stringValue}}</div>
       <div>投稿内容：{{post.fields.content.stringValue}}</div>
       <br>
@@ -24,57 +23,35 @@
 </template>
 
 <script>
-import axios from "../../axios/axios-post";
 export default {
   data(){
     return {
       title: "",
       content: "",
-      posts: [],
     }
   },
   computed: {
     idToken() {
       return this.$store.getters.idToken;
-    }
+    },
+    newPosts() {
+      return this.$store.getters.newPosts;
+    },
   },
-  created() {
-    axios.get("/contents/", {
-      headers: {
-        Authorization: `Bearer ${this.idToken}`
-      }
-    })
-    .then(response => {
-      this.posts = response.data.documents;
-      console.log(this.posts);
-    });
+  created(){
+    this.$store.dispatch('contents/getContents', this.idToken);
   },
+
   methods: {
     postContent() {
-      axios.post(
-        "/contents/",
-        {
-          fields: {
-            title: {
-              stringValue: this.title
-            },
-            content: {
-              stringValue: this.content
-            },
-          }
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${this.idToken}`
-          }
-        }
-      )
-      .then(response => {
-        console.log(response);
-      });
-      this.content = ""
-      this.title = ""
-    },
+      this.$store.dispatch('contents/postContent', {
+        title: this.title,
+        content: this.content,
+        idToken: this.idToken,
+      },);
+      this.content = "";
+      this.title = "";
+    }
   }
 }
 </script>

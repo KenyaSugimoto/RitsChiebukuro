@@ -15,7 +15,6 @@
 
     <h3>投稿一覧</h3>
     <hr>
-    <!-- <div v-for="post in posts" :key="post.name"> -->
     <div v-for="post in posts" :key="post.name">
       <div>タイトル：{{post.fields.title.stringValue}}</div>
       <div>投稿内容：{{post.fields.content.stringValue}}</div>

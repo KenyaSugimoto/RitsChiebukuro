@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav>
-      <ul>
+      <ul class="manu">
         <li>
           <router-link
             to="/"
@@ -41,12 +41,36 @@
 
 <style scoped>
   .link {
-    margin-right: 10px;
-  }
-  .link--active {
     font-size: 20px;
+  }
+  .manu li {
+    width: 150px;
+    height: 30px;
+    background: #aed3b3;
+    border-bottom: solid 6px #b3ffa0;
+    border-radius: 9px;
+  }
+  .link--active{
+    font-size: 22px;
+    font-weight: bolder;
+    color: #000;
+    border-bottom: solid 6px #b3ffa0;
+
   }
   router-link {
     margin-right: 10px;
   }
+
+  .manu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+  }
+
+  .manu li :hover {
+    background: #b1abab;
+  }
+
+
+
 </style>

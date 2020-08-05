@@ -2,7 +2,7 @@ import axiosAuth from "../../axios/axios-auth";
 import router from "../../router";
 
 const actions = {
-  register({dispatch}, authData) {
+  signUp({dispatch}, authData) {
     axiosAuth.post(
       "/accounts:signUp?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs",
       {

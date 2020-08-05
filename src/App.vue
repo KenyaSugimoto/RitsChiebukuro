@@ -9,7 +9,7 @@
     <template v-if="!isAuthenticated">
       <header>
         <router-link to="/login" class="header-item">ログイン</router-link>
-        <router-link to="/register" class="header-item">登録</router-link>
+        <router-link to="/signUp" class="header-item">登録</router-link>
       </header>
     </template>
 

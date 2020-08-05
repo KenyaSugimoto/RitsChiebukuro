@@ -8,7 +8,7 @@ Vue.config.productionTip = false;
 
 
 router.beforeEach((to, from, next) => {
-  const withoutLogin = ["/login", "/register"];  // ログインなしで閲覧できるページ
+  const withoutLogin = ["/login", "/signUp"];  // ログインなしで閲覧できるページ
   if (withoutLogin.includes(to.path)) {
     // ログインしている場合は、トップページに飛ばす
     if (store.getters.idToken) {

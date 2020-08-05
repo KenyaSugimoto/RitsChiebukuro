@@ -12,7 +12,8 @@ const actions = {
       dispatch('auth/setAuthData', {
         idToken: response.data.id_token,
         refreshToken: response.data.refresh_token,
-        expiresIn: response.data.expires_in
+        expiresIn: response.data.expires_in,
+        userUid: response.data.user_id,
       }, {root: true});
     });
   },
@@ -25,6 +26,8 @@ const actions = {
     localStorage.setItem('idToken', authData.idToken);
     localStorage.setItem('refreshToken', authData.refreshToken);
     localStorage.setItem('expiryTimeMs', expiryTimeMs);
+
+    commit('updateUserUid', authData.userUid, {root: true});
 
     setTimeout(() => {
       dispatch('auth/refreshIdToken', authData.refreshToken, {root: true});

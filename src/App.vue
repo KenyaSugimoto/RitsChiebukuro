@@ -2,10 +2,7 @@
   <div id="app">
 
     <template v-if="isAuthenticated">
-      <header>
-        <span class="header-item" @click="logout">ログアウト</span>
-        <router-view name="header"></router-view>
-      </header>
+      <Header></Header>
       <router-view name="search"></router-view>
     </template>
 
@@ -15,22 +12,21 @@
         <router-link to="/register" class="header-item">登録</router-link>
       </header>
     </template>
-    <router-view></router-view>
 
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
+import Header from "./components/global/Header";
 export default {
   computed: {
     isAuthenticated(){
       return this.$store.getters.idToken !== null;
     }
   },
-  methods: {
-    logout() {
-      this.$store.dispatch('logout/logout');
-    }
+  components: {
+    Header,
   },
 }
 </script>

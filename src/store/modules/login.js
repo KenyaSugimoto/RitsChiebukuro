@@ -14,7 +14,8 @@ const actions = {
         dispatch('auth/setAuthData', {
           idToken: response.data.idToken,
           refreshToken: response.data.refreshToken,
-          expiresIn: response.data.expiresIn
+          expiresIn: response.data.expiresIn,
+          userUid: response.data.localId,
         },{root: true});
         router.push('/');
       });

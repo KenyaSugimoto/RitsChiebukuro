@@ -12,10 +12,12 @@ export default new Vuex.Store({
   state: {
     idToken: null,
     newPosts: null,
+    userUid: null,
   },
   getters: {
     idToken: state => state.idToken,
     newPosts: state => state.newPosts,
+    userUid: state => state.userUid,
   },
   mutations: {
     updateIdToken(state, idToken) {
@@ -23,6 +25,9 @@ export default new Vuex.Store({
     },
     updateNewPosts(state, newPosts) {
       state.newPosts = newPosts;
+    },
+    updateUserUid(state, userUid) {
+      state.userUid = userUid;
     },
   },
   actions: {},

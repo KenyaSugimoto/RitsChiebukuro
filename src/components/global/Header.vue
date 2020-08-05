@@ -71,6 +71,4 @@
     background: #b1abab;
   }
 
-
-
 </style>

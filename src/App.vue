@@ -3,9 +3,8 @@
 
     <template v-if="isAuthenticated">
       <header>
-        <!-- <router-link to="/" class="header-item">掲示板</router-link> -->
         <span class="header-item" @click="logout">ログアウト</span>
-        <router-view name="header"></router-view>
+        <Header></Header>
       </header>
       <router-view name="search"></router-view>
     </template>
@@ -22,6 +21,7 @@
 </template>
 
 <script>
+import Header from "./components/global/Header";
 export default {
   computed: {
     isAuthenticated(){
@@ -32,6 +32,9 @@ export default {
     logout() {
       this.$store.dispatch('logout/logout');
     }
+  },
+  components: {
+    Header,
   },
 }
 </script>
@@ -44,6 +47,9 @@ export default {
 .header-item:hover {
   background-color: #b1abab;
   color: red;
+}
+header span {
+  float: right;
 }
 </style>
 

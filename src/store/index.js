@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import auth from "./modules/auth";
 import login from "./modules/login";
 import logout from "./modules/logout";
-import register from "./modules/register";
+import signUp from "./modules/signUp";
 
 Vue.use(Vuex);
 
@@ -29,6 +29,6 @@ export default new Vuex.Store({
     auth,
     login,
     logout,
-    register,
+    signUp,
   }
 });

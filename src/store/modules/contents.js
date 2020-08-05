@@ -8,7 +8,6 @@ const actions = {
       }
     })
     .then(response => {
-      console.log(response.data.documents);
       commit('updateNewPosts', response.data.documents, {root:true});
     });
   },

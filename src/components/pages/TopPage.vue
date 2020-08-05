@@ -14,7 +14,7 @@
 
     <h3>投稿一覧</h3>
     <hr>
-    <div v-for="post in posts" :key="post.name">
+    <div v-for="post in newPosts" :key="post.name">
       <div>タイトル：{{post.fields.title.stringValue}}</div>
       <div>投稿内容：{{post.fields.content.stringValue}}</div>
       <br>
@@ -28,7 +28,6 @@ export default {
     return {
       title: "",
       content: "",
-      posts: [],
     }
   },
   computed: {
@@ -40,14 +39,9 @@ export default {
     },
   },
   created(){
-    // this.$store.dispatch('contents/getContents', this.idToken);
-    this.$store.dispatch('contents/getContents', this.idToken).then(() => {
-      this.posts = this.newPosts;
-    });
+    this.$store.dispatch('contents/getContents', this.idToken);
   },
-  mounted() {
-    this.posts = this.newPosts;
-  },
+
   methods: {
     postContent() {
       this.$store.dispatch('contents/postContent', {

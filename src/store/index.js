@@ -5,6 +5,8 @@ import login from "./modules/login";
 import logout from "./modules/logout";
 import signUp from "./modules/signUp";
 import contents from "./modules/contents";
+import ritsData from "../assets/rits.json";
+
 
 Vue.use(Vuex);
 
@@ -13,11 +15,15 @@ export default new Vuex.Store({
     idToken: null,
     newPosts: null,
     userUid: null,
+    department: ritsData.department,
+    master: ritsData.master,
   },
   getters: {
     idToken: state => state.idToken,
     newPosts: state => state.newPosts,
     userUid: state => state.userUid,
+    department: state => state.department,
+    master: state => state.master,
   },
   mutations: {
     updateIdToken(state, idToken) {
@@ -37,5 +43,6 @@ export default new Vuex.Store({
     logout,
     signUp,
     contents,
+    ritsData,
   }
 });

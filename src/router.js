@@ -7,7 +7,7 @@ const Category = () => import("./components/pages/Category.vue");
 const MyPage = () => import("./components/pages/MyPage.vue");
 const Search = () => import("./components/parts/Search.vue");
 const Login = () => import("./components/pages/Login.vue");
-const Register = () => import("./components/pages/Register.vue");
+const SignUp = () => import("./components/pages/SignUp.vue");
 
 //Vue Routerの利用宣言
 Vue.use(Router)
@@ -50,9 +50,9 @@ export default new Router({
       },
     },
     {
-      path: "/register",
+      path: "/signUp",
       components: {
-        default: Register,
+        default: SignUp,
       },
     },
     // 上記全てのURL以外

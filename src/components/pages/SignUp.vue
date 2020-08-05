@@ -14,7 +14,7 @@
       id="password"
       v-model="password"
     >
-    <button @click="register">登録</button>
+    <button @click="signup">登録</button>
 
   </div>
 </template>
@@ -28,8 +28,8 @@ export default {
     }
   },
   methods: {
-    register(){
-      this.$store.dispatch('register/register', {
+    signup(){
+      this.$store.dispatch('signUp/signUp', {
         email: this.email,
         password: this.password
       })

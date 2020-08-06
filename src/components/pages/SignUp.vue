@@ -66,19 +66,23 @@ export default {
   },
   methods: {
     signup(){
-      if(confirm("入力内容に間違いはありませんか？")) {
-        this.$store.dispatch('signUp/signUp', {
-          email: this.email,
-          password: this.password,
-          userName: this.userName,
-          major: this.major,
-          gradeNum: this.gradeNum,
-        });
-        this.email = "";
-        this.password = "";
-        this.userName = "";
-        this.major = "";
-        this.gradeNum = "";
+      if(this.email=="" || this.password=="", this.userName=="", this.major=="", this.gradeNum=="") {
+        alert("登録情報を全て入力してください。");
+      }else {
+        if(confirm("入力内容に間違いはありませんか？")) {
+          this.$store.dispatch('signUp/signUp', {
+            email: this.email,
+            password: this.password,
+            userName: this.userName,
+            major: this.major,
+            gradeNum: this.gradeNum,
+          });
+          this.email = "";
+          this.password = "";
+          this.userName = "";
+          this.major = "";
+          this.gradeNum = "";
+        }
       }
 
     }

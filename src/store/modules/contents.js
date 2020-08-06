@@ -1,8 +1,8 @@
-import axiosPost from "../../axios/axios-post";
+import axiosDb from "../../axios/axios-db";
 
 const actions = {
   getContents({ commit }, idToken) {
-    axiosPost
+    axiosDb
       .get("/contents/", {
         headers: {
           Authorization: `Bearer ${idToken}`,
@@ -14,7 +14,7 @@ const actions = {
   },
   postContent({ rootGetters }, postData) {
     console.log(rootGetters.userUid);
-    axiosPost
+    axiosDb
       .post(
         "/contents/",
         {

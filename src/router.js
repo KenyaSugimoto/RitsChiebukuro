@@ -2,7 +2,6 @@ import Vue from "vue";
 import Router from "vue-router";
 
 const TopPage = () => import("./components/pages/TopPage.vue");
-const Answer = () => import("./components/pages/Answer.vue");
 const Category = () => import("./components/pages/Category.vue");
 const MyPage = () => import("./components/pages/MyPage.vue");
 const Search = () => import("./components/parts/Search.vue");
@@ -19,13 +18,6 @@ export default new Router({
       path: "/",
       components: {
         default: TopPage,
-        search: Search,
-      },
-    },
-    {
-      path: "/answer",
-      components: {
-        default: Answer,
         search: Search,
       },
     },

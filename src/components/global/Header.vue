@@ -22,14 +22,6 @@
           </li>
           <li>
             <router-link
-              to="/answer"
-              class="link"
-              active-class="link--active"
-              exact
-            >回答</router-link>
-          </li>
-          <li>
-            <router-link
               to="/category"
               class="link"
               active-class="link--active"

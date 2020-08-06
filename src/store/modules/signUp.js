@@ -11,8 +11,7 @@ const actions = {
         password: authData.password,
         returnSecureToken: true
       },
-    )
-    .then(response => {
+    ).then(response => {
       dispatch('auth/setAuthData', {
         idToken: response.data.idToken,
         refreshToken: response.data.refreshToken,
@@ -32,6 +31,12 @@ const actions = {
         }, {root: true});
         router.push('/');
       });
+    }).catch(error => {
+      for (const err of error.response.data.error.errors) {
+        if (err.message == 'EMAIL_EXISTS') {
+          alert('入力されたメールアドレスはすでに登録されています。')
+        }
+      }
     });
   },
   registerUserInfo({rootGetters}, userInfo) {

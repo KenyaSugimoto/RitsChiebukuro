@@ -4,10 +4,10 @@
     <label for="email">Email：</label>
     <input type="email" id="email" v-model="email">
     <br><br>
-    <label for="password">パスワード(6文字以上の英数字)：</label>
+    <label for="password">パスワード(6文字以上の半角英数字)：</label>
     <input type="password" id="password" v-model="password">
     <br><br>
-    <label for="userName">ユーザID：</label>
+    <label for="userName">ユーザID（半角英数字のみ）：</label>
     <input type="id" id="userName" v-model="userName">
     <br><br>
 
@@ -69,19 +69,23 @@ export default {
       if(this.email=="" || this.password=="", this.userName=="", this.major=="", this.gradeNum=="") {
         alert("登録情報を全て入力してください。");
       }else {
-        if(confirm("入力内容に間違いはありませんか？")) {
-          this.$store.dispatch('signUp/signUp', {
-            email: this.email,
-            password: this.password,
-            userName: this.userName,
-            major: this.major,
-            gradeNum: this.gradeNum,
-          });
-          this.email = "";
-          this.password = "";
-          this.userName = "";
-          this.major = "";
-          this.gradeNum = "";
+        if(this.userName.match(/[^0-9]/g)) {
+          alert("ユーザIDが不正です。\n半角英数字で入力してください。")
+        }else {
+          if(confirm("入力内容に間違いはありませんか？")) {
+            this.$store.dispatch('signUp/signUp', {
+              email: this.email,
+              password: this.password,
+              userName: this.userName,
+              major: this.major,
+              gradeNum: this.gradeNum,
+            });
+            this.email = "";
+            this.password = "";
+            this.userName = "";
+            this.major = "";
+            this.gradeNum = "";
+          }
         }
       }
 

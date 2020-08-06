@@ -7,7 +7,6 @@ import signUp from "./modules/signUp";
 import contents from "./modules/contents";
 import ritsData from "../assets/rits.json";
 
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -74,5 +73,5 @@ export default new Vuex.Store({
     signUp,
     contents,
     ritsData,
-  }
+  },
 });

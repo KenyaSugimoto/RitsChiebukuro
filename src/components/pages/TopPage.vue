@@ -5,30 +5,34 @@
 
     <h3>投稿</h3>
     <label for="title">タイトル</label>
-    <input type="text" id="title" v-model="title">
-    <br><br>
+    <input type="text" id="title" v-model="title" />
+    <br />
+    <br />
     <label for="content">投稿内容</label>
     <textarea id="content" cols="30" rows="10" v-model="content"></textarea>
-    <br>
+    <br />
     <button @click="postContent">投稿</button>
 
     <h3>投稿一覧</h3>
-    <hr>
+    <hr />
     <div v-for="post in newPosts" :key="post.name">
       <div>タイトル：{{post.fields.title.stringValue}}</div>
       <div>投稿内容：{{post.fields.content.stringValue}}</div>
-      <br>
+      <div>投稿時間：{{post.fields.created_at.timestampValue}}</div>
+      <div>編集時間：{{post.fields.updated_at.timestampValue}}</div>
+      <div>回答有無：{{post.fields.isAnswered.booleanValue}}</div>
+      <br />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data(){
+  data() {
     return {
       title: "",
       content: "",
-    }
+    };
   },
   computed: {
     idToken() {
@@ -38,20 +42,20 @@ export default {
       return this.$store.getters.newPosts;
     },
   },
-  created(){
-    this.$store.dispatch('contents/getContents', this.idToken);
+  created() {
+    this.$store.dispatch("contents/getContents", this.idToken);
   },
 
   methods: {
     postContent() {
-      this.$store.dispatch('contents/postContent', {
+      this.$store.dispatch("contents/postContent", {
         title: this.title,
         content: this.content,
         idToken: this.idToken,
-      },);
+      });
       this.content = "";
       this.title = "";
-    }
-  }
-}
+    },
+  },
+};
 </script>

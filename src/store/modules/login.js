@@ -27,6 +27,8 @@ const actions = {
     const expiryTimeMs = localStorage.getItem('expiryTimeMs');
     const isExpired = expiryTimeMs <= now.getTime();
     const refreshToken = localStorage.getItem('refreshToken');
+    const uid = localStorage.getItem("uid");
+    commit("updateUserUid", uid, { root: true });
     if(isExpired) {
       //IDトークンの期限が切れている時
       dispatch('auth/refreshIdToken', refreshToken, {root: true});
@@ -43,5 +45,5 @@ const actions = {
 
 export default {
   namespaced: true,
-  actions
+  actions,
 };

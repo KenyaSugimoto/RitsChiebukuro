@@ -22,6 +22,9 @@ const actions = {
         dispatch('signUp/registerUserInfo', {
           uid: rootGetters.userUid,
           email: authData.email,
+          userName: authData.userName,
+          major: authData.major,
+          gradeNum: authData.gradeNum,
         }, {root: true});
       });
       router.push('/');
@@ -38,9 +41,18 @@ const actions = {
           email: {
             stringValue: userInfo.email
           },
+          userName: {
+            stringValue: userInfo.userName
+          },
+          major: {
+            stringValue: userInfo.major
+          },
+          gradeNum: {
+            stringValue: userInfo.gradeNum
+          },
           created_at: {
             timestampValue: new Date().toISOString()
-          }
+          },
         }
       },
       {

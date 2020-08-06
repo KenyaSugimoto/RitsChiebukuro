@@ -1,5 +1,5 @@
 import axiosAuth from "../../axios/axios-auth";
-import axiosPost from "../../axios/axios-post";
+import axiosDb from "../../axios/axios-db";
 import router from "../../router";
 
 const actions = {
@@ -35,7 +35,7 @@ const actions = {
     });
   },
   registerUserInfo({rootGetters}, userInfo) {
-    axiosPost.post(
+    axiosDb.post(
       "/users/",
       {
         fields: {

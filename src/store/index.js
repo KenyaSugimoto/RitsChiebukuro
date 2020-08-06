@@ -6,7 +6,6 @@ import login from "./modules/login";
 import logout from "./modules/logout";
 import signUp from "./modules/signUp";
 import contents from "./modules/contents";
-import ritsData from "../assets/rits.json";
 
 Vue.use(Vuex);
 
@@ -26,10 +25,6 @@ export default new Vuex.Store({
     postsInfo: {
       newPosts: null,
     },
-    constantData: {
-      department: ritsData.department,
-      master: ritsData.master,
-    }
   },
   getters: {
     // userInfo
@@ -43,9 +38,6 @@ export default new Vuex.Store({
     expiryTimeMs: state => state.authInfo.expiryTimeMs,
     // postsInfo
     newPosts: state => state.postsInfo.newPosts,
-    // constantData
-    department: state => state.constantData.department,
-    master: state => state.constantData.master,
   },
   mutations: {
     // userInfo
@@ -76,7 +68,6 @@ export default new Vuex.Store({
       state.postsInfo.newPosts = newPosts;
     },
 
-
   },
   actions: {},
   modules: {
@@ -85,7 +76,6 @@ export default new Vuex.Store({
     logout,
     signUp,
     contents,
-    ritsData,
   },
   plugins: [
     createPersistedState({

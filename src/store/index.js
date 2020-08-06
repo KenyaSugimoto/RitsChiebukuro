@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
 import auth from "./modules/auth";
 import login from "./modules/login";
 import logout from "./modules/logout";
@@ -19,6 +20,8 @@ export default new Vuex.Store({
     },
     authInfo: {
       idToken: null,
+      refreshToken: null,
+      expiryTimeMs: null,
     },
     postsInfo: {
       newPosts: null,
@@ -29,19 +32,23 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    // userInfo
     userUid: state => state.userInfo.userUid,
     userName: state => state.userInfo.userName,
     major: state => state.userInfo.major,
     gradeNum: state => state.userInfo.gradeNum,
-
+    // authInfo
     idToken: state => state.authInfo.idToken,
-
+    refreshToken: state => state.authInfo.refreshToken,
+    expiryTimeMs: state => state.authInfo.expiryTimeMs,
+    // postsInfo
     newPosts: state => state.postsInfo.newPosts,
-
+    // constantData
     department: state => state.constantData.department,
     master: state => state.constantData.master,
   },
   mutations: {
+    // userInfo
     updateUserUid(state, userUid) {
       state.userInfo.userUid = userUid;
     },
@@ -54,11 +61,17 @@ export default new Vuex.Store({
     updateGradeNum(state, gradeNum){
       state.userInfo.gradeNum = gradeNum;
     },
-
+    // authInfo
     updateIdToken(state, idToken) {
       state.authInfo.idToken = idToken;
     },
-
+    updateRefreshToken(state, refreshToken) {
+      state.authInfo.refreshToken = refreshToken;
+    },
+    updateExpiryTimeMs(state, expiryTimeMs) {
+      state.authInfo.expiryTimeMs = expiryTimeMs;
+    },
+    // postsInfo
     updateNewPosts(state, newPosts) {
       state.postsInfo.newPosts = newPosts;
     },
@@ -74,4 +87,9 @@ export default new Vuex.Store({
     contents,
     ritsData,
   },
+  plugins: [
+    createPersistedState({
+      key: 'RitsChiebukuro'
+    })
+  ],
 });

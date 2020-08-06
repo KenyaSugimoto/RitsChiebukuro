@@ -3,7 +3,7 @@ import axiosPost from "../../axios/axios-post";
 import router from "../../router";
 
 const actions = {
-  signUp({rootGetters, dispatch}, authData) {
+  signUp({rootGetters, commit, dispatch}, authData) {
     axiosAuth.post(
       "/accounts:signUp?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs",
       {
@@ -19,6 +19,10 @@ const actions = {
         expiresIn: response.data.expiresIn,
         userUid: response.data.localId,
       }, {root: true}).then(() => {
+        commit('updateUserName', authData.userName, {root: true});
+        commit('updateMajor', authData.major, {root: true});
+        commit('updateGradeNum', authData.gradeNum, {root: true});
+
         dispatch('signUp/registerUserInfo', {
           uid: rootGetters.userUid,
           email: authData.email,
@@ -26,8 +30,8 @@ const actions = {
           major: authData.major,
           gradeNum: authData.gradeNum,
         }, {root: true});
+        router.push('/');
       });
-      router.push('/');
     });
   },
   registerUserInfo({rootGetters}, userInfo) {

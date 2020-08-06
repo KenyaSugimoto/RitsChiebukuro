@@ -12,29 +12,59 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    idToken: null,
-    newPosts: null,
-    userUid: null,
-    department: ritsData.department,
-    master: ritsData.master,
+    userInfo: {
+      userUid: null,
+      userName: null,
+      major: null,
+      gradeNum: null,
+    },
+    authInfo: {
+      idToken: null,
+    },
+    postsInfo: {
+      newPosts: null,
+    },
+    constantData: {
+      department: ritsData.department,
+      master: ritsData.master,
+    }
   },
   getters: {
-    idToken: state => state.idToken,
-    newPosts: state => state.newPosts,
-    userUid: state => state.userUid,
-    department: state => state.department,
-    master: state => state.master,
+    userUid: state => state.userInfo.userUid,
+    userName: state => state.userInfo.userName,
+    major: state => state.userInfo.major,
+    gradeNum: state => state.userInfo.gradeNum,
+
+    idToken: state => state.authInfo.idToken,
+
+    newPosts: state => state.postsInfo.newPosts,
+
+    department: state => state.constantData.department,
+    master: state => state.constantData.master,
   },
   mutations: {
-    updateIdToken(state, idToken) {
-      state.idToken = idToken;
-    },
-    updateNewPosts(state, newPosts) {
-      state.newPosts = newPosts;
-    },
     updateUserUid(state, userUid) {
-      state.userUid = userUid;
+      state.userInfo.userUid = userUid;
     },
+    updateUserName(state, userName){
+      state.userInfo.userName = userName;
+    },
+    updateMajor(state, major){
+      state.userInfo.major = major;
+    },
+    updateGradeNum(state, gradeNum){
+      state.userInfo.gradeNum = gradeNum;
+    },
+
+    updateIdToken(state, idToken) {
+      state.authInfo.idToken = idToken;
+    },
+
+    updateNewPosts(state, newPosts) {
+      state.postsInfo.newPosts = newPosts;
+    },
+
+
   },
   actions: {},
   modules: {

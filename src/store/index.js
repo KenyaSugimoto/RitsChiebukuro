@@ -5,8 +5,6 @@ import login from "./modules/login";
 import logout from "./modules/logout";
 import signUp from "./modules/signUp";
 import contents from "./modules/contents";
-import ritsData from "../assets/rits.json";
-import Category from "../assets/categoryData.json";
 
 Vue.use(Vuex);
 
@@ -24,11 +22,6 @@ export default new Vuex.Store({
     postsInfo: {
       newPosts: null,
     },
-    constantData: {
-      department: ritsData.department,
-      master: ritsData.master,
-      categoryData: Category.categoryData,
-    }
   },
   getters: {
     userUid: state => state.userInfo.userUid,
@@ -39,10 +32,6 @@ export default new Vuex.Store({
     idToken: state => state.authInfo.idToken,
 
     newPosts: state => state.postsInfo.newPosts,
-
-    department: state => state.constantData.department,
-    master: state => state.constantData.master,
-    categoryData: state => state.constantData.categoryData,
   },
   mutations: {
     updateUserUid(state, userUid) {
@@ -66,7 +55,6 @@ export default new Vuex.Store({
       state.postsInfo.newPosts = newPosts;
     },
 
-
   },
   actions: {},
   modules: {
@@ -75,7 +63,5 @@ export default new Vuex.Store({
     logout,
     signUp,
     contents,
-    ritsData,
-    Category,
   },
 });

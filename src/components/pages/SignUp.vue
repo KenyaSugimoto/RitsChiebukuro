@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import ritsData from "../../assets/rits.json";
 export default {
   data(){
     return {
@@ -54,16 +55,11 @@ export default {
       grade: "bachelor",
       major: "",
       gradeNum: "",
+      department: ritsData.department,
+      master: ritsData.master,
     }
   },
-  computed: {
-    department() {
-      return this.$store.getters.department;
-    },
-    master() {
-      return this.$store.getters.master;
-    },
-  },
+
   methods: {
     signup(){
       if(confirm("入力内容に間違いはありませんか？")) {

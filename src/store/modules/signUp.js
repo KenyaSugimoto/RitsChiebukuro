@@ -34,7 +34,7 @@ const actions = {
   },
   registerUserInfo({rootGetters}, userInfo) {
     axiosDb.post(
-      '/users/',
+      '/users',
       {
         fields: {
           uid: {

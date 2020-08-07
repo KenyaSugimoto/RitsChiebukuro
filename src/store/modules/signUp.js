@@ -14,7 +14,7 @@ const actions = {
     ).then(response => {
       commit('updateUserName', authData.userName, {root: true});
       commit('updateMajor', authData.major, {root: true});
-      commit('updateGradeNum', authData.gradeNum, {root: true});
+      commit('updateGrade', authData.grade, {root: true});
       dispatch('signUp/checkUserName', {
         idToken: response.data.idToken,
         refreshToken: response.data.refreshToken,
@@ -22,6 +22,7 @@ const actions = {
         userUid: response.data.localId,
         major: authData.major,
         grade: authData.grade,
+        userName: authData.userName,
       }, {root: true});
     }).catch(error => {
       for (const err of error.response.data.error.errors) {
@@ -117,7 +118,7 @@ const actions = {
             email: userInfo.email,
             userName: userInfo.userName,
             major: userInfo.major,
-            gradeNum: userInfo.gradeNum,
+            grade: userInfo.grade,
           }, {root: true});
           router.push('/');
         });

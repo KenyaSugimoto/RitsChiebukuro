@@ -6,6 +6,7 @@ import login from "./modules/login";
 import logout from "./modules/logout";
 import signUp from "./modules/signUp";
 import contents from "./modules/contents";
+import getUserInfo from "./modules/getUserInfo";
 
 Vue.use(Vuex);
 
@@ -15,7 +16,7 @@ export default new Vuex.Store({
       userUid: null,
       userName: null,
       major: null,
-      gradeNum: null,
+      grade: null,
     },
     authInfo: {
       idToken: null,
@@ -31,7 +32,7 @@ export default new Vuex.Store({
     userUid: state => state.userInfo.userUid,
     userName: state => state.userInfo.userName,
     major: state => state.userInfo.major,
-    gradeNum: state => state.userInfo.gradeNum,
+    grade: state => state.userInfo.grade,
     // authInfo
     idToken: state => state.authInfo.idToken,
     refreshToken: state => state.authInfo.refreshToken,
@@ -50,8 +51,8 @@ export default new Vuex.Store({
     updateMajor(state, major) {
       state.userInfo.major = major;
     },
-    updateGradeNum(state, gradeNum) {
-      state.userInfo.gradeNum = gradeNum;
+    updateGrade(state, grade) {
+      state.userInfo.grade = grade;
     },
     // authInfo
     updateIdToken(state, idToken) {
@@ -75,6 +76,7 @@ export default new Vuex.Store({
     logout,
     signUp,
     contents,
+    getUserInfo,
   },
   plugins: [
     createPersistedState({

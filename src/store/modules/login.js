@@ -18,6 +18,7 @@ const actions = {
         userUid: response.data.localId,
       },{root: true});
       router.push('/');
+      dispatch('getUserInfo/getUserInfo',{},{root: true});
     });
   },
   autoLogin({rootGetters, dispatch}) {
@@ -37,6 +38,7 @@ const actions = {
         dispatch('auth/refreshIdToken', refreshToken, {root: true});
       }, expiresInMs);
     }
+    dispatch('getUserInfo/getUserInfo',{},{root: true});
   },
 };
 

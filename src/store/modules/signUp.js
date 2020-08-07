@@ -20,14 +20,14 @@ const actions = {
       }, {root: true}).then(() => {
         commit('updateUserName', authData.userName, {root: true});
         commit('updateMajor', authData.major, {root: true});
-        commit('updateGradeNum', authData.gradeNum, {root: true});
+        commit('updateGrade', authData.grade, {root: true});
 
         dispatch('signUp/registerUserInfo', {
           uid: rootGetters.userUid,
           email: authData.email,
           userName: authData.userName,
           major: authData.major,
-          gradeNum: authData.gradeNum,
+          grade: authData.grade,
         }, {root: true});
         router.push('/');
       });
@@ -56,8 +56,8 @@ const actions = {
           major: {
             stringValue: userInfo.major
           },
-          gradeNum: {
-            stringValue: userInfo.gradeNum
+          grade: {
+            stringValue: userInfo.grade
           },
           created_at: {
             timestampValue: new Date().toISOString()

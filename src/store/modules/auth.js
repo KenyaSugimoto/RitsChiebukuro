@@ -21,8 +21,6 @@ const actions = {
       });
   },
   setAuthData({ commit, dispatch }, authData) {
-    commit("updateIdToken", authData.idToken, { root: true });
-
     const now = new Date();
     const expiryTimeMs = now.getTime() + authData.expiresIn * 1000; //今のトークンの期限が切れる時刻を算出
 

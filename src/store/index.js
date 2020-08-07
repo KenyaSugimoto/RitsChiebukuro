@@ -21,6 +21,8 @@ export const initialState = {
     idToken: null,
     refreshToken: null,
     expiryTimeMs: null,
+    emailVerified: false,
+    beginActivate: false,
   },
   postsInfo: {
     newPosts: null,
@@ -39,6 +41,8 @@ export default new Vuex.Store({
     idToken: state => state.authInfo.idToken,
     refreshToken: state => state.authInfo.refreshToken,
     expiryTimeMs: state => state.authInfo.expiryTimeMs,
+    emailVerified: state => state.authInfo.emailVerified,
+    beginActivate: state => state.authInfo.beginActivate,
     // postsInfo
     newPosts: state => state.postsInfo.newPosts,
   },
@@ -66,13 +70,18 @@ export default new Vuex.Store({
     updateExpiryTimeMs(state, expiryTimeMs) {
       state.authInfo.expiryTimeMs = expiryTimeMs;
     },
+    updateEmailVerified(state, emailVerified) {
+      state.authInfo.emailVerified = emailVerified;
+    },
+    updateBeginActivate(state, beginActivate) {
+      state.authInfo.beginActivate = beginActivate;
+    },
     // postsInfo
     updateNewPosts(state, newPosts) {
       state.postsInfo.newPosts = newPosts;
     },
     // stateを初期化
     resetState(state) {
-      console.log(initialState);
       Object.assign(state, JSON.parse(JSON.stringify(initialState)));
     }
   },

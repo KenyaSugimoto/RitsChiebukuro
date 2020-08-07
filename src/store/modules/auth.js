@@ -1,4 +1,5 @@
 import axiosRefresh from "../../axios/axios-refresh";
+import axiosAuth from "../../axios/axios-auth";
 
 const actions = {
   refreshIdToken({ dispatch }, refreshToken) {
@@ -33,6 +34,17 @@ const actions = {
       dispatch("auth/refreshIdToken", authData.refreshToken, { root: true });
     }, authData.expiresIn * 1000);
   },
+  async getEmailVerified({commit}, authData) {
+    await axiosAuth.post('/accounts:lookup?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs',
+      {
+        requestType: 'VERIFY_EMAIL',
+        idToken: authData.idToken
+      },
+    ).then(response => {
+      const emailVerified = response.data.users[0].emailVerified;
+      commit('updateEmailVerified', emailVerified, { root: true });
+    });
+  }
 };
 
 export default {

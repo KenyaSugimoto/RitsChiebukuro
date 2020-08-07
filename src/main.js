@@ -8,16 +8,23 @@ Vue.config.productionTip = false;
 
 
 router.beforeEach((to, from, next) => {
-  const withoutLogin = ["/login", "/signUp"];  // ログインなしで閲覧できるページ
+  const withoutLogin = ["/login", "/signUp", "/activateAccount"];  // ログインなしで閲覧できるページ
   if (withoutLogin.includes(to.path)) {
-    // ログインしている場合は、トップページに飛ばす
+    // 認証している場合は、トップページに飛ばす
     if (store.getters.idToken) {
       next("/");
+    } else if (to.path == '/activateAccount') {
+      if (store.getters.beginActivate) {
+        store.commit('updateBeginActivate', false);
+        next();
+      } else {
+        next("/");
+      }
     } else {
       next();
     }
   } else {
-    // ログインしていない場合、ログインページに飛ばす
+    // 認証されていない場合、ログインページに飛ばす
     if (store.getters.idToken) {
       next();
     } else {

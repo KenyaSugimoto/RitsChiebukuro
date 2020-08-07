@@ -1,0 +1,9 @@
+<template>
+  <div>
+    <h2>登録されたメールアドレスにメールを送信しました。</h2>
+    <h2>リンクをクリックしてメールアドレスを確認してください。</h2>
+    <h2>その後、再びログインしてください。</h2>
+    <h2>↓↓↓</h2>
+    <router-link to="/login" class="header-item">ログイン</router-link>
+  </div>
+</template>

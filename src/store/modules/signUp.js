@@ -20,6 +20,7 @@ const actions = {
         refreshToken: response.data.refreshToken,
         expiresIn: response.data.expiresIn,
         userUid: response.data.localId,
+        email: authData.email,
         major: authData.major,
         grade: authData.grade,
         userName: authData.userName,
@@ -32,7 +33,7 @@ const actions = {
       }
     });
   },
-  registerUserInfo({rootGetters}, userInfo) {
+  registerUserInfo(context, userInfo) {
     axiosDb.post(
       '/users',
       {
@@ -59,12 +60,16 @@ const actions = {
       },
       {
         headers: {
-          Authorization: `Bearer ${rootGetters.idToken}`
+          Authorization: `Bearer ${userInfo.idToken}`
         }
       }
-    );
+    ).then(response => {
+      console.log(response);
+    }).catch(error => {
+      console.log(error.response);
+    });
   },
-  checkUserName({dispatch}, userInfo) {
+  checkUserName({commit, dispatch}, userInfo) {
     axiosQuery.post('/documents:runQuery', {
       structuredQuery: {
         select: {
@@ -106,22 +111,17 @@ const actions = {
         // ユーザ名が登録済みの場合
         dispatch('signUp/deleteAccount', {idToken: userInfo.idToken}, {root: true});
       } else {
-        // ユーザ名が未登録の場合
-        dispatch('auth/setAuthData', {
-          idToken: userInfo.idToken,
-          refreshToken: userInfo.refreshToken,
-          expiresIn: userInfo.expiresIn,
-          userUid: userInfo.userUid,
-        }, {root: true}).then(() => {
           dispatch('signUp/registerUserInfo', {
+            idToken: userInfo.idToken,
             userUid: userInfo.userUid,
             email: userInfo.email,
             userName: userInfo.userName,
             major: userInfo.major,
             grade: userInfo.grade,
           }, {root: true});
-          router.push('/');
-        });
+          dispatch('signUp/sendEmailVerification',  {idToken: userInfo.idToken}, {root: true});
+          commit('updateBeginActivate', true, {root: true});
+          router.push('/activateAccount');
       }
     }).catch(error => {
       console.log(error)
@@ -135,7 +135,20 @@ const actions = {
     ).then(() => {
       alert('このユーザ名は既に存在しています。');
     });
-  }
+  },
+  sendEmailVerification(context, userInfo) {
+    axiosAuth.post('/accounts:sendOobCode?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs',
+      {
+        requestType: 'VERIFY_EMAIL',
+        idToken: userInfo.idToken
+      },
+      {
+        headers: {
+          'X-Firebase-Locale': 'ja'
+        }
+      }
+    );
+  },
 };
 
 export default {

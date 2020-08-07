@@ -1,8 +1,8 @@
 import axiosQuery from "../../axios/axios-query";
 
 const actions = {
-  getUserInfo({rootGetters, commit}) {
-    axiosQuery.post("/documents:runQuery", {
+  async getUserInfo({rootGetters, commit}) {
+    await axiosQuery.post("/documents:runQuery", {
       structuredQuery: {
         select: {
           fields: [

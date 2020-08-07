@@ -4,7 +4,7 @@ const actions = {
   logout({commit}) {
     localStorage.removeItem('RitsChiebukuro');
     commit('resetState', {}, {root: true});
-    router.replace('/login');
+    router.push('/login');
   },
 };
 

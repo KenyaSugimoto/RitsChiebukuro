@@ -2,10 +2,10 @@ import router from "../../router";
 
 const actions = {
   logout({commit}) {
+    localStorage.removeItem('RitsChiebukuro');
     commit('updateIdToken', null, {root: true});
-    localStorage.removeItem('idToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('expiryTimeMs');
+    commit('updateRefreshToken', null, {root: true});
+    commit('updateExpiryTimeMs', null, {root: true});
     commit('updateUserUid', null, {root: true});
     router.replace('/login');
   },

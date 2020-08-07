@@ -14,16 +14,15 @@ const actions = {
     ).then(response => {
       commit('updateUserName', authData.userName, {root: true});
       commit('updateMajor', authData.major, {root: true});
-      commit('updateGradeNum', authData.gradeNum, {root: true});
+      commit('updateGrade', authData.grade, {root: true});
       dispatch('signUp/checkUserName', {
         idToken: response.data.idToken,
         refreshToken: response.data.refreshToken,
         expiresIn: response.data.expiresIn,
         userUid: response.data.localId,
-        userName: authData.userName,
-        email: authData.email,
         major: authData.major,
-        gradeNum: authData.gradeNum,
+        grade: authData.grade,
+        userName: authData.userName,
       }, {root: true});
     }).catch(error => {
       for (const err of error.response.data.error.errors) {
@@ -50,8 +49,8 @@ const actions = {
           major: {
             stringValue: userInfo.major
           },
-          gradeNum: {
-            stringValue: userInfo.gradeNum
+          grade: {
+            stringValue: userInfo.grade
           },
           created_at: {
             timestampValue: new Date().toISOString()
@@ -119,7 +118,7 @@ const actions = {
             email: userInfo.email,
             userName: userInfo.userName,
             major: userInfo.major,
-            gradeNum: userInfo.gradeNum,
+            grade: userInfo.grade,
           }, {root: true});
           router.push('/');
         });

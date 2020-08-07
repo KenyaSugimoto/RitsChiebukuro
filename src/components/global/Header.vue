@@ -1,6 +1,11 @@
 <template>
   <div>
     <header>
+      <p>
+        ようこそ
+        <router-link to="/my-page" class="link" exact> {{ userName }} </router-link>
+        さん
+      </p>
       <span class="header-item" @click="logout">ログアウト</span>
       <nav>
         <ul class="manu">
@@ -37,6 +42,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      userName: this.$store.getters.userName,
+    }
+  },
   methods: {
     logout() {
       this.$store.dispatch('logout/logout');

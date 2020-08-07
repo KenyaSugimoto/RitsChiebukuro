@@ -7,22 +7,22 @@
     <label for="password">パスワード(6文字以上の半角英数字)：</label>
     <input type="password" id="password" v-model="password">
     <br><br>
-    <label for="userName">ユーザID（半角英数字のみ）：</label>
+    <label for="userName">ユーザ名（半角英数字のみ）：</label>
     <input type="id" id="userName" v-model="userName">
     <br><br>
 
-    <input type="radio" v-model="grade" value="bachelor" id="bachelor" name="grade">
+    <input type="radio" v-model="degree" value="bachelor" id="bachelor" name="grade">
     <label for="bachelor">学部生</label>
-    <input type="radio" v-model="grade" value="master" id="master" name="grade">
+    <input type="radio" v-model="degree" value="master" id="master" name="grade">
     <label for="master">大学院生</label>
     <br><br>
 
-    <div v-if="grade === 'bachelor'">学部：
+    <div v-if="degree == 'bachelor'">学部：
       <select id="department" v-model="major">
         <option disabled value="">学部を選択してください。</option>
         <option v-for="(item) in department" v-bind:key="item.id"> {{item}} </option>
       </select>
-      <select id="gradeNum" v-model="gradeNum">
+      <select id="grade" v-model="grade">
         <option disabled value="">学年を選択してください。</option>
         <option v-for="i in 6" v-bind:key="i.id"> {{i}}回生 </option>
       </select>
@@ -32,7 +32,7 @@
         <option disabled value="">研究科を選択してください。</option>
         <option v-for="(item) in master" v-bind:key="item.id"> {{item}} </option>
       </select>
-      <select id="gradeNum" v-model="gradeNum">
+      <select id="grade" v-model="grade">
         <option disabled value="">学年を選択してください。</option>
         <option v-for="i in 4" v-bind:key="i.id"> M{{i}} </option>
       </select>
@@ -52,9 +52,9 @@ export default {
       email: "",
       password: "",
       userName: "",
-      grade: "bachelor",
+      degree: "bachelor",
       major: "",
-      gradeNum: "",
+      grade: "",
       department: ritsData.department,
       master: ritsData.master,
     }
@@ -63,7 +63,7 @@ export default {
   methods: {
     signup(){
       const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
-      if(this.email=="" || this.password=="", this.userName=="", this.major=="", this.gradeNum=="") {
+      if(this.email=="" || this.password=="", this.userName=="", this.major=="", this.grade=="") {
         alert("登録情報を全て入力してください。");
       }else if(this.userName.match(/[^0-9 ^a-z]/g )) {
         alert("ユーザIDが不正です。\n半角英数字で入力してください。");
@@ -76,7 +76,7 @@ export default {
             password: this.password,
             userName: this.userName,
             major: this.major,
-            gradeNum: this.gradeNum,
+            grade: this.grade,
           });
         }
       }

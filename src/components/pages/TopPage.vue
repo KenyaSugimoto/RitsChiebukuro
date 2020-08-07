@@ -16,11 +16,11 @@
     <h3>投稿一覧</h3>
     <hr />
     <div v-for="post in newPosts" :key="post.name">
-      <div>タイトル：{{post.fields.title.stringValue}}</div>
-      <div>投稿内容：{{post.fields.content.stringValue}}</div>
-      <div>投稿時間：{{post.fields.created_at.timestampValue}}</div>
-      <div>編集時間：{{post.fields.updated_at.timestampValue}}</div>
-      <div>回答有無：{{post.fields.isAnswered.booleanValue}}</div>
+      <div>タイトル：{{post.document.fields.title.stringValue}}</div>
+      <div>投稿内容：{{post.document.fields.content.stringValue}}</div>
+      <div>投稿時間：{{post.document.fields.created_at.timestampValue}}</div>
+      <div>編集時間：{{post.document.fields.updated_at.timestampValue}}</div>
+      <div>回答有無：{{post.document.fields.isAnswered.booleanValue}}</div>
       <br />
     </div>
   </div>
@@ -43,7 +43,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("contents/getContents", this.idToken);
+    this.$store.dispatch("contents/getContents");
   },
 
   methods: {

@@ -24,26 +24,26 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    userUid: state => state.userInfo.userUid,
-    userName: state => state.userInfo.userName,
-    major: state => state.userInfo.major,
-    gradeNum: state => state.userInfo.gradeNum,
+    userUid: (state) => state.userInfo.userUid,
+    userName: (state) => state.userInfo.userName,
+    major: (state) => state.userInfo.major,
+    gradeNum: (state) => state.userInfo.gradeNum,
 
-    idToken: state => state.authInfo.idToken,
+    idToken: (state) => state.authInfo.idToken,
 
-    newPosts: state => state.postsInfo.newPosts,
+    newPosts: (state) => state.postsInfo.newPosts,
   },
   mutations: {
     updateUserUid(state, userUid) {
       state.userInfo.userUid = userUid;
     },
-    updateUserName(state, userName){
+    updateUserName(state, userName) {
       state.userInfo.userName = userName;
     },
-    updateMajor(state, major){
+    updateMajor(state, major) {
       state.userInfo.major = major;
     },
-    updateGradeNum(state, gradeNum){
+    updateGradeNum(state, gradeNum) {
       state.userInfo.gradeNum = gradeNum;
     },
 
@@ -54,7 +54,6 @@ export default new Vuex.Store({
     updateNewPosts(state, newPosts) {
       state.postsInfo.newPosts = newPosts;
     },
-
   },
   actions: {},
   modules: {

@@ -78,11 +78,6 @@ export default {
             major: this.major,
             grade: this.grade,
           });
-          this.email = "";
-          this.password = "";
-          this.userName = "";
-          this.major = "";
-          this.grade = "";
         }
       }
     }

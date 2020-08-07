@@ -10,23 +10,25 @@ import getUserInfo from "./modules/getUserInfo";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-    userInfo: {
-      userUid: null,
-      userName: null,
-      major: null,
-      grade: null,
-    },
-    authInfo: {
-      idToken: null,
-      refreshToken: null,
-      expiryTimeMs: null,
-    },
-    postsInfo: {
-      newPosts: null,
-    },
+export const initialState = {
+  userInfo: {
+    userUid: null,
+    userName: null,
+    major: null,
+    grade: null,
   },
+  authInfo: {
+    idToken: null,
+    refreshToken: null,
+    expiryTimeMs: null,
+  },
+  postsInfo: {
+    newPosts: null,
+  },
+};
+
+export default new Vuex.Store({
+  state: initialState,
   getters: {
     // userInfo
     userUid: state => state.userInfo.userUid,
@@ -68,6 +70,11 @@ export default new Vuex.Store({
     updateNewPosts(state, newPosts) {
       state.postsInfo.newPosts = newPosts;
     },
+    // stateを初期化
+    resetState(state) {
+      console.log(initialState);
+      Object.assign(state, JSON.parse(JSON.stringify(initialState)));
+    }
   },
   actions: {},
   modules: {

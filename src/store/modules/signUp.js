@@ -1,7 +1,7 @@
-import axiosAuth from "../../axios/axios-auth";
-import axiosDb from "../../axios/axios-db";
-import axiosStructuredQuery from "../../axios/axios-query";
-import router from "../../router";
+import axiosAuth from '../../axios/axios-auth';
+import axiosDb from '../../axios/axios-db';
+import axiosQuery from '../../axios/axios-query';
+import router from '../../router';
 
 const actions = {
   signUp({commit, dispatch}, authData) {
@@ -35,7 +35,7 @@ const actions = {
   },
   registerUserInfo({rootGetters}, userInfo) {
     axiosDb.post(
-      "/users/",
+      '/users/',
       {
         fields: {
           uid: {
@@ -66,7 +66,7 @@ const actions = {
     );
   },
   checkUserName({dispatch}, userInfo) {
-    axiosStructuredQuery.post('/documents:runQuery', {
+    axiosQuery.post('/documents:runQuery', {
       structuredQuery: {
         select: {
           fields: [

@@ -15,26 +15,41 @@ const actions = {
       commit('updateUserName', authData.userName, {root: true});
       commit('updateMajor', authData.major, {root: true});
       commit('updateGrade', authData.grade, {root: true});
-      dispatch('signUp/checkUserName', {
+      dispatch('auth/setAuthData', {
         idToken: response.data.idToken,
         refreshToken: response.data.refreshToken,
         expiresIn: response.data.expiresIn,
         userUid: response.data.localId,
-        major: authData.major,
-        grade: authData.grade,
-        userName: authData.userName,
-      }, {root: true});
-    }).catch(error => {
-      for (const err of error.response.data.error.errors) {
-        if (err.message == 'EMAIL_EXISTS') {
-          alert('入力されたメールアドレスはすでに登録されています。')
-        }
-      }
+      }, {root: true}).then(() => {
+        dispatch('signUp/registerUserInfo', {
+          userUid: response.data.localId,
+          email: authData.email,
+          userName: authData.userName,
+          major: authData.major,
+          grade: authData.grade,
+        }, {root: true});
+        router.push('/');
+      });
+    //   dispatch('signUp/checkUserName', {
+    //     idToken: response.data.idToken,
+    //     refreshToken: response.data.refreshToken,
+    //     expiresIn: response.data.expiresIn,
+    //     userUid: response.data.localId,
+    //     major: authData.major,
+    //     grade: authData.grade,
+    //     userName: authData.userName,
+    //   }, {root: true});
+    // }).catch(error => {
+    //   for (const err of error.response.data.error.errors) {
+    //     if (err.message == 'EMAIL_EXISTS') {
+    //       alert('入力されたメールアドレスはすでに登録されています。')
+    //     }
+    //   }
     });
   },
   registerUserInfo({rootGetters}, userInfo) {
     axiosDb.post(
-      '/users/',
+      '/users',
       {
         fields: {
           uid: {

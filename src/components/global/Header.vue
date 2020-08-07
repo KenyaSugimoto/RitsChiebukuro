@@ -3,7 +3,7 @@
     <header>
       <p>
         ようこそ
-        <router-link to="/my-page" class="link" exact> {{ userName }} </router-link>
+        <router-link to="/my-page" class="link" exact> {{ getUserName }} </router-link>
         さん
       </p>
       <span class="header-item" @click="logout">ログアウト</span>
@@ -42,10 +42,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      userName: this.$store.getters.userName,
-    }
+  computed: {
+    getUserName() {
+      return this.$store.getters.userName;
+    },
   },
   methods: {
     logout() {

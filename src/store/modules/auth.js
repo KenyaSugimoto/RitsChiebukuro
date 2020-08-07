@@ -26,11 +26,9 @@ const actions = {
     const now = new Date();
     const expiryTimeMs = now.getTime() + authData.expiresIn * 1000; //今のトークンの期限が切れる時刻を算出
 
-    localStorage.setItem("idToken", authData.idToken);
-    localStorage.setItem("refreshToken", authData.refreshToken);
-    localStorage.setItem("expiryTimeMs", expiryTimeMs);
-    localStorage.setItem("uid", authData.userUid);
-
+    commit("updateIdToken", authData.idToken, { root: true });
+    commit("updateRefreshToken", authData.refreshToken, { root: true });
+    commit("updateExpiryTimeMs", expiryTimeMs, { root: true });
     commit("updateUserUid", authData.userUid, { root: true });
 
     setTimeout(() => {

@@ -28,6 +28,14 @@ export default {
   components: {
     Header,
   },
+  created() {
+    try {
+      const ls = JSON.parse(localStorage.getItem('RitsChiebukuro'));
+      Object.assign(this.$store.state, JSON.parse(JSON.stringify(ls)));
+    } catch (error) {
+      localStorage.removeItem('RitsChiebukuro');
+    }
+  },
 }
 </script>
 

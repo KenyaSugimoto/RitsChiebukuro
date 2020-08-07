@@ -20,15 +20,13 @@ const actions = {
       router.push('/');
     });
   },
-  autoLogin({commit, dispatch}) {
-    const idToken = localStorage.getItem('idToken');
+  autoLogin({rootGetters, dispatch}) {
+    const idToken = rootGetters.idToken;
     if (!idToken) return; //過去のIDトークンが残っているかの確認
     const now = new Date();
-    const expiryTimeMs = localStorage.getItem('expiryTimeMs');
+    const expiryTimeMs = rootGetters.expiryTimeMs;
     const isExpired = expiryTimeMs <= now.getTime();
-    const refreshToken = localStorage.getItem('refreshToken');
-    const uid = localStorage.getItem("uid");
-    commit("updateUserUid", uid, { root: true });
+    const refreshToken = rootGetters.refreshToken;
     if(isExpired) {
       //IDトークンの期限が切れている時
       dispatch('auth/refreshIdToken', refreshToken, {root: true});
@@ -38,7 +36,6 @@ const actions = {
       setTimeout(() => {
         dispatch('auth/refreshIdToken', refreshToken, {root: true});
       }, expiresInMs);
-      commit('updateIdToken', idToken, {root: true});
     }
   },
 };

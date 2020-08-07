@@ -44,13 +44,13 @@ export default new Vuex.Store({
     updateUserUid(state, userUid) {
       state.userInfo.userUid = userUid;
     },
-    updateUserName(state, userName){
+    updateUserName(state, userName) {
       state.userInfo.userName = userName;
     },
-    updateMajor(state, major){
+    updateMajor(state, major) {
       state.userInfo.major = major;
     },
-    updateGradeNum(state, gradeNum){
+    updateGradeNum(state, gradeNum) {
       state.userInfo.gradeNum = gradeNum;
     },
     // authInfo
@@ -67,7 +67,6 @@ export default new Vuex.Store({
     updateNewPosts(state, newPosts) {
       state.postsInfo.newPosts = newPosts;
     },
-
   },
   actions: {},
   modules: {

@@ -1,15 +1,57 @@
 import axiosDb from "../../axios/axios-db";
+import axiosQuery from "../../axios/axios-query";
 
 const actions = {
-  getContents({ commit }, idToken) {
-    axiosDb
-      .get("/contents/", {
-        headers: {
-          Authorization: `Bearer ${idToken}`,
+  getContents({ rootGetters, commit }) {
+    axiosQuery
+      // .get("/contents/", {
+      //   headers: {
+      //     Authorization: `Bearer ${rootGetters.idToken}`,
+      //   },
+      // })
+      // .then((response) => {
+      //   commit("updateNewPosts", response.data.documents, { root: true });
+      // });
+      .post(
+        "/documents:runQuery",
+        {
+          structuredQuery: {
+            select: {
+              fields: [
+                { fieldPath: "created_at" },
+                { fieldPath: "content" },
+                { fieldPath: "title" },
+                { fieldPath: "updated_at" },
+                { fieldPath: "isAnswered" },
+                { fieldPath: "uid" },
+                { fieldPath: "uuid" },
+              ],
+            },
+            from: [
+              {
+                collectionId: "contents",
+              },
+            ],
+            orderBy: [
+              {
+                field: {
+                  fieldPath: "created_at",
+                },
+                direction: "DESCENDING",
+              },
+            ],
+          },
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${rootGetters.idToken}`,
+          },
+        }
+      )
       .then((response) => {
-        commit("updateNewPosts", response.data.documents, { root: true });
+        commit("updateNewPosts", response.data, {
+          root: true,
+        });
       });
   },
   postContent({ rootGetters }, postData) {

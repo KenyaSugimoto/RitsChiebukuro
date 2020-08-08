@@ -37,7 +37,7 @@ const actions = {
         },
         {
           headers: {
-            Authorization: `Bearer ${rootGetters.authInfo.idToken}`,
+            Authorization: `Bearer ${rootGetters.idToken}`,
           },
         }
       )
@@ -46,7 +46,7 @@ const actions = {
       });
   },
   postContent({ rootGetters }, postData) {
-    console.log(rootGetters.userInfo.uid);
+    console.log(rootGetters.uid);
     axiosDb
       .post(
         "/contents/",
@@ -59,10 +59,10 @@ const actions = {
               stringValue: postData.content,
             },
             uid: {
-              stringValue: rootGetters.userInfo.uid,
+              stringValue: rootGetters.uid,
             },
             userName: {
-              stringValue: rootGetters.userInfo.userName,
+              stringValue: rootGetters.userName,
             },
             created_at: {
               timestampValue: new Date().toISOString(),

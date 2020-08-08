@@ -11,10 +11,10 @@ router.beforeEach((to, from, next) => {
   const withoutLogin = ["/login", "/signUp", "/activateAccount"];  // ログインなしで閲覧できるページ
   if (withoutLogin.includes(to.path)) {
     // 認証している場合は、トップページに飛ばす
-    if (store.getters.authInfo.idToken) {
+    if (store.getters.idToken) {
       next("/");
     } else if (to.path == '/activateAccount') {
-      if (store.getters.authInfo.beginActivate) {
+      if (store.getters.beginActivate) {
         store.commit('updateBeginActivate', false);
         next();
       } else {
@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     // 認証されていない場合、ログインページに飛ばす
-    if (store.getters.authInfo.idToken) {
+    if (store.getters.idToken) {
       next();
     } else {
       next("/login");

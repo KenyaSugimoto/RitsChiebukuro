@@ -27,7 +27,7 @@
 export default {
   computed: {
     getUserName() {
-      return this.$store.getters.userInfo.userName;
+      return this.$store.getters.userName;
     },
   },
   methods: {

@@ -12,7 +12,7 @@ const actions = {
       }
     ).then(response => {
       dispatch('auth/getEmailVerified', {idToken: response.data.idToken}, { root: true }).then(() => {
-        if (rootGetters.authInfo.emailVerified) {
+        if (rootGetters.emailVerified) {
           dispatch('auth/setAuthData', {
             idToken: response.data.idToken,
             refreshToken: response.data.refreshToken,
@@ -30,12 +30,12 @@ const actions = {
     });
   },
   autoLogin({rootGetters, dispatch}) {
-    const idToken = rootGetters.authInfo.idToken;
+    const idToken = rootGetters.idToken;
     if (!idToken) return;  //過去のIDトークンが残っているかの確認
     const now = new Date();
-    const expiryTimeMs = rootGetters.authInfo.expiryTimeMs;
+    const expiryTimeMs = rootGetters.expiryTimeMs;
     const isExpired = expiryTimeMs <= now.getTime();
-    const refreshToken = rootGetters.authInfo.refreshToken;
+    const refreshToken = rootGetters.refreshToken;
     if (isExpired) {
       //IDトークンの期限が切れている時
       dispatch('auth/refreshIdToken', refreshToken, {root: true});

@@ -12,7 +12,7 @@ Vue.use(Vuex);
 
 export const initialState = {
   userInfo: {
-    userUid: null,
+    uid: null,
     userName: null,
     major: null,
     grade: null,
@@ -31,7 +31,7 @@ export default new Vuex.Store({
   state: initialState,
   getters: {
     // userInfo
-    userUid: state => state.userInfo.userUid,
+    uid: state => state.userInfo.uid,
     userName: state => state.userInfo.userName,
     major: state => state.userInfo.major,
     grade: state => state.userInfo.grade,
@@ -44,8 +44,8 @@ export default new Vuex.Store({
   },
   mutations: {
     // userInfo
-    updateUserUid(state, userUid) {
-      state.userInfo.userUid = userUid;
+    updateUid(state, uid) {
+      state.userInfo.uid = uid;
     },
     updateUserName(state, userName) {
       state.userInfo.userName = userName;

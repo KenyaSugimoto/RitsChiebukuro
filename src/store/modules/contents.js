@@ -4,14 +4,6 @@ import axiosQuery from "../../axios/axios-query";
 const actions = {
   getContents({ rootGetters, commit }) {
     axiosQuery
-      // .get("/contents/", {
-      //   headers: {
-      //     Authorization: `Bearer ${rootGetters.idToken}`,
-      //   },
-      // })
-      // .then((response) => {
-      //   commit("updateNewPosts", response.data.documents, { root: true });
-      // });
       .post(
         "/documents:runQuery",
         {
@@ -24,7 +16,8 @@ const actions = {
                 { fieldPath: "updated_at" },
                 { fieldPath: "isAnswered" },
                 { fieldPath: "uid" },
-                { fieldPath: "uuid" },
+                { fieldPath: "contentId" },
+                { fieldPath: "userName" },
               ],
             },
             from: [
@@ -49,13 +42,11 @@ const actions = {
         }
       )
       .then((response) => {
-        commit("updateNewPosts", response.data, {
-          root: true,
-        });
+        commit("updateNewPosts", response.data, {root: true});
       });
   },
   postContent({ rootGetters }, postData) {
-    console.log(rootGetters.userUid);
+    console.log(rootGetters.uid);
     axiosDb
       .post(
         "/contents/",
@@ -68,7 +59,10 @@ const actions = {
               stringValue: postData.content,
             },
             uid: {
-              stringValue: rootGetters.userUid,
+              stringValue: rootGetters.uid,
+            },
+            userName: {
+              stringValue: rootGetters.userName,
             },
             created_at: {
               timestampValue: new Date().toISOString(),
@@ -76,7 +70,7 @@ const actions = {
             updated_at: {
               timestampValue: new Date().toISOString(),
             },
-            uuid: {
+            contentId: {
               stringValue:
                 new Date().getTime().toString(16) +
                 Math.floor(1000 * Math.random()).toString(16),

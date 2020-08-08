@@ -15,7 +15,7 @@ const actions = {
                 { fieldPath: "title" },
                 { fieldPath: "updated_at" },
                 { fieldPath: "isAnswered" },
-                // { fieldPath: "userUid" },
+                { fieldPath: "uid" },
                 { fieldPath: "uuid" },
                 { fieldPath: "userName" },
               ],
@@ -58,7 +58,7 @@ const actions = {
             content: {
               stringValue: postData.content,
             },
-            userUid: {
+            uid: {
               stringValue: rootGetters.userUid,
             },
             userName: {

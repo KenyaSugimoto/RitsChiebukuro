@@ -10,14 +10,17 @@ const actions = {
           structuredQuery: {
             select: {
               fields: [
+                { fieldPath: "contentId" },
                 { fieldPath: "created_at" },
                 { fieldPath: "content" },
                 { fieldPath: "title" },
+                { fieldPath: "category" },
                 { fieldPath: "updated_at" },
                 { fieldPath: "isAnswered" },
                 { fieldPath: "uid" },
-                { fieldPath: "contentId" },
                 { fieldPath: "userName" },
+                { fieldPath: "major" },
+                { fieldPath: "grade" },
               ],
             },
             from: [
@@ -57,11 +60,20 @@ const actions = {
             content: {
               stringValue: postData.content,
             },
+            category: {
+              stringValue: postData.category,
+            },
             uid: {
               stringValue: rootGetters.uid,
             },
             userName: {
               stringValue: rootGetters.userName,
+            },
+            major: {
+              stringValue: rootGetters.major,
+            },
+            grade: {
+              stringValue: rootGetters.grade,
             },
             created_at: {
               timestampValue: new Date().toISOString(),
@@ -84,10 +96,7 @@ const actions = {
             Authorization: `Bearer ${postData.idToken}`,
           },
         }
-      )
-      .then((response) => {
-        console.log(response);
-      });
+      );
   },
   getIndividualPosts({rootGetters, commit}) {
     axiosQuery
@@ -97,14 +106,17 @@ const actions = {
           structuredQuery: {
             select: {
               fields: [
+                { fieldPath: "contentId" },
                 { fieldPath: "created_at" },
                 { fieldPath: "content" },
                 { fieldPath: "title" },
+                { fieldPath: "category" },
                 { fieldPath: "updated_at" },
                 { fieldPath: "isAnswered" },
                 { fieldPath: "uid" },
-                { fieldPath: "contentId" },
                 { fieldPath: "userName" },
+                { fieldPath: "major" },
+                { fieldPath: "grade" },
               ],
             },
             from: [
@@ -148,8 +160,6 @@ const actions = {
       )
       .then((response) => {
         commit("updateIndividualNewPosts", response.data, {root: true});
-      }).catch((err) => {
-        console.log(err);
       });
   },
 };

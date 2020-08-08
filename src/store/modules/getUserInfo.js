@@ -46,8 +46,6 @@ const actions = {
       commit('updateMajor', userInformation.major.stringValue, {root: true});
       commit('updateGrade', userInformation.grade.stringValue, {root: true});
 
-    }).catch(error => {
-      console.log(error);
     });
   },
 };

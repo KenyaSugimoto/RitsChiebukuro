@@ -19,7 +19,7 @@ const actions = {
         idToken: response.data.idToken,
         refreshToken: response.data.refreshToken,
         expiresIn: response.data.expiresIn,
-        userUid: response.data.localId,
+        uid: response.data.localId,
         major: authData.major,
         grade: authData.grade,
         userName: authData.userName,
@@ -38,7 +38,7 @@ const actions = {
       {
         fields: {
           uid: {
-            stringValue: userInfo.userUid
+            stringValue: userInfo.uid
           },
           email: {
             stringValue: userInfo.email
@@ -111,10 +111,10 @@ const actions = {
           idToken: userInfo.idToken,
           refreshToken: userInfo.refreshToken,
           expiresIn: userInfo.expiresIn,
-          userUid: userInfo.userUid,
+          uid: userInfo.uid,
         }, {root: true}).then(() => {
           dispatch('signUp/registerUserInfo', {
-            userUid: userInfo.userUid,
+            uid: userInfo.uid,
             email: userInfo.email,
             userName: userInfo.userName,
             major: userInfo.major,

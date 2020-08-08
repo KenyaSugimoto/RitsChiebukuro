@@ -16,7 +16,7 @@ const actions = {
                 { fieldPath: "updated_at" },
                 { fieldPath: "isAnswered" },
                 { fieldPath: "uid" },
-                { fieldPath: "uuid" },
+                { fieldPath: "contentId" },
                 { fieldPath: "userName" },
               ],
             },
@@ -46,7 +46,7 @@ const actions = {
       });
   },
   postContent({ rootGetters }, postData) {
-    console.log(rootGetters.userUid);
+    console.log(rootGetters.uid);
     axiosDb
       .post(
         "/contents/",
@@ -59,7 +59,7 @@ const actions = {
               stringValue: postData.content,
             },
             uid: {
-              stringValue: rootGetters.userUid,
+              stringValue: rootGetters.uid,
             },
             userName: {
               stringValue: rootGetters.userName,
@@ -70,7 +70,7 @@ const actions = {
             updated_at: {
               timestampValue: new Date().toISOString(),
             },
-            uuid: {
+            contentId: {
               stringValue:
                 new Date().getTime().toString(16) +
                 Math.floor(1000 * Math.random()).toString(16),

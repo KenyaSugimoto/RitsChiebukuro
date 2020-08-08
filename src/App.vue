@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+
     <template v-if="isAuthenticated">
       <Header></Header>
       <router-view name="search"></router-view>
@@ -20,27 +21,27 @@
 import Header from "./components/global/Header";
 export default {
   computed: {
-    isAuthenticated() {
+    isAuthenticated(){
       return this.$store.getters.idToken !== null;
-    },
+    }
   },
   components: {
     Header,
   },
   created() {
     try {
-      const ls = JSON.parse(localStorage.getItem("RitsChiebukuro"));
+      const ls = JSON.parse(localStorage.getItem('RitsChiebukuro'));
       Object.assign(this.$store.state, JSON.parse(JSON.stringify(ls)));
     } catch (error) {
-      localStorage.removeItem("RitsChiebukuro");
+      localStorage.removeItem('RitsChiebukuro');
     }
   },
-};
+}
 </script>
 
 <style scoped>
-.header-item {
-  padding: 10px;
+.header-item{
+  padding:  10px;
   cursor: pointer;
 }
 .header-item:hover {

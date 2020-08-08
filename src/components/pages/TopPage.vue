@@ -8,7 +8,7 @@
     <input type="text" id="title" v-model="title" />
     <br />
     <br />
-    <label for="content">投稿内容</label>
+    <label for="content">質問内容</label>
     <textarea id="content" cols="30" rows="10" v-model="content"></textarea>
     <br />
     <button @click="postContent">投稿</button>
@@ -55,13 +55,13 @@ export default {
   methods: {
     postContent() {
       if(!this.title && !this.content) {
-        alert("タイトルと投稿内容が入力されていません");
+        alert("タイトルと質問内容が入力されていません");
       }
       else if(!this.title) {
         alert("タイトルが入力されていません");
       }
       else if(!this.content) {
-        alert("投稿内容が入力されていません");
+        alert("質問内容が入力されていません");
       }
       else {
         this.$store.dispatch("contents/postContent", {

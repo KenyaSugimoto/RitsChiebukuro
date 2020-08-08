@@ -26,6 +26,7 @@ export const initialState = {
   },
   postsInfo: {
     newPosts: null,
+    individualNewPosts: null,
   },
 };
 
@@ -45,6 +46,7 @@ export default new Vuex.Store({
     beginActivate: state => state.authInfo.beginActivate,
     // postsInfo
     newPosts: state => state.postsInfo.newPosts,
+    individualNewPosts: state => state.postsInfo.individualNewPosts,
   },
   mutations: {
     // userInfo
@@ -79,6 +81,9 @@ export default new Vuex.Store({
     // postsInfo
     updateNewPosts(state, newPosts) {
       state.postsInfo.newPosts = newPosts;
+    },
+    updateIndividualNewPosts(state, individualNewPosts) {
+      state.postsInfo.individualNewPosts = individualNewPosts;
     },
     // stateを初期化
     resetState(state) {

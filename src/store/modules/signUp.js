@@ -19,7 +19,7 @@ const actions = {
         idToken: response.data.idToken,
         refreshToken: response.data.refreshToken,
         expiresIn: response.data.expiresIn,
-        userUid: response.data.localId,
+        uid: response.data.localId,
         email: authData.email,
         major: authData.major,
         grade: authData.grade,
@@ -39,7 +39,7 @@ const actions = {
       {
         fields: {
           uid: {
-            stringValue: userInfo.userUid
+            stringValue: userInfo.uid
           },
           email: {
             stringValue: userInfo.email
@@ -111,6 +111,7 @@ const actions = {
         // ユーザ名が登録済みの場合
         dispatch('signUp/deleteAccount', {idToken: userInfo.idToken}, {root: true});
       } else {
+        // ユーザ名が未登録の場合
           dispatch('signUp/registerUserInfo', {
             idToken: userInfo.idToken,
             userUid: userInfo.userUid,

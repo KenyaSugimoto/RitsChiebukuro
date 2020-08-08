@@ -2,36 +2,19 @@
   <div>
     <header>
       <p>
-        ようこそ
-        <router-link to="/my-page" class="link" exact> {{ getUserName }} </router-link>
-        さん
+        ようこそ<router-link to="/my-page" class="link" exact> {{ getUserName }} </router-link>さん
       </p>
       <span class="header-item" @click="logout">ログアウト</span>
       <nav>
         <ul class="manu">
           <li>
-            <router-link
-              to="/"
-              class="link"
-              active-class="link--active"
-              exact
-              >Home</router-link>
+            <router-link to="/" class="link" active-class="link--active" exact>Home</router-link>
           </li>
           <li>
-            <router-link
-              to="/my-page"
-              class="link"
-              active-class="link--active"
-              exact
-            >マイページ</router-link>
+            <router-link to="/my-page" class="link" active-class="link--active" exact>マイページ</router-link>
           </li>
           <li>
-            <router-link
-              to="/category"
-              class="link"
-              active-class="link--active"
-              exact
-            >カテゴリ一覧</router-link>
+            <router-link to="/category" class="link" active-class="link--active" exact>カテゴリ一覧</router-link>
           </li>
         </ul>
       </nav>

@@ -15,7 +15,7 @@ const actions = {
             idToken: response.data.id_token,
             refreshToken: response.data.refresh_token,
             expiresIn: response.data.expires_in,
-            userUid: response.data.user_id,
+            uid: response.data.user_id,
           },
           { root: true }
         );
@@ -28,7 +28,7 @@ const actions = {
     commit("updateIdToken", authData.idToken, { root: true });
     commit("updateRefreshToken", authData.refreshToken, { root: true });
     commit("updateExpiryTimeMs", expiryTimeMs, { root: true });
-    commit("updateUserUid", authData.userUid, { root: true });
+    commit("updateUid", authData.uid, { root: true });
 
     setTimeout(() => {
       dispatch("auth/refreshIdToken", authData.refreshToken, { root: true });

@@ -87,7 +87,7 @@ export default {
         alert("パスワードが一致しません。");
         this.password == "";
         this.confirmPassword = "";
-      } else if (this.userName.match(/[^0-9 ^a-z]/g )) {
+      } else if (this.userName.match(/[^0-9 ^a-z ^A-Z]/g )) {
         alert("ユーザIDが不正です。\n半角英数字で入力してください。");
       } else if(!reg.test(this.email)) {
         alert("正しいメールアドレスを入力してください。")

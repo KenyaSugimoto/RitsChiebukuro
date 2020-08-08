@@ -114,7 +114,7 @@ const actions = {
         // ユーザ名が未登録の場合
           dispatch('signUp/registerUserInfo', {
             idToken: userInfo.idToken,
-            userUid: userInfo.userUid,
+            uid: userInfo.uid,
             email: userInfo.email,
             userName: userInfo.userName,
             major: userInfo.major,

@@ -11,6 +11,7 @@
           {{post.document.fields.userName.stringValue}}
         </router-link>
       </div>
+      <div>{{post.document.fields.major.stringValue}} {{post.document.fields.grade.stringValue}}</div>
       <div class="content box">{{post.document.fields.content.stringValue}}</div>
       <div>カテゴリ：{{post.document.fields.category.stringValue}}</div>
       <div>投稿時間：{{post.document.fields.created_at.timestampValue | dateFormat}}</div>

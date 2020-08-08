@@ -2,23 +2,24 @@
   <div>
     <h2>トップページ</h2>
     <router-view name="search"></router-view>
-
-    <h3>投稿</h3>
-    <label for="title">*タイトル</label>
-    <input type="text" id="title" v-model="title">
-    <br><br>
-    <div>
-      <label for="content">*質問内容</label>
-      <br>
-      <textarea id="content" cols="30" rows="10" v-model="content"></textarea>
+    <div class="post-form">
+      <h3>投稿フォーム</h3>
+      <label for="title">*タイトル</label>
+      <input type="text" id="title" v-model="title">
+      <br><br>
+      <div>
+        <label for="content">*質問内容</label>
+        <br>
+        <textarea id="content" cols="30" rows="10" v-model="content"></textarea>
+      </div>
+      <label for="categoryData">*質問カテゴリ</label>
+      <select id="categoryData" v-model="selectedCategory">
+        <option disabled value="">カテゴリを選択してください。</option>
+        <option v-for="(item) in categoryData" v-bind:key="item.id"> {{item}} </option>
+      </select>
+      <br><br>
+      <button @click="postContent">投稿</button>
     </div>
-    <label for="categoryData">*質問カテゴリ</label>
-    <select id="categoryData" v-model="selectedCategory">
-      <option disabled value="">カテゴリを選択してください。</option>
-      <option v-for="(item) in categoryData" v-bind:key="item.id"> {{item}} </option>
-    </select>
-    <br><br>
-    <button @click="postContent">投稿</button>
 
     <h3>投稿一覧</h3>
     <hr>
@@ -29,13 +30,15 @@
           {{post.document.fields.userName.stringValue}}
         </router-link>
       </div>
+      <div>{{post.document.fields.major.stringValue}} {{post.document.fields.grade.stringValue}}</div>
       <div class="content box">{{post.document.fields.content.stringValue}}</div>
       <div>カテゴリ：{{post.document.fields.category.stringValue}}</div>
       <div>投稿時間：{{post.document.fields.created_at.timestampValue | dateFormat}}</div>
-      <!-- <div>投稿者：{{post.document.fields.userName.timestampValue}}</div> -->
+
+      <!-- <div>投稿者：{{post.document.fields.userName.stringValue}}</div> -->
       <!-- <div>編集時間：{{post.document.fields.updated_at.timestampValue}}</div> -->
       <!-- <div>回答有無：{{post.document.fields.isAnswered.booleanValue}}</div> -->
-      <br />
+      <br>
     </div>
   </div>
 </template>
@@ -103,6 +106,10 @@ div .title {
   border-radius: 9px;
   width: 70%;
   margin: 20px auto;
+}
+
+.post-form {
+  background-color: rgb(199, 217, 218);
 }
 
 </style>

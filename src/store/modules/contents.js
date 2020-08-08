@@ -10,15 +10,17 @@ const actions = {
           structuredQuery: {
             select: {
               fields: [
+                { fieldPath: "contentId" },
                 { fieldPath: "created_at" },
                 { fieldPath: "content" },
                 { fieldPath: "title" },
+                { fieldPath: "category" },
                 { fieldPath: "updated_at" },
                 { fieldPath: "isAnswered" },
                 { fieldPath: "uid" },
-                { fieldPath: "contentId" },
                 { fieldPath: "userName" },
-                { fieldPath: "category" },
+                { fieldPath: "major" },
+                { fieldPath: "grade" },
               ],
             },
             from: [
@@ -58,14 +60,20 @@ const actions = {
             content: {
               stringValue: postData.content,
             },
+            category: {
+              stringValue: postData.category,
+            },
             uid: {
               stringValue: rootGetters.uid,
             },
             userName: {
               stringValue: rootGetters.userName,
             },
-            category: {
-              stringValue: postData.category,
+            major: {
+              stringValue: rootGetters.major,
+            },
+            grade: {
+              stringValue: rootGetters.grade,
             },
             created_at: {
               timestampValue: new Date().toISOString(),
@@ -89,8 +97,8 @@ const actions = {
           },
         }
       )
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        console.log("send success");
       });
   },
   getIndividualPosts({rootGetters, commit}) {
@@ -101,15 +109,17 @@ const actions = {
           structuredQuery: {
             select: {
               fields: [
+                { fieldPath: "contentId" },
                 { fieldPath: "created_at" },
                 { fieldPath: "content" },
                 { fieldPath: "title" },
+                { fieldPath: "category" },
                 { fieldPath: "updated_at" },
                 { fieldPath: "isAnswered" },
                 { fieldPath: "uid" },
-                { fieldPath: "contentId" },
                 { fieldPath: "userName" },
-                { fieldPath: "category" },
+                { fieldPath: "major" },
+                { fieldPath: "grade" },
               ],
             },
             from: [

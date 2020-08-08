@@ -22,7 +22,7 @@ import Header from "./components/global/Header";
 export default {
   computed: {
     isAuthenticated(){
-      return this.$store.getters.idToken !== null;
+      return this.$store.getters.authInfo.idToken !== null;
     }
   },
   components: {

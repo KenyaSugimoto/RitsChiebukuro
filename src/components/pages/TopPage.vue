@@ -42,10 +42,10 @@ export default {
   },
   computed: {
     idToken() {
-      return this.$store.getters.idToken;
+      return this.$store.getters.authInfo.idToken;
     },
     newPosts() {
-      return this.$store.getters.newPosts;
+      return this.$store.getters.postsInfo.newPosts;
     },
   },
   created() {

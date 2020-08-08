@@ -27,7 +27,7 @@ const actions = {
                   },
                   op: "EQUAL",
                   value: {
-                    stringValue: rootGetters.uid,
+                    stringValue: rootGetters.userInfo.uid,
                   }
                 },
               }
@@ -38,7 +38,7 @@ const actions = {
     },
     {
       headers: {
-        Authorization: `Bearer ${rootGetters.idToken}`
+        Authorization: `Bearer ${rootGetters.authInfo.idToken}`
       }
     }).then(response => {
       const userInformation = response.data[0].document.fields;

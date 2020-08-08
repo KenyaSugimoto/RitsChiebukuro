@@ -4,14 +4,6 @@ import axiosQuery from "../../axios/axios-query";
 const actions = {
   getContents({ rootGetters, commit }) {
     axiosQuery
-      // .get("/contents/", {
-      //   headers: {
-      //     Authorization: `Bearer ${rootGetters.idToken}`,
-      //   },
-      // })
-      // .then((response) => {
-      //   commit("updateNewPosts", response.data.documents, { root: true });
-      // });
       .post(
         "/documents:runQuery",
         {
@@ -25,6 +17,7 @@ const actions = {
                 { fieldPath: "isAnswered" },
                 { fieldPath: "uid" },
                 { fieldPath: "uuid" },
+                { fieldPath: "userName" },
               ],
             },
             from: [
@@ -49,9 +42,7 @@ const actions = {
         }
       )
       .then((response) => {
-        commit("updateNewPosts", response.data, {
-          root: true,
-        });
+        commit("updateNewPosts", response.data, {root: true});
       });
   },
   postContent({ rootGetters }, postData) {
@@ -69,6 +60,9 @@ const actions = {
             },
             uid: {
               stringValue: rootGetters.userUid,
+            },
+            userName: {
+              stringValue: rootGetters.userName,
             },
             created_at: {
               timestampValue: new Date().toISOString(),

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h2>ログイン</h2>
+    <h2>ログインページ</h2>
     <label for="email">Email：</label>
     <input
       type="email"

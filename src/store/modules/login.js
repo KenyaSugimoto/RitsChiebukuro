@@ -17,7 +17,7 @@ const actions = {
             idToken: response.data.idToken,
             refreshToken: response.data.refreshToken,
             expiresIn: response.data.expiresIn,
-            userUid: response.data.localId,
+            uid: response.data.localId,
           }, {root: true}).then(() => {
             dispatch('getUserInfo/getUserInfo', {}, {root: true}).then(() => {
               router.push('/');

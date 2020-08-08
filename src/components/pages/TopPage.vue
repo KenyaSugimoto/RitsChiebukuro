@@ -15,13 +15,27 @@
 
     <h3>投稿一覧</h3>
     <hr />
-    <div v-for="post in newPosts" :key="post.name">
-      <div>タイトル：{{post.document.fields.title.stringValue}}</div>
-      <div>投稿内容：{{post.document.fields.content.stringValue}}</div>
-      <div>投稿時間：{{post.document.fields.created_at.timestampValue}}</div>
-      <div>編集時間：{{post.document.fields.updated_at.timestampValue}}</div>
-      <div>回答有無：{{post.document.fields.isAnswered.booleanValue}}</div>
-      <br />
+    <div id="contents">
+      <div v-for="post in displayLists" :key="post.name">
+        <div>タイトル：{{ post.document.fields.title.stringValue }}</div>
+        <div>投稿内容：{{ post.document.fields.content.stringValue }}</div>
+        <div>
+          投稿時間：{{ post.document.fields.created_at.timestampValue }}
+        </div>
+        <div>
+          編集時間：{{ post.document.fields.updated_at.timestampValue }}
+        </div>
+        <div>回答有無：{{ post.document.fields.isAnswered.booleanValue }}</div>
+        <br />
+      </div>
+    </div>
+    <div>
+      <v-pagination
+        v-model="page"
+        :length="length"
+        circle
+        @input="pageChange"
+      ></v-pagination>
     </div>
   </div>
 </template>
@@ -32,6 +46,10 @@ export default {
     return {
       title: "",
       content: "",
+      page: 1,
+      displayLists: [],
+      pageSize: 4,
+      length: 0,
     };
   },
   computed: {
@@ -44,6 +62,10 @@ export default {
   },
   created() {
     this.$store.dispatch("contents/getContents");
+    this.length = Math.ceil(
+      this.$store.getters.newPosts.length / this.pageSize
+    );
+    this.displayLists = this.$store.getters.newPosts.slice(0, this.pageSize);
   },
 
   methods: {
@@ -56,6 +78,18 @@ export default {
       this.content = "";
       this.title = "";
     },
+    pageChange(pageNumber) {
+      this.displayLists = this.$store.getters.newPosts.slice(
+        this.pageSize * (pageNumber - 1),
+        this.pageSize * pageNumber
+      );
+    },
   },
 };
 </script>
+
+<style>
+#contents {
+  height: 600px;
+}
+</style>

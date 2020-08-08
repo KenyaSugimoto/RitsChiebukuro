@@ -30,26 +30,32 @@ export const initialState = {
   },
 };
 
-export default new Vuex.Store({
-  state: initialState,
-  getters: {
-    // userInfo
+const getters = {
+  // userInfo
+  ... {
     uid: state => state.userInfo.uid,
     userName: state => state.userInfo.userName,
     major: state => state.userInfo.major,
     grade: state => state.userInfo.grade,
-    // authInfo
+  },
+  // authInfo
+  ... {
     idToken: state => state.authInfo.idToken,
     refreshToken: state => state.authInfo.refreshToken,
     expiryTimeMs: state => state.authInfo.expiryTimeMs,
     emailVerified: state => state.authInfo.emailVerified,
     beginActivate: state => state.authInfo.beginActivate,
-    // postsInfo
+  },
+  // postsInfo
+  ... {
     newPosts: state => state.postsInfo.newPosts,
     individualNewPosts: state => state.postsInfo.individualNewPosts,
-  },
-  mutations: {
-    // userInfo
+  }
+};
+
+const mutations = {
+  // userInfo
+  ...{
     updateUid(state, uid) {
       state.userInfo.uid = uid;
     },
@@ -62,7 +68,9 @@ export default new Vuex.Store({
     updateGrade(state, grade) {
       state.userInfo.grade = grade;
     },
-    // authInfo
+  },
+  // authInfo
+  ... {
     updateIdToken(state, idToken) {
       state.authInfo.idToken = idToken;
     },
@@ -78,18 +86,26 @@ export default new Vuex.Store({
     updateBeginActivate(state, beginActivate) {
       state.authInfo.beginActivate = beginActivate;
     },
-    // postsInfo
+    resetState(state) {
+      Object.assign(state, JSON.parse(JSON.stringify(initialState)));
+    }
+  },
+  // postsInfo
+  ... {
     updateNewPosts(state, newPosts) {
       state.postsInfo.newPosts = newPosts;
     },
     updateIndividualNewPosts(state, individualNewPosts) {
       state.postsInfo.individualNewPosts = individualNewPosts;
     },
-    // stateを初期化
-    resetState(state) {
-      Object.assign(state, JSON.parse(JSON.stringify(initialState)));
-    }
-  },
+  }
+};
+
+
+export default new Vuex.Store({
+  state: initialState,
+  getters,
+  mutations,
   actions: {},
   modules: {
     auth,

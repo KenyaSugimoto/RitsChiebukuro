@@ -18,6 +18,7 @@ const actions = {
                 { fieldPath: "uid" },
                 { fieldPath: "contentId" },
                 { fieldPath: "userName" },
+                { fieldPath: "category" },
               ],
             },
             from: [
@@ -63,6 +64,9 @@ const actions = {
             userName: {
               stringValue: rootGetters.userName,
             },
+            category: {
+              stringValue: postData.category,
+            },
             created_at: {
               timestampValue: new Date().toISOString(),
             },
@@ -105,6 +109,7 @@ const actions = {
                 { fieldPath: "uid" },
                 { fieldPath: "contentId" },
                 { fieldPath: "userName" },
+                { fieldPath: "category" },
               ],
             },
             from: [

@@ -96,10 +96,7 @@ const actions = {
             Authorization: `Bearer ${postData.idToken}`,
           },
         }
-      )
-      .then(() => {
-        console.log("send success");
-      });
+      );
   },
   getIndividualPosts({rootGetters, commit}) {
     axiosQuery
@@ -218,8 +215,6 @@ const actions = {
           }else {
             commit("updateSelectedCategoryNewPosts", null, {root: true});
           }
-        }).catch((err) => {
-          console.log(err);
         });
     }else {
       axiosQuery

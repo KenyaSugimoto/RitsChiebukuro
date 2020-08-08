@@ -12,7 +12,7 @@
         </router-link>
       </div>
       <div class="content box">{{post.document.fields.content.stringValue}}</div>
-      <div>投稿時間：{{post.document.fields.created_at.timestampValue}}</div>
+      <div>投稿時間：{{post.document.fields.created_at.timestampValue | dateFormat}}</div>
       <!-- <div>投稿者：{{post.document.fields.userName.timestampValue}}</div> -->
       <!-- <div>編集時間：{{post.document.fields.updated_at.timestampValue}}</div> -->
       <!-- <div>回答有無：{{post.document.fields.isAnswered.booleanValue}}</div> -->

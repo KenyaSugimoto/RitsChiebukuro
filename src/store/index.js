@@ -29,67 +29,78 @@ export const initialState = {
   },
 };
 
+const getters = {
+  // userInfo
+  ... {
+    uid: state => state.userInfo.uid,
+    userName: state => state.userInfo.userName,
+    major: state => state.userInfo.major,
+    grade: state => state.userInfo.grade,
+  },
+  // authInfo
+  ... {
+    idToken: state => state.authInfo.idToken,
+    refreshToken: state => state.authInfo.refreshToken,
+    expiryTimeMs: state => state.authInfo.expiryTimeMs,
+    emailVerified: state => state.authInfo.emailVerified,
+    beginActivate: state => state.authInfo.beginActivate,
+  },
+  // postsInfo
+  ... {
+    newPosts: state => state.postsInfo.newPosts,
+  }
+};
+
+const mutations = {
+  // userInfo
+  ...{
+    updateUid(state, uid) {
+      state.userInfo.uid = uid;
+    },
+    updateUserName(state, userName) {
+      state.userInfo.userName = userName;
+    },
+    updateMajor(state, major) {
+      state.userInfo.major = major;
+    },
+    updateGrade(state, grade) {
+      state.userInfo.grade = grade;
+    },
+  },
+  // authInfo
+  ... {
+    updateIdToken(state, idToken) {
+      state.authInfo.idToken = idToken;
+    },
+    updateRefreshToken(state, refreshToken) {
+      state.authInfo.refreshToken = refreshToken;
+    },
+    updateExpiryTimeMs(state, expiryTimeMs) {
+      state.authInfo.expiryTimeMs = expiryTimeMs;
+    },
+    updateEmailVerified(state, emailVerified) {
+      state.authInfo.emailVerified = emailVerified;
+    },
+    updateBeginActivate(state, beginActivate) {
+      state.authInfo.beginActivate = beginActivate;
+    },
+    resetState(state) {
+      Object.assign(state, JSON.parse(JSON.stringify(initialState)));
+    }
+  },
+  // postsInfo
+  ... {
+    updateNewPosts(state, newPosts) {
+      state.postsInfo.newPosts = newPosts;
+    },
+  }
+};
+
+
 export default new Vuex.Store({
   state: initialState,
-  getters: {
-    ... {
-      uid: state => state.userInfo.uid,
-      userName: state => state.userInfo.userName,
-      major: state => state.userInfo.major,
-      grade: state => state.userInfo.grade,
-    },
-    ... {
-      idToken: state => state.authInfo.idToken,
-      refreshToken: state => state.authInfo.refreshToken,
-      expiryTimeMs: state => state.authInfo.expiryTimeMs,
-      emailVerified: state => state.authInfo.emailVerified,
-      beginActivate: state => state.authInfo.beginActivate,
-    },
-    ... {
-      newPosts: state => state.postsInfo.newPosts,
-    }
-  },
-  mutations: {
-    ...{
-      updateUid(state, uid) {
-        state.userInfo.uid = uid;
-      },
-      updateUserName(state, userName) {
-        state.userInfo.userName = userName;
-      },
-      updateMajor(state, major) {
-        state.userInfo.major = major;
-      },
-      updateGrade(state, grade) {
-        state.userInfo.grade = grade;
-      },
-    },
-    ... {
-      updateIdToken(state, idToken) {
-        state.authInfo.idToken = idToken;
-      },
-      updateRefreshToken(state, refreshToken) {
-        state.authInfo.refreshToken = refreshToken;
-      },
-      updateExpiryTimeMs(state, expiryTimeMs) {
-        state.authInfo.expiryTimeMs = expiryTimeMs;
-      },
-      updateEmailVerified(state, emailVerified) {
-        state.authInfo.emailVerified = emailVerified;
-      },
-      updateBeginActivate(state, beginActivate) {
-        state.authInfo.beginActivate = beginActivate;
-      },
-      resetState(state) {
-        Object.assign(state, JSON.parse(JSON.stringify(initialState)));
-      }
-    },
-    ... {
-      updateNewPosts(state, newPosts) {
-        state.postsInfo.newPosts = newPosts;
-      },
-    }
-  },
+  getters,
+  mutations,
   actions: {},
   modules: {
     auth,

@@ -29,11 +29,18 @@ export default {
   },
   methods: {
     sendPasswordResetEmail() {
-      this.$store.dispatch('reset/sendPasswordResetEmail', {
-        email: this.email,
-      }).then(() => {
-        this.email = '';
-      });
+      const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+      if (this.email == '') {
+        alert('メールアドレスを入力してください。');
+      } else if(!reg.test(this.email)) {
+        alert('正しいメールアドレスを入力してください。')
+      } else {
+        this.$store.dispatch('reset/sendPasswordResetEmail', {
+          email: this.email,
+        }).then(() => {
+          this.email = '';
+        });
+      }
     }
   },
   beforeRouteEnter(to, from, next) {

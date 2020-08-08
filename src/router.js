@@ -4,7 +4,7 @@ import Router from "vue-router";
 const TopPage = () => import("./components/pages/TopPage.vue");
 const Category = () => import("./components/pages/Category.vue");
 const MyPage = () => import("./components/pages/MyPage.vue");
-const Search = () => import("./components/parts/Search.vue");
+// const Search = () => import("./components/parts/Search.vue");
 const Login = () => import("./components/pages/Login.vue");
 const SignUp = () => import("./components/pages/SignUp.vue");
 const ActivateAccount = () => import("./components/pages/ActivateAccount");
@@ -19,21 +19,21 @@ export default new Router({
       path: "/",
       components: {
         default: TopPage,
-        search: Search,
+        // search: Search,
       },
     },
     {
       path: "/category",
       components: {
         default: Category,
-        search: Search,
+        // search: Search,
       },
     },
     {
       path: "/my-page",
       components: {
         default: MyPage,
-        search: Search,
+        // search: Search,
       },
     },
     {

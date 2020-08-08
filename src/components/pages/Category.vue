@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>カテゴリ一覧ページ</h2>
-    <select id="categoryData" v-model="category">
+    <select id="categoryData" v-model="category" class="category-box">
       <option disabled value="">カテゴリを選択してください。</option>
       <option v-for="(item) in categoryData" v-bind:key="item.id"> {{item}} </option>
     </select>
@@ -20,3 +20,10 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.category-box {
+  border: 2px solid black;
+  border-radius: 5px;
+}
+</style>

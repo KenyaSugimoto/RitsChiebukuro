@@ -167,6 +167,73 @@ const actions = {
         console.log(err);
       });
   },
+  getSelectedCategoryPosts({rootGetters, commit}, category) {
+    axiosQuery
+      .post(
+        "/documents:runQuery",
+        {
+          structuredQuery: {
+            select: {
+              fields: [
+                { fieldPath: "contentId" },
+                { fieldPath: "created_at" },
+                { fieldPath: "content" },
+                { fieldPath: "title" },
+                { fieldPath: "category" },
+                { fieldPath: "updated_at" },
+                { fieldPath: "isAnswered" },
+                { fieldPath: "uid" },
+                { fieldPath: "userName" },
+                { fieldPath: "major" },
+                { fieldPath: "grade" },
+              ],
+            },
+            from: [
+              {
+                collectionId: "contents",
+              },
+            ],
+            orderBy: [
+              {
+                field: {
+                  fieldPath: "created_at",
+                },
+                direction: "DESCENDING",
+              },
+            ],
+            where: {
+              compositeFilter: {
+                op: "AND",
+                filters: [
+                  {
+                    fieldFilter: {
+                      field: {
+                        fieldPath: "category",
+                      },
+                      op: "EQUAL",
+                      value: {
+                        stringValue: category,
+                      }
+                    },
+                  }
+                ],
+              }
+            },
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${rootGetters.idToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        commit("updateSelectedCategoryNewPosts", response.data, {root: true});
+      }).catch((err) => {
+        console.log(err);
+      });
+  },
 };
 
 export default {

@@ -13,7 +13,7 @@
 
     <br><br>
 
-    <label for="password">パスワード(確認用)：</label>
+    <label for="confirmPassword">パスワード(確認用)：</label>
     <input type="password" id="confirmPassword" v-model="confirmPassword">
 
     <br><br>

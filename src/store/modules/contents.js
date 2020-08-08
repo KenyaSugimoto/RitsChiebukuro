@@ -165,7 +165,7 @@ const actions = {
         commit("updateIndividualNewPosts", response.data, {root: true});
       });
   },
-  getSelectedCategoryPosts({rootGetters, commit}, category) {
+  getSelectedCategoryNewPosts({rootGetters, commit}, category) {
     if(!category) {
       axiosQuery
         .post(

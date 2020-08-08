@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     getSelectedCategoryPosts() {
-      this.$store.dispatch("contents/getSelectedCategoryPosts", this.selectedCategory);
+      this.$store.dispatch("contents/getSelectedCategoryNewPosts", this.selectedCategory);
     },
   },
   watch: {

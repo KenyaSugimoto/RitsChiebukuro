@@ -1,17 +1,17 @@
 <template>
   <div>
     <h2>トップページ</h2>
-    <router-view name="search"></router-view>
+    <!-- <router-view name="search"></router-view> -->
 
     <h3>投稿</h3>
     <label for="title">タイトル</label>
-    <input type="text" id="title" v-model="title" />
-    <br />
-    <br />
+    <input type="text" id="title" v-model="title" class="input-box"/>
+    <br/><br/>
     <label for="content">投稿内容</label>
-    <textarea id="content" cols="30" rows="10" v-model="content"></textarea>
-    <br />
-    <button @click="postContent">投稿</button>
+    <textarea id="content" cols="30" rows="10" v-model="content" class="input-box"></textarea>
+    <br/>
+    <button @click="postContent" class="button-box">投稿</button>
+    <br/><br/>
 
     <h3>投稿一覧</h3>
     <hr />
@@ -115,5 +115,14 @@ div .title {
 
 #contents {
   height: 600px;
+}
+
+.input-box {
+  border: 1.5px solid black;
+}
+.button-box {
+  border: 1.5px solid black;
+  border-radius: 3%;
+  padding: 10px 30px;
 }
 </style>

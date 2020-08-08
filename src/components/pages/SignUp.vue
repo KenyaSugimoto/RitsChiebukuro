@@ -1,6 +1,10 @@
 <template>
   <div id="app">
+    <hr>
+
     <h2>登録ページ</h2>
+
+    <br>
 
     <label for="email">Email：</label>
     <input type="email" id="email" v-model="email">

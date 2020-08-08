@@ -1,19 +1,22 @@
 <template>
   <div id="app">
+    <hr>
+
     <h2>ログインページ</h2>
-    <label for="email">Email：</label>
-    <input
-      type="email"
-      id="email"
-      v-model="email"
-    >
+
     <br><br>
+
+    <label for="email">Email：</label>
+    <input type="email" id="email" v-model="email">
+
+    <br><br>
+
     <label for="password">パスワード：</label>
-    <input
-      type="password"
-      id="password"
-      v-model="password"
-    >
+    <input type="password" id="password" v-model="password">
+
+    <br><br>
+    <br><br>
+
     <button @click="login">ログイン</button>
 
   </div>
@@ -22,7 +25,7 @@
 <script>
 
 export default {
-  data(){
+  data() {
     return {
       email: "",
       password: "",

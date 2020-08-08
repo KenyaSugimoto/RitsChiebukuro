@@ -5,7 +5,6 @@
       <option disabled value="">カテゴリを選択してください。</option>
       <option v-for="(item) in categoryData" v-bind:key="item.id"> {{item}} </option>
     </select>
-    <button @click="getSelectedCategoryPosts">検索</button>
 
     <p v-if="selectedCategory"> {{selectedCategory}}の新着投稿</p>
     <h3>投稿一覧</h3>
@@ -44,17 +43,20 @@ export default {
     }
   },
   created() {
-    this.$store.commit("updateSelectedCategoryNewPosts", null, {root: true})
+    this.$store.commit("updateSelectedCategoryNewPosts", null, {root: true});
+    this.getSelectedCategoryPosts();
   },
   methods: {
     getSelectedCategoryPosts() {
-      if(!this.selectedCategory) {
-        alert("カテゴリを選択してください。");
-      }else {
-        this.$store.dispatch("contents/getSelectedCategoryPosts", this.selectedCategory);
-      }
+      this.$store.dispatch("contents/getSelectedCategoryPosts", this.selectedCategory);
     },
   },
+  watch: {
+    selectedCategory: function() {
+      this.getSelectedCategoryPosts();
+    }
+  },
+
 
 }
 </script>

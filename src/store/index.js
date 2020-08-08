@@ -32,57 +32,62 @@ export const initialState = {
 export default new Vuex.Store({
   state: initialState,
   getters: {
-    // userInfo
-    uid: state => state.userInfo.uid,
-    userName: state => state.userInfo.userName,
-    major: state => state.userInfo.major,
-    grade: state => state.userInfo.grade,
-    // authInfo
-    idToken: state => state.authInfo.idToken,
-    refreshToken: state => state.authInfo.refreshToken,
-    expiryTimeMs: state => state.authInfo.expiryTimeMs,
-    emailVerified: state => state.authInfo.emailVerified,
-    beginActivate: state => state.authInfo.beginActivate,
-    // postsInfo
-    newPosts: state => state.postsInfo.newPosts,
+    userInfo: {
+      uid: state => state.userInfo.uid,
+      userName: state => state.userInfo.userName,
+      major: state => state.userInfo.major,
+      grade: state => state.userInfo.grade,
+    },
+    authInfo: {
+      idToken: state => state.authInfo.idToken,
+      refreshToken: state => state.authInfo.refreshToken,
+      expiryTimeMs: state => state.authInfo.expiryTimeMs,
+      emailVerified: state => state.authInfo.emailVerified,
+      beginActivate: state => state.authInfo.beginActivate,
+    },
+    postsInfo: {
+      newPosts: state => state.postsInfo.newPosts,
+    }
   },
   mutations: {
-    // userInfo
-    updateUid(state, uid) {
-      state.userInfo.uid = uid;
+    userInfo: {
+      updateUid(state, uid) {
+        state.userInfo.uid = uid;
+      },
+      updateUserName(state, userName) {
+        state.userInfo.userName = userName;
+      },
+      updateMajor(state, major) {
+        state.userInfo.major = major;
+      },
+      updateGrade(state, grade) {
+        state.userInfo.grade = grade;
+      },
     },
-    updateUserName(state, userName) {
-      state.userInfo.userName = userName;
+    authInfo: {
+      updateIdToken(state, idToken) {
+        state.authInfo.idToken = idToken;
+      },
+      updateRefreshToken(state, refreshToken) {
+        state.authInfo.refreshToken = refreshToken;
+      },
+      updateExpiryTimeMs(state, expiryTimeMs) {
+        state.authInfo.expiryTimeMs = expiryTimeMs;
+      },
+      updateEmailVerified(state, emailVerified) {
+        state.authInfo.emailVerified = emailVerified;
+      },
+      updateBeginActivate(state, beginActivate) {
+        state.authInfo.beginActivate = beginActivate;
+      },
+      resetState(state) {
+        Object.assign(state, JSON.parse(JSON.stringify(initialState)));
+      }
     },
-    updateMajor(state, major) {
-      state.userInfo.major = major;
-    },
-    updateGrade(state, grade) {
-      state.userInfo.grade = grade;
-    },
-    // authInfo
-    updateIdToken(state, idToken) {
-      state.authInfo.idToken = idToken;
-    },
-    updateRefreshToken(state, refreshToken) {
-      state.authInfo.refreshToken = refreshToken;
-    },
-    updateExpiryTimeMs(state, expiryTimeMs) {
-      state.authInfo.expiryTimeMs = expiryTimeMs;
-    },
-    updateEmailVerified(state, emailVerified) {
-      state.authInfo.emailVerified = emailVerified;
-    },
-    updateBeginActivate(state, beginActivate) {
-      state.authInfo.beginActivate = beginActivate;
-    },
-    // postsInfo
-    updateNewPosts(state, newPosts) {
-      state.postsInfo.newPosts = newPosts;
-    },
-    // stateを初期化
-    resetState(state) {
-      Object.assign(state, JSON.parse(JSON.stringify(initialState)));
+    postsInfo: {
+      updateNewPosts(state, newPosts) {
+        state.postsInfo.newPosts = newPosts;
+      },
     }
   },
   actions: {},

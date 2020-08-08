@@ -20,6 +20,7 @@ const actions = {
         refreshToken: response.data.refreshToken,
         expiresIn: response.data.expiresIn,
         uid: response.data.localId,
+        email: authData.email,
         major: authData.major,
         grade: authData.grade,
         userName: authData.userName,

@@ -46,7 +46,7 @@ const actions = {
       });
   },
   postContent({ rootGetters }, postData) {
-    console.log(rootGetters.userUid);
+    console.log(rootGetters.uid);
     axiosDb
       .post(
         "/contents/",
@@ -59,7 +59,7 @@ const actions = {
               stringValue: postData.content,
             },
             uid: {
-              stringValue: rootGetters.userUid,
+              stringValue: rootGetters.uid,
             },
             userName: {
               stringValue: rootGetters.userName,

@@ -27,7 +27,7 @@ const actions = {
                   },
                   op: "EQUAL",
                   value: {
-                    stringValue: rootGetters.userUid,
+                    stringValue: rootGetters.uid,
                   }
                 },
               }

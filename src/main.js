@@ -33,6 +33,17 @@ router.beforeEach((to, from, next) => {
   }
 });
 
+Vue.filter('dateFormat', function(isoString) {
+  const date = new Date(isoString);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const second = date.getSeconds();
+  return `${year}年${month}月${day}日 ${hour}時${minute}分${second}秒`
+})
+
 store.dispatch('login/autoLogin').then(() => {
   new Vue({
     router,

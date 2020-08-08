@@ -46,7 +46,6 @@ const actions = {
       });
   },
   postContent({ rootGetters }, postData) {
-    console.log(rootGetters.uid);
     axiosDb
       .post(
         "/contents/",
@@ -149,7 +148,6 @@ const actions = {
       )
       .then((response) => {
         commit("updateIndividualNewPosts", response.data, {root: true});
-        console.log(response.data);
       }).catch((err) => {
         console.log(err);
       });

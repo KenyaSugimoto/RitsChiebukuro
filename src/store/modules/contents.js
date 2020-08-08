@@ -162,7 +162,11 @@ const actions = {
         }
       )
       .then((response) => {
-        commit("updateIndividualNewPosts", response.data, {root: true});
+        if("document" in response.data[0]) {
+          commit("updateIndividualNewPosts", response.data, {root: true});
+        }else {
+          commit("updateIndividualNewPosts", null, {root: true});
+        }
       });
   },
   getSelectedCategoryPosts({rootGetters, commit}, category) {
@@ -209,7 +213,11 @@ const actions = {
           }
         )
         .then((response) => {
-          commit("updateSelectedCategoryNewPosts", response.data, {root: true});
+          if("document" in response.data[0]) {
+            commit("updateSelectedCategoryNewPosts", response.data, {root: true});
+          }else {
+            commit("updateSelectedCategoryNewPosts", null, {root: true});
+          }
         }).catch((err) => {
           console.log(err);
         });

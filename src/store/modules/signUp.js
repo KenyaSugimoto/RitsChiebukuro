@@ -63,11 +63,7 @@ const actions = {
           Authorization: `Bearer ${userInfo.idToken}`
         }
       }
-    ).then(response => {
-      console.log(response);
-    }).catch(error => {
-      console.log(error.response);
-    });
+    );
   },
   checkUserName({commit, dispatch}, userInfo) {
     axiosQuery.post('/documents:runQuery', {
@@ -124,8 +120,6 @@ const actions = {
           commit('updateBeginActivate', true, {root: true});
           router.push('/activateAccount');
       }
-    }).catch(error => {
-      console.log(error)
     });
   },
   deleteAccount(context, userInfo) {

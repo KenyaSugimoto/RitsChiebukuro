@@ -96,10 +96,7 @@ const actions = {
             Authorization: `Bearer ${postData.idToken}`,
           },
         }
-      )
-      .then(() => {
-        console.log("send success");
-      });
+      );
   },
   getIndividualPosts({rootGetters, commit}) {
     axiosQuery
@@ -162,7 +159,11 @@ const actions = {
         }
       )
       .then((response) => {
-        commit("updateIndividualNewPosts", response.data, {root: true});
+        if("document" in response.data[0]) {
+          commit("updateIndividualNewPosts", response.data, {root: true});
+        }else {
+          commit("updateIndividualNewPosts", null, {root: true});
+        }
       });
   },
   getSelectedCategoryNewPosts({rootGetters, commit}, category) {
@@ -209,9 +210,11 @@ const actions = {
           }
         )
         .then((response) => {
-          commit("updateSelectedCategoryNewPosts", response.data, {root: true});
-        }).catch((err) => {
-          console.log(err);
+          if("document" in response.data[0]) {
+            commit("updateSelectedCategoryNewPosts", response.data, {root: true});
+          }else {
+            commit("updateSelectedCategoryNewPosts", null, {root: true});
+          }
         });
     }else {
       axiosQuery

@@ -16,7 +16,7 @@ const actions = {
                 { fieldPath: "updated_at" },
                 { fieldPath: "isAnswered" },
                 { fieldPath: "uid" },
-                { fieldPath: "uuid" },
+                { fieldPath: "contentId" },
                 { fieldPath: "userName" },
               ],
             },
@@ -70,7 +70,7 @@ const actions = {
             updated_at: {
               timestampValue: new Date().toISOString(),
             },
-            uuid: {
+            contentId: {
               stringValue:
                 new Date().getTime().toString(16) +
                 Math.floor(1000 * Math.random()).toString(16),

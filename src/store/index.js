@@ -26,6 +26,7 @@ export const initialState = {
   },
   postsInfo: {
     newPosts: null,
+    individualNewPosts: null,
   },
 };
 
@@ -48,6 +49,7 @@ const getters = {
   // postsInfo
   ... {
     newPosts: state => state.postsInfo.newPosts,
+    individualNewPosts: state => state.postsInfo.individualNewPosts,
   }
 };
 
@@ -92,6 +94,9 @@ const mutations = {
   ... {
     updateNewPosts(state, newPosts) {
       state.postsInfo.newPosts = newPosts;
+    },
+    updateIndividualNewPosts(state, individualNewPosts) {
+      state.postsInfo.individualNewPosts = individualNewPosts;
     },
   }
 };

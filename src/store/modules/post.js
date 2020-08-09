@@ -1,36 +1,36 @@
-import axiosDb from "../../axios/axios-db";
-import axiosQuery from "../../axios/axios-query";
+import axiosDb from '../../axios/axios-db';
+import axiosQuery from '../../axios/axios-query';
 
 const fields = [
-  { fieldPath: "postId" },
-  { fieldPath: "title" },
-  { fieldPath: "content" },
-  { fieldPath: "category" },
-  { fieldPath: "isAnswered" },
-  { fieldPath: "uid" },
-  { fieldPath: "userName" },
-  { fieldPath: "major" },
-  { fieldPath: "grade" },
-  { fieldPath: "created_at" },
-  { fieldPath: "updated_at" },
+  { fieldPath: 'postId' },
+  { fieldPath: 'title' },
+  { fieldPath: 'content' },
+  { fieldPath: 'category' },
+  { fieldPath: 'isAnswered' },
+  { fieldPath: 'uid' },
+  { fieldPath: 'userName' },
+  { fieldPath: 'major' },
+  { fieldPath: 'grade' },
+  { fieldPath: 'created_at' },
+  { fieldPath: 'updated_at' },
 ];
 
 const from = [
-  { collectionId: "posts" }
+  { collectionId: 'posts' }
 ];
 
 const createdAtDesc = [
     {
       field: {
-        fieldPath: "created_at",
+        fieldPath: 'created_at',
       },
-      direction: "DESCENDING",
+      direction: 'DESCENDING',
     }
 ];
 
 const actions = {
   getPosts({ rootGetters, commit }) {
-    axiosQuery.post("/documents:runQuery",
+    axiosQuery.post('/documents:runQuery',
       {
         structuredQuery: {
           select: {
@@ -46,13 +46,13 @@ const actions = {
         },
       }
     ).then((response) => {
-      commit("updateNewPosts", response.data, {root: true});
+      commit('updateNewPosts', response.data, {root: true});
     }).catch((error) => {
       console.log(error);
     });
   },
   createPost({ rootGetters }, postData) {
-    axiosDb.post("/posts/",
+    axiosDb.post('/posts/',
       {
         fields: {
           postId: {
@@ -114,7 +114,7 @@ const actions = {
     });
   },
   getIndividualPosts({rootGetters, commit}) {
-    axiosQuery.post("/documents:runQuery",
+    axiosQuery.post('/documents:runQuery',
       {
         structuredQuery: {
           select: {
@@ -124,14 +124,14 @@ const actions = {
           orderBy: createdAtDesc,
           where: {
             compositeFilter: {
-              op: "AND",
+              op: 'AND',
               filters: [
                 {
                   fieldFilter: {
                     field: {
-                      fieldPath: "uid",
+                      fieldPath: 'uid',
                     },
-                    op: "EQUAL",
+                    op: 'EQUAL',
                     value: {
                       stringValue: rootGetters.uid,
                     }
@@ -148,10 +148,10 @@ const actions = {
         },
       }
     ).then((response) => {
-      if ("document" in response.data[0]) {
-        commit("updateIndividualNewPosts", response.data, {root: true});
+      if ('document' in response.data[0]) {
+        commit('updateIndividualNewPosts', response.data, {root: true});
       } else {
-        commit("updateIndividualNewPosts", null, {root: true});
+        commit('updateIndividualNewPosts', null, {root: true});
       }
     }).catch((error) => {
       console.log(error.response);
@@ -159,7 +159,7 @@ const actions = {
   },
   getSelectedCategoryNewPosts({rootGetters, commit}, category) {
     if (!category) {
-      axiosQuery.post("/documents:runQuery",
+      axiosQuery.post('/documents:runQuery',
         {
           structuredQuery: {
             select: {
@@ -175,16 +175,16 @@ const actions = {
           },
         }
       ).then((response) => {
-        if ("document" in response.data[0]) {
-          commit("updateSelectedCategoryNewPosts", response.data, {root: true});
+        if ('document' in response.data[0]) {
+          commit('updateSelectedCategoryNewPosts', response.data, {root: true});
         } else {
-          commit("updateSelectedCategoryNewPosts", null, {root: true});
+          commit('updateSelectedCategoryNewPosts', null, {root: true});
         }
       }).catch((error) => {
         console.log(error.response);
       });
     } else {
-      axiosQuery.post("/documents:runQuery",
+      axiosQuery.post('/documents:runQuery',
         {
           structuredQuery: {
             select: {
@@ -194,14 +194,14 @@ const actions = {
             orderBy: createdAtDesc,
             where: {
               compositeFilter: {
-                op: "AND",
+                op: 'AND',
                 filters: [
                   {
                     fieldFilter: {
                       field: {
-                        fieldPath: "category",
+                        fieldPath: 'category',
                       },
-                      op: "EQUAL",
+                      op: 'EQUAL',
                       value: {
                         stringValue: category,
                       }
@@ -218,10 +218,10 @@ const actions = {
           },
         }
       ).then((response) => {
-        if ("document" in response.data[0]) {
-          commit("updateSelectedCategoryNewPosts", response.data, {root: true});
+        if ('document' in response.data[0]) {
+          commit('updateSelectedCategoryNewPosts', response.data, {root: true});
         } else {
-          commit("updateSelectedCategoryNewPosts", null, {root: true});
+          commit('updateSelectedCategoryNewPosts', null, {root: true});
         }
       }).catch((error) => {
         console.log(error.response);

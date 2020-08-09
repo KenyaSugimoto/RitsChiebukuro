@@ -55,7 +55,7 @@ const actions = {
   postContent({ rootGetters }, postData) {
     axiosDb
       .post(
-        "/contents/",
+        "/posts/",
         {
           fields: {
             postId: {
@@ -100,7 +100,7 @@ const actions = {
         }
       ).then((response) => {
         const documentId = response.data.name.split('/')[6];
-        axiosDb.patch(`contents/${documentId}?updateMask.fieldPaths=postId`,
+        axiosDb.patch(`posts/${documentId}?updateMask.fieldPaths=postId`,
           {
             fields: {
               postId: {stringValue: documentId}
@@ -233,7 +233,7 @@ const actions = {
   },
   async deleteContent({rootGetters}, post) {
     const documentId = post.postId;
-    await axiosDb.delete(`contents/${documentId}`,
+    await axiosDb.delete(`posts/${documentId}`,
       {
         headers: {
           Authorization: `Bearer ${rootGetters.idToken}`,

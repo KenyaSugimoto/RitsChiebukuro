@@ -158,7 +158,7 @@ const actions = {
     });
   },
   getSelectedCategoryNewPosts({rootGetters, commit}, category) {
-    if (!category) {
+    if (!category || category == '全て') {
       axiosQuery.post('/documents:runQuery',
         {
           structuredQuery: {

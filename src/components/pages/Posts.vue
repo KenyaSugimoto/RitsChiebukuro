@@ -6,18 +6,19 @@
 
     <div v-for='post in posts' :key='post.name' class='content-box'>
       <div class='title'>
-        {{post.document.fields.title.stringValue}}
+        タイトル： {{post.document.fields.title.stringValue}}
       </div>
 
       <div>
+        投稿者：
         <router-link to='/my-page'>
           {{post.document.fields.userName.stringValue}}
         </router-link>
       </div>
 
-      <div>
-        {{post.document.fields.major.stringValue}} {{post.document.fields.grade.stringValue}}
-      </div>
+      <!-- <div> -->
+        <!-- {{post.document.fields.major.stringValue}} {{post.document.fields.grade.stringValue}} -->
+      <!-- </div> -->
 
       <div class='content box'>
         {{post.document.fields.content.stringValue}}
@@ -30,13 +31,10 @@
         投稿時間：{{post.document.fields.created_at.timestampValue | dateFormat}}
       </div>
       <div>
-        投稿者：{{post.document.fields.userName.stringValue}}
+        編集時間：{{post.document.fields.updated_at.timestampValue | dateFormat}}
       </div>
       <div>
-        編集時間：{{post.document.fields.updated_at.timestampValue}}
-      </div>
-      <div>
-        回答有無：{{post.document.fields.isAnswered.booleanValue}}
+        {{post.document.fields.isAnswered.booleanValue ? '解決済み' : '未解決'}}
       </div>
 
       <br>

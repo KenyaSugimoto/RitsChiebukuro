@@ -5,54 +5,26 @@
     <hr>
 
     <div v-for='post in posts' :key='post.name' class='content-box'>
-      <div class='title'>
-        タイトル： {{post.document.fields.title.stringValue}}
-      </div>
-
       <div>
-        投稿者：
-        <router-link to='/my-page'>
-          {{post.document.fields.userName.stringValue}}
-        </router-link>
+        <div @click='toPost(post)' class="answer-link title">
+          {{post.document.fields.title.stringValue}}
+        </div>
       </div>
-
-      <!-- <div> -->
-        <!-- {{post.document.fields.major.stringValue}} {{post.document.fields.grade.stringValue}} -->
-      <!-- </div> -->
-
-      <div class='content box'>
-        {{post.document.fields.content.stringValue}}
-      </div>
-
-      <div>
-        カテゴリ：{{post.document.fields.category.stringValue}}
-      </div>
-      <div>
-        投稿時間：{{post.document.fields.created_at.timestampValue | dateFormat}}
-      </div>
-      <div>
-        編集時間：{{post.document.fields.updated_at.timestampValue | dateFormat}}
-      </div>
-      <div>
-        {{post.document.fields.isAnswered.booleanValue ? '解決済み' : '未解決'}}
-      </div>
-
-      <br>
-
-      <template v-if='!post.document.fields.isAnswered.booleanValue'>
-        <router-link :to="{name: 'post', params: {contentId: post.document.fields.contentId.stringValue}}" class="header-item">
-          回答する
-        </router-link>
-      </template>
-
-      <br>
     </div>
+
   </div>
 </template>
 
 <script>
+import router from './../../router';
 export default {
-  props: ['posts']
+  props: ['posts'],
+  methods: {
+    toPost(post) {
+      this.$store.commit('updateWatchingPost', post);
+      router.push({name: 'post', params: {contentId: post.document.fields.contentId.stringValue}});
+    },
+  },
 }
 </script>
 
@@ -75,11 +47,11 @@ div .title {
   width: 70%;
   margin: 20px auto;
 }
-.header-item {
+.answer-link {
   padding:  10px;
   cursor: pointer;
 }
-.header-item:hover {
+.answer-link:hover {
   background-color: #b1abab;
   color: red;
 }

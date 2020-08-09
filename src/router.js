@@ -8,8 +8,9 @@ const Search = () => import("./components/parts/Search.vue");
 const Login = () => import("./components/pages/Login.vue");
 const SignUp = () => import("./components/pages/SignUp.vue");
 const ActivateAccount = () => import("./components/pages/ActivateAccount");
-const ResetPassword = () => import("./components/pages/ResetPassword")
-const Post = () => import("./components/pages/Post")
+const ResetPassword = () => import("./components/pages/ResetPassword");
+const Post = () => import("./components/pages/Post");
+const UserPage = () => import("./components/pages/UserPage.vue");
 
 //Vue Routerの利用宣言
 Vue.use(Router)
@@ -67,6 +68,14 @@ export default new Router({
       name: 'post',
       component: Post,
       props: true,
+    },
+    {
+      path: "/user/:targetUid",
+      name: "user",
+      components: {
+        default: UserPage,
+      },
+      // props: true,
     },
     // 上記全てのURL以外
     {

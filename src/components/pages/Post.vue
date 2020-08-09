@@ -7,9 +7,10 @@
     <div class='content-box'>
       <div>
         投稿者：
-        <router-link to='/my-page'>
+        <!-- <router-link to='/my-page'> -->
+        <div @click="toTargetPage(post.document.fields.uid.stringValue)" class="link">
           {{post.document.fields.userName.stringValue}}さん
-        </router-link>
+        </div>
       </div>
 
       <div>
@@ -55,6 +56,7 @@
 </template>
 
 <script>
+import router from "./../../router";
 export default {
   data() {
     return {
@@ -66,7 +68,13 @@ export default {
     post() {
       return this.$store.getters.watchingPost;
     }
-  }
+  },
+  methods: {
+    toTargetPage(targetUid) {
+      this.$store.commit("updateTargetUid", targetUid);
+      router.push({name: "user", params: {targetUid: targetUid}});
+    },
+  },
 }
 </script>
 
@@ -91,5 +99,16 @@ div .title {
 }
 .post-form {
   background-color: rgb(199, 217, 218);
+}
+.link {
+  margin: 5px auto;
+  cursor: pointer;
+  width: 200px;
+  color: rgb(56, 56, 243);
+  font-weight: bolder;
+}
+.link:hover {
+  background-color: #b1abab;
+  color: red;
 }
 </style>

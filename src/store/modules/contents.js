@@ -124,7 +124,7 @@ const actions = {
                       },
                       op: "EQUAL",
                       value: {
-                        stringValue: rootGetters.uid,
+                        stringValue: rootGetters.targetUid,
                       }
                     },
                   }

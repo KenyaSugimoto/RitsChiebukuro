@@ -2,7 +2,7 @@ import axiosAuth from '../../axios/axios-auth';
 import router from '../../router';
 
 const actions = {
-  login({rootGetters, dispatch}, authData){
+  login({rootGetters, commit ,dispatch}, authData){
     axiosAuth.post(
       '/accounts:signInWithPassword?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs',
       {
@@ -23,6 +23,7 @@ const actions = {
               router.push('/');
             });
           });
+          commit('updateTargetUid', response.data.localId, {root:true});
         } else {
           alert('登録されたメールアドレスに、アカウントを有効化するためのURLが記載されたメールを送信しました。URLをクリックしてアカウントを有効化してください。')
         }

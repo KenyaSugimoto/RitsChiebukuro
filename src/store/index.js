@@ -17,6 +17,7 @@ export const initialState = {
     userName: null,
     major: null,
     grade: null,
+    targetUid: null,
   },
   authInfo: {
     idToken: null,
@@ -41,6 +42,7 @@ const getters = {
     userName: state => state.userInfo.userName,
     major: state => state.userInfo.major,
     grade: state => state.userInfo.grade,
+    targetUid: state => state.userInfo.targetUid,
   },
   // authInfo
   ... {
@@ -75,6 +77,9 @@ const mutations = {
     updateGrade(state, grade) {
       state.userInfo.grade = grade;
     },
+    updateTargetUid(state, targetUid) {
+      state.userInfo.targetUid = targetUid;
+    }
   },
   // authInfo
   ... {

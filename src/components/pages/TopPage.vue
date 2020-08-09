@@ -72,6 +72,7 @@ export default {
         });
         this.content = "";
         this.title = "";
+        this.selectedCategory = "";
       }
     },
   },

@@ -21,7 +21,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('contents/getIndividualPosts');
+    this.$store.dispatch('post/getIndividualPosts');
   },
   components: {
     Posts

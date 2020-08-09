@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>質問{{contentId}}のページ</h2>
+    <h2>質問{{postId}}のページ</h2>
 
     <hr>
 
@@ -36,7 +36,7 @@
       </div>
 
       <template v-if='uid == post.document.fields.uid.stringValue'>
-        <button @click='deleteContent'>削除</button>
+        <button @click='deletePost'>削除</button>
       </template>
     </div>
 
@@ -63,7 +63,7 @@ export default {
       content: '',
     }
   },
-  props: ['contentId'],
+  props: ['postId'],
   computed: {
     post() {
       return this.$store.getters.watchingPost;
@@ -73,9 +73,9 @@ export default {
     }
   },
   methods: {
-    deleteContent() {
+    deletePost() {
       if (confirm('本当にこの質問を削除しますか？')) {
-        this.$store.dispatch('contents/deleteContent', {contentId: this.contentId}).then(() => {
+        this.$store.dispatch('post/deletePost', {postId: this.postId}).then(() => {
           alert('質問を削除しました。');
           this.$router.push('/');
         });

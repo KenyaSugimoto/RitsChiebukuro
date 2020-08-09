@@ -5,7 +5,7 @@ import auth from "./modules/auth";
 import login from "./modules/login";
 import logout from "./modules/logout";
 import signUp from "./modules/signUp";
-import contents from "./modules/contents";
+import post from "./modules/post";
 import getUserInfo from "./modules/getUserInfo";
 import reset from "./modules/reset";
 
@@ -128,7 +128,7 @@ export default new Vuex.Store({
     login,
     logout,
     signUp,
-    contents,
+    post,
     getUserInfo,
     reset,
   },

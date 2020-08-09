@@ -5,16 +5,8 @@
     <hr>
 
     <div v-for='post in posts' :key='post.name' class='content-box'>
-      <div @click='toPost(post)' class="answer-link">
-        <div class="title">
-          {{post.document.fields.title.stringValue}}
-        </div>
-        <p v-if="post.document.fields.content.stringValue.length > 50">
-          {{post.document.fields.content.stringValue.slice(0,50)}}...
-        </p>
-        <p v-else>
-          {{post.document.fields.content.stringValue.slice(0,50)}}
-        </p>
+      <div @click='toPost(post)' class="answer-link title">
+        {{post.document.fields.title.stringValue}}
       </div>
     </div>
 

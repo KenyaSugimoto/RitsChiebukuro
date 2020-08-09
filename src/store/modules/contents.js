@@ -1,6 +1,33 @@
 import axiosDb from "../../axios/axios-db";
 import axiosQuery from "../../axios/axios-query";
 
+const fields = [
+  { fieldPath: "contentId" },
+  { fieldPath: "title" },
+  { fieldPath: "content" },
+  { fieldPath: "category" },
+  { fieldPath: "isAnswered" },
+  { fieldPath: "uid" },
+  { fieldPath: "userName" },
+  { fieldPath: "major" },
+  { fieldPath: "grade" },
+  { fieldPath: "created_at" },
+  { fieldPath: "updated_at" },
+];
+
+const from = [
+  { collectionId: "contents" }
+];
+
+const createdAtDesc = [
+    {
+      field: {
+        fieldPath: "created_at",
+      },
+      direction: "DESCENDING",
+    }
+];
+
 const actions = {
   getContents({ rootGetters, commit }) {
     axiosQuery
@@ -9,33 +36,10 @@ const actions = {
         {
           structuredQuery: {
             select: {
-              fields: [
-                { fieldPath: "contentId" },
-                { fieldPath: "created_at" },
-                { fieldPath: "content" },
-                { fieldPath: "title" },
-                { fieldPath: "category" },
-                { fieldPath: "updated_at" },
-                { fieldPath: "isAnswered" },
-                { fieldPath: "uid" },
-                { fieldPath: "userName" },
-                { fieldPath: "major" },
-                { fieldPath: "grade" },
-              ],
+              fields
             },
-            from: [
-              {
-                collectionId: "contents",
-              },
-            ],
-            orderBy: [
-              {
-                field: {
-                  fieldPath: "created_at",
-                },
-                direction: "DESCENDING",
-              },
-            ],
+            from,
+            orderBy: createdAtDesc,
           },
         },
         {
@@ -105,33 +109,10 @@ const actions = {
         {
           structuredQuery: {
             select: {
-              fields: [
-                { fieldPath: "contentId" },
-                { fieldPath: "created_at" },
-                { fieldPath: "content" },
-                { fieldPath: "title" },
-                { fieldPath: "category" },
-                { fieldPath: "updated_at" },
-                { fieldPath: "isAnswered" },
-                { fieldPath: "uid" },
-                { fieldPath: "userName" },
-                { fieldPath: "major" },
-                { fieldPath: "grade" },
-              ],
+              fields,
             },
-            from: [
-              {
-                collectionId: "contents",
-              },
-            ],
-            orderBy: [
-              {
-                field: {
-                  fieldPath: "created_at",
-                },
-                direction: "DESCENDING",
-              },
-            ],
+            from,
+            orderBy: createdAtDesc,
             where: {
               compositeFilter: {
                 op: "AND",
@@ -159,48 +140,25 @@ const actions = {
         }
       )
       .then((response) => {
-        if("document" in response.data[0]) {
+        if ("document" in response.data[0]) {
           commit("updateIndividualNewPosts", response.data, {root: true});
-        }else {
+        } else {
           commit("updateIndividualNewPosts", null, {root: true});
         }
       });
   },
   getSelectedCategoryNewPosts({rootGetters, commit}, category) {
-    if(!category) {
+    if (!category) {
       axiosQuery
         .post(
           "/documents:runQuery",
           {
             structuredQuery: {
               select: {
-                fields: [
-                  { fieldPath: "contentId" },
-                  { fieldPath: "created_at" },
-                  { fieldPath: "content" },
-                  { fieldPath: "title" },
-                  { fieldPath: "category" },
-                  { fieldPath: "updated_at" },
-                  { fieldPath: "isAnswered" },
-                  { fieldPath: "uid" },
-                  { fieldPath: "userName" },
-                  { fieldPath: "major" },
-                  { fieldPath: "grade" },
-                ],
+                fields,
               },
-              from: [
-                {
-                  collectionId: "contents",
-                },
-              ],
-              orderBy: [
-                {
-                  field: {
-                    fieldPath: "created_at",
-                  },
-                  direction: "DESCENDING",
-                },
-              ],
+              from,
+              orderBy: createdAtDesc,
             },
           },
           {
@@ -210,46 +168,22 @@ const actions = {
           }
         )
         .then((response) => {
-          if("document" in response.data[0]) {
+          if ("document" in response.data[0]) {
             commit("updateSelectedCategoryNewPosts", response.data, {root: true});
-          }else {
+          } else {
             commit("updateSelectedCategoryNewPosts", null, {root: true});
           }
         });
-    }else {
+    } else {
       axiosQuery
-        .post(
-          "/documents:runQuery",
+        .post("/documents:runQuery",
           {
             structuredQuery: {
               select: {
-                fields: [
-                  { fieldPath: "contentId" },
-                  { fieldPath: "created_at" },
-                  { fieldPath: "content" },
-                  { fieldPath: "title" },
-                  { fieldPath: "category" },
-                  { fieldPath: "updated_at" },
-                  { fieldPath: "isAnswered" },
-                  { fieldPath: "uid" },
-                  { fieldPath: "userName" },
-                  { fieldPath: "major" },
-                  { fieldPath: "grade" },
-                ],
+                fields,
               },
-              from: [
-                {
-                  collectionId: "contents",
-                },
-              ],
-              orderBy: [
-                {
-                  field: {
-                    fieldPath: "created_at",
-                  },
-                  direction: "DESCENDING",
-                },
-              ],
+              from,
+              orderBy: createdAtDesc,
               where: {
                 compositeFilter: {
                   op: "AND",
@@ -277,9 +211,9 @@ const actions = {
           }
         )
         .then((response) => {
-          if("document" in response.data[0]) {
+          if ("document" in response.data[0]) {
             commit("updateSelectedCategoryNewPosts", response.data, {root: true});
-          }else {
+          } else {
             commit("updateSelectedCategoryNewPosts", null, {root: true});
           }
         });

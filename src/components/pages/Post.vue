@@ -6,6 +6,10 @@
 
     <div class='content-box'>
       <div>
+        {{post.document.fields.isAnswered.booleanValue ? '解決済み' : '未解決'}}
+      </div>
+
+      <div>
         投稿者：
         <router-link to='/my-page'>
           {{post.document.fields.userName.stringValue}}さん
@@ -16,9 +20,6 @@
         {{post.document.fields.category.stringValue}}
       </div>
 
-      <!-- <div> -->
-        <!-- {{post.document.fields.major.stringValue}} {{post.document.fields.grade.stringValue}} -->
-      <!-- </div> -->
       <div class='title'>
         {{post.document.fields.title.stringValue}}
       </div>
@@ -33,9 +34,10 @@
       <div>
         編集時間：{{post.document.fields.updated_at.timestampValue | dateFormat}}
       </div>
-      <div>
-        {{post.document.fields.isAnswered.booleanValue ? '解決済み' : '未解決'}}
-      </div>
+
+      <template v-if='uid == post.document.fields.uid.stringValue'>
+        <button @click='deleteContent'>削除</button>
+      </template>
     </div>
 
     <hr>
@@ -65,7 +67,20 @@ export default {
   computed: {
     post() {
       return this.$store.getters.watchingPost;
+    },
+    uid() {
+      return this.$store.getters.uid;
     }
+  },
+  methods: {
+    deleteContent() {
+      if (confirm('本当にこの質問を削除しますか？')) {
+        this.$store.dispatch('contents/deleteContent', {contentId: this.contentId}).then(() => {
+          alert('質問を削除しました。');
+          this.$router.push('/');
+        });
+      }
+    },
   }
 }
 </script>

@@ -2,9 +2,7 @@
   <div>
     <h2>マイページ</h2>
 
-    <p> {{userName}}さんの新着投稿</p>
-
-    <Posts v-bind:posts='individualNewPosts'></Posts>
+    <Posts v-bind:posts='individualNewPosts' v-bind:name="`${userName}さんの質問`"></Posts>
   </div>
 </template>
 

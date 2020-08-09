@@ -44,9 +44,9 @@
 
     <div class='post-form'>
       <div>
-          <label for='content'>*回答内容</label>
+          <label for='answer'>*回答内容</label>
           <br>
-          <textarea id='content' cols='30' rows='10' v-model='content'></textarea>
+          <textarea id='answer' cols='30' rows='10' v-model='answer'></textarea>
       </div>
     </div>
 
@@ -60,7 +60,7 @@
 export default {
   data() {
     return {
-      content: '',
+      answer: '',
     }
   },
   props: ['postId'],

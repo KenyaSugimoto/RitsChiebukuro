@@ -12,7 +12,7 @@
     <p v-if="selectedCategory">カテゴリ：{{selectedCategory}}</p>
     <p v-else> 全てのカテゴリ</p>
 
-    <Posts v-bind:posts='selectedCategoryNewPosts'></Posts>
+    <Posts v-bind:posts='selectedCategoryNewPosts' v-bind:name='name'></Posts>
   </div>
 </template>
 
@@ -30,6 +30,9 @@ export default {
   computed: {
     selectedCategoryNewPosts() {
       return this.$store.getters.selectedCategoryNewPosts;
+    },
+    name() {
+      return this.selectedCategory ? `${this.selectedCategory}の質問` : '全てのカテゴリの質問';
     }
   },
   created() {

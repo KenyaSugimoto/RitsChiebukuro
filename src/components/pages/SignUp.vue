@@ -83,7 +83,7 @@ export default {
   },
 
   methods: {
-    signup(){
+    signup() {
       const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
       if (this.email == "" || this.password == "", this.confirmPassword == "", this.userName == "", this.major == "", this.grade == "") {
         alert("登録情報を全て入力してください。");
@@ -93,7 +93,7 @@ export default {
         this.confirmPassword = "";
       } else if (this.userName.match(/[^0-9 ^a-z ^A-Z]/g )) {
         alert("ユーザIDが不正です。\n半角英数字で入力してください。");
-      } else if(!reg.test(this.email)) {
+      } else if (!reg.test(this.email)) {
         alert("正しいメールアドレスを入力してください。")
       } else {
         if (confirm("入力内容に間違いはありませんか？")) {

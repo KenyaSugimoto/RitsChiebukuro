@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>投稿一覧</h3>
+    <h3>{{name}}</h3>
 
     <hr>
 
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  props: ['posts'],
+  props: ['posts', 'name'],
   methods: {
     toPost(post) {
       this.$store.commit('updateWatchingPost', post);

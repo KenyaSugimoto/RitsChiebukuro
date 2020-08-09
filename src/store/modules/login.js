@@ -2,7 +2,7 @@ import axiosAuth from '../../axios/axios-auth';
 import router from '../../router';
 
 const actions = {
-  login({rootGetters, dispatch}, authData){
+  login({rootGetters, dispatch}, authData) {
     axiosAuth.post(
       '/accounts:signInWithPassword?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs',
       {

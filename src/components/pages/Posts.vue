@@ -16,13 +16,12 @@
 </template>
 
 <script>
-import router from './../../router';
 export default {
   props: ['posts'],
   methods: {
     toPost(post) {
       this.$store.commit('updateWatchingPost', post);
-      router.push({name: 'post', params: {contentId: post.document.fields.contentId.stringValue}});
+      this.$router.push({name: 'post', params: {contentId: post.document.fields.contentId.stringValue}});
     },
   },
 }

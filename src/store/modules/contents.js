@@ -58,40 +58,38 @@ const actions = {
         "/contents/",
         {
           fields: {
+            contentId: {
+              stringValue: ''
+            },
             title: {
-              stringValue: postData.title,
+              stringValue: postData.title
             },
             content: {
-              stringValue: postData.content,
+              stringValue: postData.content
             },
             category: {
-              stringValue: postData.category,
-            },
-            uid: {
-              stringValue: rootGetters.uid,
-            },
-            userName: {
-              stringValue: rootGetters.userName,
-            },
-            major: {
-              stringValue: rootGetters.major,
-            },
-            grade: {
-              stringValue: rootGetters.grade,
-            },
-            created_at: {
-              timestampValue: new Date().toISOString(),
-            },
-            updated_at: {
-              timestampValue: new Date().toISOString(),
-            },
-            contentId: {
-              stringValue:
-                new Date().getTime().toString(16) +
-                Math.floor(1000 * Math.random()).toString(16),
+              stringValue: postData.category
             },
             isAnswered: {
-              booleanValue: false,
+              booleanValue: false
+            },
+            uid: {
+              stringValue: rootGetters.uid
+            },
+            userName: {
+              stringValue: rootGetters.userName
+            },
+            major: {
+              stringValue: rootGetters.major
+            },
+            grade: {
+              stringValue: rootGetters.grade
+            },
+            created_at: {
+              timestampValue: new Date().toISOString()
+            },
+            updated_at: {
+              timestampValue: new Date().toISOString()
             },
           },
         },
@@ -100,7 +98,21 @@ const actions = {
             Authorization: `Bearer ${postData.idToken}`,
           },
         }
-      );
+      ).then((response) => {
+        const documentId = response.data.name.split('/')[6];
+        axiosDb.patch(`contents/${documentId}?updateMask.fieldPaths=contentId`,
+          {
+            fields: {
+              contentId: {stringValue: documentId}
+            }
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${postData.idToken}`,
+            },
+          }
+        );
+      });
   },
   getIndividualPosts({rootGetters, commit}) {
     axiosQuery
@@ -218,6 +230,16 @@ const actions = {
           }
         });
     }
+  },
+  async deleteContent({rootGetters}, post) {
+    const documentId = post.contentId;
+    await axiosDb.delete(`contents/${documentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    );
   },
 };
 

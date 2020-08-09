@@ -9,6 +9,7 @@ const Login = () => import("./components/pages/Login.vue");
 const SignUp = () => import("./components/pages/SignUp.vue");
 const ActivateAccount = () => import("./components/pages/ActivateAccount");
 const ResetPassword = () => import("./components/pages/ResetPassword")
+const Post = () => import("./components/pages/Post")
 
 //Vue Routerの利用宣言
 Vue.use(Router)
@@ -60,6 +61,12 @@ export default new Router({
       components: {
         default: ResetPassword,
       }
+    },
+    {
+      path: '/post/:contentId',
+      name: 'post',
+      component: Post,
+      props: true,
     },
     // 上記全てのURL以外
     {

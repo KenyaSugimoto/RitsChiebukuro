@@ -38,6 +38,14 @@
       </div>
 
       <br>
+
+      <template v-if='!post.document.fields.isAnswered.booleanValue'>
+        <router-link :to="{name: 'post', params: {contentId: post.document.fields.contentId.stringValue}}" class="header-item">
+          回答する
+        </router-link>
+      </template>
+
+      <br>
     </div>
   </div>
 </template>
@@ -66,5 +74,13 @@ div .title {
   border-radius: 9px;
   width: 70%;
   margin: 20px auto;
+}
+.header-item {
+  padding:  10px;
+  cursor: pointer;
+}
+.header-item:hover {
+  background-color: #b1abab;
+  color: red;
 }
 </style>

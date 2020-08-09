@@ -16,7 +16,7 @@ const fields = [
 ];
 
 const from = [
-  { collectionId: "contents" }
+  { collectionId: "posts" }
 ];
 
 const createdAtDesc = [

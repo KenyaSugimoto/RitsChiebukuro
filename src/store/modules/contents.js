@@ -102,7 +102,7 @@ const actions = {
         }
       );
   },
-  getIndividualPosts({rootGetters, commit}) {
+  getIndividualPosts({rootGetters, commit}, uid) {
     axiosQuery
       .post(
         "/documents:runQuery",
@@ -124,7 +124,7 @@ const actions = {
                       },
                       op: "EQUAL",
                       value: {
-                        stringValue: rootGetters.uid,
+                        stringValue: uid,
                       }
                     },
                   }

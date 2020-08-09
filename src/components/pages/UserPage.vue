@@ -1,10 +1,9 @@
 <template>
   <div>
-    <h2>マイページ</h2>
-
-    <p> {{userName}}さんの新着投稿</p>
+    <h2>個別ページ</h2>
 
     <Posts v-bind:posts='individualNewPosts'></Posts>
+
   </div>
 </template>
 
@@ -12,22 +11,25 @@
 <script>
 import Posts from './Posts';
 export default {
+  props: ['targetUid'],
   computed: {
-    userName() {
-      return this.$store.getters.userName;
-    },
     individualNewPosts() {
       return this.$store.getters.individualNewPosts;
     },
-    uid() {
-      return this.$store.getters.uid;
-    }
   },
   created() {
-    this.$store.dispatch('contents/getIndividualPosts', this.uid);
+    this.$store.commit('updateIndividualNewPosts', null);
+    this.$store.dispatch('contents/getIndividualPosts', this.targetUid);
   },
   components: {
     Posts
-  }
+  },
+
 }
 </script>
+
+<style scoped>
+h2 {
+  color: red;
+}
+</style>

@@ -11,7 +11,8 @@
 
       <div>
         投稿者：
-        <router-link to='/my-page'>
+        <!-- <router-link to='/my-page'> -->
+        <router-link :to="{name: 'user', params: {targetUid: post.document.fields.uid.stringValue}}" class="header-item">
           {{post.document.fields.userName.stringValue}}
         </router-link>
       </div>

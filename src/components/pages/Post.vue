@@ -75,7 +75,7 @@ export default {
   methods: {
     deleteContent() {
       if (confirm('本当にこの質問を削除しますか？')) {
-        this.$store.dispatch('contents/deleteContent', {postId: this.postId}).then(() => {
+        this.$store.dispatch('post/deleteContent', {postId: this.postId}).then(() => {
           alert('質問を削除しました。');
           this.$router.push('/');
         });

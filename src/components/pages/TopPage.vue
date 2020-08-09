@@ -57,14 +57,14 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("contents/getContents");
+    this.$store.dispatch("post/getContents");
   },
   methods: {
     postContent() {
       if (!this.title || !this.content || !this.selectedCategory) {
         alert("入力に不備があります。");
       } else {
-        this.$store.dispatch("contents/postContent", {
+        this.$store.dispatch("post/postContent", {
           title: this.title,
           content: this.content,
           category: this.selectedCategory,

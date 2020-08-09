@@ -30,6 +30,7 @@ export const initialState = {
     newPosts: null,
     individualNewPosts: null,
     selectedCategoryNewPosts: null,
+    watchingPost: null,
   },
 };
 
@@ -55,6 +56,7 @@ const getters = {
     newPosts: state => state.postsInfo.newPosts,
     individualNewPosts: state => state.postsInfo.individualNewPosts,
     selectedCategoryNewPosts: state => state.postsInfo.selectedCategoryNewPosts,
+    watchingPost: state => state.postsInfo.watchingPost,
   }
 };
 
@@ -108,6 +110,9 @@ const mutations = {
     },
     updateSelectedCategoryNewPosts(state, selectedCategoryNewPosts) {
       state.postsInfo.selectedCategoryNewPosts = selectedCategoryNewPosts;
+    },
+    updateWatchingPost(state, watchingPost) {
+      state.postsInfo.watchingPost = watchingPost;
     },
   }
 };

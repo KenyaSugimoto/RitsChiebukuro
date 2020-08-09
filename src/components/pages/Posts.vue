@@ -35,25 +35,25 @@
         編集時間：{{post.document.fields.updated_at.timestampValue | dateFormat}}
       </div>
       <div>
-        {{post.document.fields.isAnswered.booleanValue ? '解決済み' : '未解決'}}
+        <div @click='toPost(post)' class="answer-link title">
+          {{post.document.fields.title.stringValue}}
+        </div>
       </div>
-
-      <br>
-
-      <template v-if='!post.document.fields.isAnswered.booleanValue'>
-        <router-link :to="{name: 'post', params: {contentId: post.document.fields.contentId.stringValue}}" class="header-item">
-          回答する
-        </router-link>
-      </template>
-
-      <br>
     </div>
+
   </div>
 </template>
 
 <script>
+import router from './../../router';
 export default {
-  props: ['posts']
+  props: ['posts'],
+  methods: {
+    toPost(post) {
+      this.$store.commit('updateWatchingPost', post);
+      router.push({name: 'post', params: {contentId: post.document.fields.contentId.stringValue}});
+    },
+  },
 }
 </script>
 
@@ -76,11 +76,11 @@ div .title {
   width: 70%;
   margin: 20px auto;
 }
-.header-item {
+.answer-link {
   padding:  10px;
   cursor: pointer;
 }
-.header-item:hover {
+.answer-link:hover {
   background-color: #b1abab;
   color: red;
 }

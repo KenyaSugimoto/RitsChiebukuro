@@ -157,6 +157,8 @@ const actions = {
         } else {
           commit("updateIndividualNewPosts", null, {root: true});
         }
+      }).catch((error) => {
+        console.log(error.response);
       });
   },
   getSelectedCategoryNewPosts({rootGetters, commit}, category) {
@@ -185,6 +187,8 @@ const actions = {
           } else {
             commit("updateSelectedCategoryNewPosts", null, {root: true});
           }
+        }).catch((error) => {
+          console.log(error.response);
         });
     } else {
       axiosQuery
@@ -228,6 +232,8 @@ const actions = {
           } else {
             commit("updateSelectedCategoryNewPosts", null, {root: true});
           }
+        }).catch((error) => {
+          console.log(error.response);
         });
     }
   },

@@ -7,6 +7,7 @@ import logout from "./modules/logout";
 import signUp from "./modules/signUp";
 import contents from "./modules/contents";
 import getUserInfo from "./modules/getUserInfo";
+import reset from "./modules/reset";
 
 Vue.use(Vuex);
 
@@ -23,6 +24,7 @@ export const initialState = {
     expiryTimeMs: null,
     emailVerified: false,
     beginActivate: false,
+    beginResetPassword: false,
   },
   postsInfo: {
     newPosts: null,
@@ -46,6 +48,7 @@ const getters = {
     expiryTimeMs: state => state.authInfo.expiryTimeMs,
     emailVerified: state => state.authInfo.emailVerified,
     beginActivate: state => state.authInfo.beginActivate,
+    beginResetPassword: state => state.authInfo.beginResetPassword,
   },
   // postsInfo
   ... {
@@ -88,6 +91,9 @@ const mutations = {
     updateBeginActivate(state, beginActivate) {
       state.authInfo.beginActivate = beginActivate;
     },
+    updateBeginResetPassword(state, beginResetPassword) {
+      state.authInfo.beginResetPassword = beginResetPassword;
+    },
     resetState(state) {
       Object.assign(state, JSON.parse(JSON.stringify(initialState)));
     }
@@ -119,6 +125,7 @@ export default new Vuex.Store({
     signUp,
     contents,
     getUserInfo,
+    reset,
   },
   plugins: [
     createPersistedState({

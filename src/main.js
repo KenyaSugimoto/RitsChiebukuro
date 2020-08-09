@@ -8,18 +8,11 @@ Vue.config.productionTip = false;
 
 
 router.beforeEach((to, from, next) => {
-  const withoutLogin = ["/login", "/signUp", "/activateAccount"];  // ログインなしで閲覧できるページ
+  const withoutLogin = ["/login", "/signUp", "/activateAccount", "/resetPassword"];  // ログインなしで閲覧できるページ
   if (withoutLogin.includes(to.path)) {
     // 認証している場合は、トップページに飛ばす
     if (store.getters.idToken) {
       next("/");
-    } else if (to.path == '/activateAccount') {
-      if (store.getters.beginActivate) {
-        store.commit('updateBeginActivate', false);
-        next();
-      } else {
-        next("/");
-      }
     } else {
       next();
     }

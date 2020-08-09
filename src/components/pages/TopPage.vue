@@ -28,7 +28,7 @@
 
       <br><br>
 
-      <button @click="postContent">投稿</button>
+      <button @click="createPost">投稿</button>
     </div>
 
     <Posts v-bind:posts='newPosts'></Posts>
@@ -57,14 +57,14 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("post/getContents");
+    this.$store.dispatch("post/getPosts");
   },
   methods: {
-    postContent() {
+    createPost() {
       if (!this.title || !this.content || !this.selectedCategory) {
         alert("入力に不備があります。");
       } else {
-        this.$store.dispatch("post/postContent", {
+        this.$store.dispatch("post/createPost", {
           title: this.title,
           content: this.content,
           category: this.selectedCategory,

@@ -29,7 +29,7 @@ const createdAtDesc = [
 ];
 
 const actions = {
-  getContents({ rootGetters, commit }) {
+  getPosts({ rootGetters, commit }) {
     axiosQuery
       .post(
         "/documents:runQuery",
@@ -52,7 +52,7 @@ const actions = {
         commit("updateNewPosts", response.data, {root: true});
       });
   },
-  postContent({ rootGetters }, postData) {
+  createPost({ rootGetters }, postData) {
     axiosDb
       .post(
         "/posts/",
@@ -231,7 +231,7 @@ const actions = {
         });
     }
   },
-  async deleteContent({rootGetters}, post) {
+  async deletePost({rootGetters}, post) {
     const documentId = post.postId;
     await axiosDb.delete(`posts/${documentId}`,
       {

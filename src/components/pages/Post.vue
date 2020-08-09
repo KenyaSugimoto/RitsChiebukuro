@@ -36,7 +36,7 @@
       </div>
 
       <template v-if='uid == post.document.fields.uid.stringValue'>
-        <button @click='deleteContent'>削除</button>
+        <button @click='deletePost'>削除</button>
       </template>
     </div>
 
@@ -73,9 +73,9 @@ export default {
     }
   },
   methods: {
-    deleteContent() {
+    deletePost() {
       if (confirm('本当にこの質問を削除しますか？')) {
-        this.$store.dispatch('post/deleteContent', {postId: this.postId}).then(() => {
+        this.$store.dispatch('post/deletePost', {postId: this.postId}).then(() => {
           alert('質問を削除しました。');
           this.$router.push('/');
         });

@@ -9,7 +9,8 @@
       <option v-for="(item) in categoryData" v-bind:key="item.id"> {{item}} </option>
     </select>
 
-    <p v-if="selectedCategory"> {{selectedCategory}}の新着投稿</p>
+    <p v-if="selectedCategory">カテゴリ：{{selectedCategory}}</p>
+    <p v-else> 全てのカテゴリ</p>
 
     <Posts v-bind:posts='selectedCategoryNewPosts'></Posts>
   </div>

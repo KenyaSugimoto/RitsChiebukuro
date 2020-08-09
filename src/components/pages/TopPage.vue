@@ -31,7 +31,7 @@
       <button @click="createPost">投稿</button>
     </div>
 
-    <Posts v-bind:posts='newPosts'></Posts>
+    <Posts v-bind:posts='newPosts' name='新着の質問'></Posts>
 
   </div>
 </template>

@@ -32,7 +32,7 @@ export default {
       const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
       if (this.email == '') {
         alert('メールアドレスを入力してください。');
-      } else if(!reg.test(this.email)) {
+      } else if (!reg.test(this.email)) {
         alert('正しいメールアドレスを入力してください。')
       } else {
         this.$store.dispatch('reset/sendPasswordResetEmail', {

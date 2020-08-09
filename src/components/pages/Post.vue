@@ -5,28 +5,28 @@
     <hr>
 
     <div class='content-box'>
-      <div class='title'>
-        タイトル： {{post.document.fields.title.stringValue}}
-      </div>
-
       <div>
         投稿者：
         <router-link to='/my-page'>
-          {{post.document.fields.userName.stringValue}}
+          {{post.document.fields.userName.stringValue}}さん
         </router-link>
+      </div>
+
+      <div>
+        {{post.document.fields.category.stringValue}}
       </div>
 
       <!-- <div> -->
         <!-- {{post.document.fields.major.stringValue}} {{post.document.fields.grade.stringValue}} -->
       <!-- </div> -->
+      <div class='title'>
+        {{post.document.fields.title.stringValue}}
+      </div>
 
       <div class='content box'>
         {{post.document.fields.content.stringValue}}
       </div>
 
-      <div>
-        カテゴリ：{{post.document.fields.category.stringValue}}
-      </div>
       <div>
         投稿時間：{{post.document.fields.created_at.timestampValue | dateFormat}}
       </div>
@@ -47,6 +47,9 @@
           <textarea id='content' cols='30' rows='10' v-model='content'></textarea>
       </div>
     </div>
+
+    <br>
+    <button>回答する</button>
 
   </div>
 </template>

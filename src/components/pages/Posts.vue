@@ -21,7 +21,7 @@ export default {
   methods: {
     toPost(post) {
       this.$store.commit('updateWatchingPost', post);
-      this.$router.push({name: 'post', params: {contentId: post.document.fields.contentId.stringValue}});
+      this.$router.push({name: 'post', params: {postId: post.document.fields.postId.stringValue}});
     },
   },
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>質問{{contentId}}のページ</h2>
+    <h2>質問{{postId}}のページ</h2>
 
     <hr>
 
@@ -63,7 +63,7 @@ export default {
       content: '',
     }
   },
-  props: ['contentId'],
+  props: ['postId'],
   computed: {
     post() {
       return this.$store.getters.watchingPost;
@@ -75,7 +75,7 @@ export default {
   methods: {
     deleteContent() {
       if (confirm('本当にこの質問を削除しますか？')) {
-        this.$store.dispatch('contents/deleteContent', {contentId: this.contentId}).then(() => {
+        this.$store.dispatch('contents/deleteContent', {postId: this.postId}).then(() => {
           alert('質問を削除しました。');
           this.$router.push('/');
         });

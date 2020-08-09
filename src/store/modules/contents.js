@@ -2,7 +2,7 @@ import axiosDb from "../../axios/axios-db";
 import axiosQuery from "../../axios/axios-query";
 
 const fields = [
-  { fieldPath: "contentId" },
+  { fieldPath: "postId" },
   { fieldPath: "title" },
   { fieldPath: "content" },
   { fieldPath: "category" },
@@ -58,7 +58,7 @@ const actions = {
         "/contents/",
         {
           fields: {
-            contentId: {
+            postId: {
               stringValue: ''
             },
             title: {
@@ -100,10 +100,10 @@ const actions = {
         }
       ).then((response) => {
         const documentId = response.data.name.split('/')[6];
-        axiosDb.patch(`contents/${documentId}?updateMask.fieldPaths=contentId`,
+        axiosDb.patch(`contents/${documentId}?updateMask.fieldPaths=postId`,
           {
             fields: {
-              contentId: {stringValue: documentId}
+              postId: {stringValue: documentId}
             }
           },
           {
@@ -232,7 +232,7 @@ const actions = {
     }
   },
   async deleteContent({rootGetters}, post) {
-    const documentId = post.contentId;
+    const documentId = post.postId;
     await axiosDb.delete(`contents/${documentId}`,
       {
         headers: {

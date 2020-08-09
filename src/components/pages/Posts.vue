@@ -40,7 +40,7 @@
       <br>
 
       <template v-if='!post.document.fields.isAnswered.booleanValue'>
-        <router-link :to="{name: 'post', params: {contentId: post.document.fields.contentId.stringValue}}" class="header-item">
+        <router-link @click.native='updateWatchingPost(post)' :to="{name: 'post', params: {contentId: post.document.fields.contentId.stringValue}}" class="answer-link">
           回答する
         </router-link>
       </template>
@@ -52,7 +52,12 @@
 
 <script>
 export default {
-  props: ['posts']
+  props: ['posts'],
+  methods: {
+    updateWatchingPost(post) {
+      this.$store.commit('updateWatchingPost', post);
+    },
+  },
 }
 </script>
 
@@ -75,11 +80,11 @@ div .title {
   width: 70%;
   margin: 20px auto;
 }
-.header-item {
+.answer-link {
   padding:  10px;
   cursor: pointer;
 }
-.header-item:hover {
+.answer-link:hover {
   background-color: #b1abab;
   color: red;
 }

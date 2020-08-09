@@ -68,7 +68,7 @@
 <script>
 import ritsData from "../../assets/rits.json";
 export default {
-  data(){
+  data() {
     return {
       email: "",
       password: "",

@@ -4,7 +4,7 @@
 
     <hr>
 
-    <div v-for='post in posts' :key='post.document.fields.postId' class='content-box'>
+    <div v-for='post in posts' :key='post.document.fields.postId.stringValue' class='content-box'>
       <div>
         <div @click='toPost(post)' class="answer-link title">
           {{post.document.fields.title.stringValue}}

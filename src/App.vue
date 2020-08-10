@@ -10,6 +10,13 @@
         <router-link to="/login" class="header-item">ログイン</router-link>
         <router-link to="/signUp" class="header-item">登録</router-link>
       </header>
+      <template v-if="!isBeginResetPassword && !isBeginActivate">
+        <span>
+          <router-link to="/resetPassword" class="reset-password"
+            >パスワードを忘れた方はこちら</router-link
+          >
+        </span>
+      </template>
     </template>
 
     <router-view></router-view>
@@ -22,6 +29,12 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.getters.idToken !== null;
+    },
+    isBeginResetPassword() {
+      return this.$store.getters.beginResetPassword;
+    },
+    isBeginActivate() {
+      return this.$store.getters.beginActivate;
     },
   },
   components: {
@@ -46,6 +59,17 @@ export default {
 .header-item:hover {
   background-color: #b1abab;
   color: red;
+}
+.reset-password {
+  padding: 10px;
+  cursor: pointer;
+}
+.reset-password:hover {
+  background-color: #b1abab;
+  color: red;
+}
+span {
+  float: right;
 }
 </style>
 

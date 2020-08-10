@@ -24,6 +24,9 @@ export const initialState = {
   },
   postsInfo: {
     newPosts: null,
+    displayLists: null,
+    pageLength: null,
+    pageSize: 4,
   },
 };
 
@@ -31,16 +34,19 @@ export default new Vuex.Store({
   state: initialState,
   getters: {
     // userInfo
-    userUid: state => state.userInfo.userUid,
-    userName: state => state.userInfo.userName,
-    major: state => state.userInfo.major,
-    grade: state => state.userInfo.grade,
+    userUid: (state) => state.userInfo.userUid,
+    userName: (state) => state.userInfo.userName,
+    major: (state) => state.userInfo.major,
+    grade: (state) => state.userInfo.grade,
     // authInfo
-    idToken: state => state.authInfo.idToken,
-    refreshToken: state => state.authInfo.refreshToken,
-    expiryTimeMs: state => state.authInfo.expiryTimeMs,
+    idToken: (state) => state.authInfo.idToken,
+    refreshToken: (state) => state.authInfo.refreshToken,
+    expiryTimeMs: (state) => state.authInfo.expiryTimeMs,
     // postsInfo
-    newPosts: state => state.postsInfo.newPosts,
+    newPosts: (state) => state.postsInfo.newPosts,
+    displayLists: (state) => state.postsInfo.displayLists,
+    pageSize: (state) => state.postsInfo.pageSize,
+    pageLength: (state) => state.postsInfo.pageLength,
   },
   mutations: {
     // userInfo
@@ -70,11 +76,17 @@ export default new Vuex.Store({
     updateNewPosts(state, newPosts) {
       state.postsInfo.newPosts = newPosts;
     },
+    updateDisplayLists(state, displayLists) {
+      state.postsInfo.displayLists = displayLists;
+    },
+    updatePageLength(state, pageLength) {
+      state.postsInfo.pageLength = pageLength;
+    },
     // stateを初期化
     resetState(state) {
       console.log(initialState);
       Object.assign(state, JSON.parse(JSON.stringify(initialState)));
-    }
+    },
   },
   actions: {},
   modules: {
@@ -87,7 +99,7 @@ export default new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      key: 'RitsChiebukuro'
-    })
+      key: "RitsChiebukuro",
+    }),
   ],
 });

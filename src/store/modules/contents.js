@@ -29,7 +29,7 @@ const actions = {
             },
             from: [
               {
-                collectionId: "contents",
+                collectionId: "posts",
               },
             ],
             orderBy: [
@@ -52,13 +52,25 @@ const actions = {
         commit("updateNewPosts", response.data, {
           root: true,
         });
+        commit(
+          "updateDisplayLists",
+          rootGetters.newPosts.slice(0, rootGetters.pageSize),
+          {
+            root: true,
+          }
+        );
+        commit(
+          "updatePageLength",
+          Math.ceil(response.data.length / rootGetters.pageSize),
+          { root: true }
+        );
       });
   },
   postContent({ rootGetters }, postData) {
     console.log(rootGetters.userUid);
     axiosDb
       .post(
-        "/contents/",
+        "/posts/",
         {
           fields: {
             title: {
@@ -95,6 +107,19 @@ const actions = {
       .then((response) => {
         console.log(response);
       });
+  },
+  getDisplayLists({ rootGetters, commit }, pageNumber) {
+    console.log(rootGetters.newPosts);
+    commit(
+      "updateDisplayLists",
+      rootGetters.newPosts.slice(
+        rootGetters.pageSize * (pageNumber - 1),
+        rootGetters.pageSize * pageNumber
+      ),
+      {
+        root: true,
+      }
+    );
   },
 };
 

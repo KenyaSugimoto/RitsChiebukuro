@@ -4,14 +4,21 @@
     <router-view name="search"></router-view>
 
     <h3>投稿</h3>
-    <label for="title">タイトル</label>
+    <!-- <label for="title">タイトル</label>
     <input type="text" id="title" v-model="title" />
     <br />
     <br />
     <label for="content">投稿内容</label>
     <textarea id="content" cols="30" rows="10" v-model="content"></textarea>
     <br />
-    <button @click="postContent">投稿</button>
+    <button @click="postContent">投稿</button> -->
+    <v-col cols="12" sm="6" md="3" id="post">
+      <label for="title">タイトル</label>
+      <v-text-field v-model="title" label="タイトル" solo></v-text-field>
+      <label for="content">投稿内容</label>
+      <v-textarea solo label="投稿内容" v-model="content"></v-textarea>
+      <v-btn @click="postContent">投稿</v-btn>
+    </v-col>
 
     <h3>投稿一覧</h3>
     <hr />
@@ -32,7 +39,7 @@
     <div>
       <v-pagination
         v-model="page"
-        :length="length"
+        :length="pageLength"
         circle
         @input="pageChange"
       ></v-pagination>
@@ -47,9 +54,6 @@ export default {
       title: "",
       content: "",
       page: 1,
-      displayLists: [],
-      pageSize: 4,
-      length: 0,
     };
   },
   computed: {
@@ -59,13 +63,15 @@ export default {
     newPosts() {
       return this.$store.getters.newPosts;
     },
+    displayLists() {
+      return this.$store.getters.displayLists;
+    },
+    pageLength() {
+      return this.$store.getters.pageLength;
+    },
   },
   created() {
     this.$store.dispatch("contents/getContents");
-    this.length = Math.ceil(
-      this.$store.getters.newPosts.length / this.pageSize
-    );
-    this.displayLists = this.$store.getters.newPosts.slice(0, this.pageSize);
   },
 
   methods: {
@@ -79,10 +85,7 @@ export default {
       this.title = "";
     },
     pageChange(pageNumber) {
-      this.displayLists = this.$store.getters.newPosts.slice(
-        this.pageSize * (pageNumber - 1),
-        this.pageSize * pageNumber
-      );
+      this.$store.dispatch("contents/getDisplayLists", pageNumber);
     },
   },
 };
@@ -91,5 +94,8 @@ export default {
 <style>
 #contents {
   height: 600px;
+}
+#post {
+  margin: 0 auto;
 }
 </style>

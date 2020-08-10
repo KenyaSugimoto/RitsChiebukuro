@@ -2,15 +2,46 @@
   <div>
     <h2>トップページ</h2>
 
-    <hr>
+    <hr />
 
     <router-view name="search"></router-view>
 
     <div class="post-form">
       <h3>投稿フォーム</h3>
+      <v-col cols="12" sm="6" md="3" id="post">
+        <label for="title">*タイトル</label>
+        <v-text-field
+          v-model="title"
+          label="ex)オススメの食堂メニューは？"
+          solo
+        ></v-text-field>
+        <!-- <label for="categoryData">*質問カテゴリ</label> -->
+        <!-- <v-select
+          v-model="selectedCategory"
+          :ites="categoryData"
+          label="カテゴリを選択してください"
+          solo
+          dense
+        ></v-select> -->
+        <label for="categoryData">*質問カテゴリ</label>
+        <select id="categoryData" v-model="selectedCategory">
+          <option disabled value="">カテゴリを選択してください。</option>
+          <option v-for="item in categoryData" v-bind:key="item.id">
+            {{ item }}
+          </option>
+        </select>
+        <br /><br />
+        <label for="content">*投稿内容</label>
+        <v-textarea
+          solo
+          label="全角5文字以上で入力してください"
+          v-model="content"
+        ></v-textarea>
+        <v-btn @click="postContent">投稿</v-btn>
+      </v-col>
 
-      <label for="title">*タイトル</label>
-      <input type="text" id="title" v-model="title">
+      <!-- <label for="title">*タイトル</label> -->
+      <!-- <input type="text" id="title" v-model="title">
 
       <br><br>
 
@@ -18,34 +49,46 @@
         <label for="content">*質問内容</label>
         <br>
         <textarea id="content" cols="30" rows="10" v-model="content"></textarea>
-      </div>
+      </div> -->
 
-      <label for="categoryData">*質問カテゴリ</label>
+      <!-- <label for="categoryData">*質問カテゴリ</label>
       <select id="categoryData" v-model="selectedCategory">
         <option disabled value="">カテゴリを選択してください。</option>
-        <option v-for="(item) in categoryData" v-bind:key="item.id"> {{item}} </option>
-      </select>
+        <option v-for="item in categoryData" v-bind:key="item.id">
+          {{ item }}
+        </option>
+      </select> -->
 
-      <br><br>
+      <!-- <br /><br />
 
-      <button @click="createPost">投稿</button>
+      <button @click="createPost">投稿</button> -->
     </div>
 
-    <Posts v-bind:posts='newPosts' name='新着の質問'></Posts>
-
+    <Posts v-bind:posts="displayLists" name="新着の質問"></Posts>
+    <div>
+      <v-pagination
+        v-model="page"
+        :length="pageLength"
+        circle
+        @input="pageChange"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 
 <script>
 import categoryFromJson from "../../assets/categoryData.json";
-import Posts from './Posts';
+import Posts from "./Posts";
 export default {
   data() {
+    console.log(categoryFromJson.categoryData);
     return {
       title: "",
       content: "",
       categoryData: categoryFromJson.categoryData,
       selectedCategory: "",
+      items: ["Foo", "Bar", "Fizz", "Buzz"],
+      page: 1,
     };
   },
   computed: {
@@ -54,6 +97,12 @@ export default {
     },
     newPosts() {
       return this.$store.getters.newPosts;
+    },
+    displayLists() {
+      return this.$store.getters.displayLists;
+    },
+    pageLength() {
+      return this.$store.getters.pageLength;
     },
   },
   created() {
@@ -75,15 +124,21 @@ export default {
         this.selectedCategory = "";
       }
     },
+    pageChange(pageNumber) {
+      this.$store.dispatch("post/getDisplayLists", pageNumber);
+    },
   },
   components: {
-    Posts
-  }
+    Posts,
+  },
 };
 </script>
 
 <style scoped>
 .post-form {
   background-color: rgb(199, 217, 218);
+}
+#post {
+  margin: 0 auto;
 }
 </style>

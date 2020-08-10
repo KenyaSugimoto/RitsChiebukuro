@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-
     <template v-if="isAuthenticated">
       <Header></Header>
       <router-view name="search"></router-view>
@@ -13,7 +12,9 @@
       </header>
       <template v-if="!isBeginResetPassword && !isBeginActivate">
         <span>
-          <router-link to="/resetPassword" class="reset-password">パスワードを忘れた方はこちら</router-link>
+          <router-link to="/resetPassword" class="reset-password"
+            >パスワードを忘れた方はこちら</router-link
+          >
         </span>
       </template>
     </template>
@@ -41,13 +42,13 @@ export default {
   },
   created() {
     try {
-      const ls = JSON.parse(localStorage.getItem('RitsChiebukuro'));
+      const ls = JSON.parse(localStorage.getItem("RitsChiebukuro"));
       Object.assign(this.$store.state, JSON.parse(JSON.stringify(ls)));
     } catch (error) {
-      localStorage.removeItem('RitsChiebukuro');
+      localStorage.removeItem("RitsChiebukuro");
     }
   },
-}
+};
 </script>
 
 <style scoped>

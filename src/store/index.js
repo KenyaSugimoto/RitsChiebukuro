@@ -121,6 +121,7 @@ const mutations = {
     updateWatchingPost(state, watchingPost) {
       state.postsInfo.watchingPost = watchingPost;
     },
+
     updateDisplayLists(state, displayLists) {
       state.postsInfo.displayLists = displayLists;
     },
@@ -128,6 +129,10 @@ const mutations = {
       state.postsInfo.pageLength = pageLength;
     },
   },
+    addNewPost(state, newPostData) {
+      state.postsInfo.newPosts.push(newPostData);
+    }
+  }
 };
 
 export default new Vuex.Store({

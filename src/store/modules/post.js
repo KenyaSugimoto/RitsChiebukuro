@@ -1,5 +1,6 @@
 import axiosDb from '../../axios/axios-db';
 import axiosQuery from '../../axios/axios-query';
+import router from '../../router';
 
 const fields = [
   { fieldPath: 'postId' },
@@ -28,6 +29,8 @@ const createdAtDesc = [
     }
 ];
 
+
+
 const actions = {
   getPosts({ rootGetters, commit }) {
     axiosQuery.post('/documents:runQuery',
@@ -51,44 +54,46 @@ const actions = {
       console.log(error);
     });
   },
-  createPost({ rootGetters }, postData) {
+  createPost({ rootGetters, commit }, postData) {
+    const Fields = {
+      postId: {
+        stringValue: ''
+      },
+      title: {
+        stringValue: postData.title
+      },
+      content: {
+        stringValue: postData.content
+      },
+      category: {
+        stringValue: postData.category
+      },
+      isAnswered: {
+        booleanValue: false
+      },
+      uid: {
+        stringValue: rootGetters.uid
+      },
+      userName: {
+        stringValue: rootGetters.userName
+      },
+      major: {
+        stringValue: rootGetters.major
+      },
+      grade: {
+        stringValue: rootGetters.grade
+      },
+      created_at: {
+        timestampValue: new Date().toISOString()
+      },
+      updated_at: {
+        timestampValue: new Date().toISOString()
+      },
+    };
+
     axiosDb.post('/posts/',
       {
-        fields: {
-          postId: {
-            stringValue: ''
-          },
-          title: {
-            stringValue: postData.title
-          },
-          content: {
-            stringValue: postData.content
-          },
-          category: {
-            stringValue: postData.category
-          },
-          isAnswered: {
-            booleanValue: false
-          },
-          uid: {
-            stringValue: rootGetters.uid
-          },
-          userName: {
-            stringValue: rootGetters.userName
-          },
-          major: {
-            stringValue: rootGetters.major
-          },
-          grade: {
-            stringValue: rootGetters.grade
-          },
-          created_at: {
-            timestampValue: new Date().toISOString()
-          },
-          updated_at: {
-            timestampValue: new Date().toISOString()
-          },
-        },
+        fields: Fields,
       },
       {
         headers: {
@@ -109,6 +114,12 @@ const actions = {
           },
         }
       );
+      //Vuexに投稿データを格納する処理
+      const newPostData = {document: {
+        fields: Fields
+      }};
+      commit("addNewPost", newPostData, {root: true});
+      router.push("/postCompleted");
     }).catch((error) => {
       console.log(error);
     });

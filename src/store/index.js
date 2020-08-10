@@ -114,6 +114,9 @@ const mutations = {
     updateWatchingPost(state, watchingPost) {
       state.postsInfo.watchingPost = watchingPost;
     },
+    addNewPost(state, newPostData) {
+      state.postsInfo.newPosts.push(newPostData);
+    }
   }
 };
 

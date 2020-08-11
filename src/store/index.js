@@ -8,6 +8,7 @@ import signUp from "./modules/signUp";
 import post from "./modules/post";
 import getUserInfo from "./modules/getUserInfo";
 import reset from "./modules/reset";
+import thread from "./modules/thread";
 
 Vue.use(Vuex);
 
@@ -32,6 +33,9 @@ export const initialState = {
     selectedCategoryNewPosts: null,
     watchingPost: null,
   },
+  threadInfo: {
+    thread: null,
+  }
 };
 
 const getters = {
@@ -57,6 +61,10 @@ const getters = {
     individualNewPosts: state => state.postsInfo.individualNewPosts,
     selectedCategoryNewPosts: state => state.postsInfo.selectedCategoryNewPosts,
     watchingPost: state => state.postsInfo.watchingPost,
+  },
+  // threadInfo
+  ... {
+    thread: state => state.threadInfo.thread,
   }
 };
 
@@ -117,7 +125,29 @@ const mutations = {
     addNewPost(state, newPostData) {
       state.postsInfo.newPosts.push(newPostData);
     }
-  }
+  },
+  // userInfo
+  ...{
+    updateThread(state, thread) {
+      state.threadInfo.thread = thread;
+    },
+    addAnswer(state, answer) {
+      const answers = state.threadInfo.thread.answers.arrayValue.values;
+      answers.push(answer);
+      console.log(answers[1]);
+    },
+    addComment(state, comment) {
+      const answers = state.threadInfo.thread.answers.arrayValue.values;
+      for (let answer of answers) {
+        answer = answer.mapValue.fields;
+        const answerId = answer.answerId.stringValue;
+        if (answerId == comment.answerId) {
+          const comments = answer.comments.arrayValue.values;
+          comments.push(comment.comment);
+        }
+      }
+    }
+  },
 };
 
 
@@ -134,6 +164,7 @@ export default new Vuex.Store({
     post,
     getUserInfo,
     reset,
+    thread,
   },
   plugins: [
     createPersistedState({

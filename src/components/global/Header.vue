@@ -4,6 +4,7 @@
       <p>
         ようこそ<router-link to="/my-page" class="link" exact> {{ getUserName }} </router-link>さん
       </p>
+      <div class="header-item" @click="getNotification">通知</div>
       <span class="header-item" @click="logout">ログアウト</span>
       <nav>
         <ul class="manu">
@@ -33,8 +34,14 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('logout/logout');
-    }
+    },
+    getNotification() {
+      this.$store.dispatch("notification/getNotifications");
+      this.$router.push('/notification');
+
+    },
   },
+
 }
 </script>
 

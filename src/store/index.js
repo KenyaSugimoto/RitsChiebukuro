@@ -8,6 +8,7 @@ import signUp from "./modules/signUp";
 import post from "./modules/post";
 import getUserInfo from "./modules/getUserInfo";
 import reset from "./modules/reset";
+import notification from "./modules/notification";
 
 Vue.use(Vuex);
 
@@ -32,6 +33,10 @@ export const initialState = {
     selectedCategoryNewPosts: null,
     watchingPost: null,
   },
+  notificationInfo: {
+    notifications: null,
+    // notificationIds: null,
+  }
 };
 
 const getters = {
@@ -57,7 +62,13 @@ const getters = {
     individualNewPosts: state => state.postsInfo.individualNewPosts,
     selectedCategoryNewPosts: state => state.postsInfo.selectedCategoryNewPosts,
     watchingPost: state => state.postsInfo.watchingPost,
-  }
+  },
+
+  // notificationInfo
+  ... {
+    notifications: state => state.notificationInfo.notifications,
+    // notificationIds: state => state.notificationInfo.notificationIds,
+  },
 };
 
 const mutations = {
@@ -117,7 +128,16 @@ const mutations = {
     addNewPost(state, newPostData) {
       state.postsInfo.newPosts.push(newPostData);
     }
-  }
+  },
+  // notificationInfo
+  ... {
+    updateNotifications(state, notifications) {
+      state.notificationInfo.notifications = notifications;
+    },
+    // updateNotificationIds(state, notificationIds) {
+    //   state.notificationInfo.notificationIds = notificationIds;
+    // },
+  },
 };
 
 
@@ -134,6 +154,7 @@ export default new Vuex.Store({
     post,
     getUserInfo,
     reset,
+    notification,
   },
   plugins: [
     createPersistedState({

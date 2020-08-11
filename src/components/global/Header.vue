@@ -2,7 +2,7 @@
   <div>
     <header>
       <p>
-        ようこそ<router-link to="/my-page" class="link" exact> {{ getUserName }} </router-link>さん
+        ようこそ<router-link to="/my-page" class="link" exact> {{ userName }} </router-link>さん
       </p>
       <div class="header-item" @click="getNotification">通知</div>
       <span class="header-item" @click="logout">ログアウト</span>
@@ -27,7 +27,7 @@
 <script>
 export default {
   computed: {
-    getUserName() {
+    userName() {
       return this.$store.getters.userName;
     },
   },

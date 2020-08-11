@@ -51,7 +51,7 @@
     </div>
 
     <br>
-    <button>回答する</button>
+    <button @click="addNotification">回答する</button>
 
   </div>
 </template>
@@ -80,6 +80,30 @@ export default {
           this.$router.push('/');
         });
       }
+    },
+    addNotification() {
+      const notificationId = new Date().getTime().toString(16) + Math.floor(1000*Math.random()).toString(16);
+      const notificationData = {
+        notificationId: {
+          stringValue: notificationId
+        },
+        created_at: {
+          timestampValue: new Date().toISOString()
+        },
+        respondentName: {
+          stringValue: this.$store.getters.userName
+        },
+        threadId: {
+          stringValue: this.$store.getters.watchingPost.document.fields.postId.stringValue
+        },
+        type: {
+          stringValue: "answer"
+        },
+        questionerUid: {
+          stringValue: this.$store.getters.watchingPost.document.fields.uid.stringValue
+        },
+      };
+      this.$store.dispatch("notification/addNotification", notificationData);
     },
   }
 }

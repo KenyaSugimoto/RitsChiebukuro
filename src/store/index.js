@@ -35,7 +35,7 @@ export const initialState = {
   },
   notificationInfo: {
     notifications: null,
-    // notificationIds: null,
+    questionerNotifications: null,
   }
 };
 
@@ -67,7 +67,7 @@ const getters = {
   // notificationInfo
   ... {
     notifications: state => state.notificationInfo.notifications,
-    // notificationIds: state => state.notificationInfo.notificationIds,
+    questionerNotifications: state => state.notificationInfo.questionerNotifications,
   },
 };
 
@@ -134,9 +134,9 @@ const mutations = {
     updateNotifications(state, notifications) {
       state.notificationInfo.notifications = notifications;
     },
-    // updateNotificationIds(state, notificationIds) {
-    //   state.notificationInfo.notificationIds = notificationIds;
-    // },
+    updateQuestionerNotifications(state, questionerNotifications) {
+      state.notificationInfo.questionerNotifications = questionerNotifications;
+    },
   },
 };
 

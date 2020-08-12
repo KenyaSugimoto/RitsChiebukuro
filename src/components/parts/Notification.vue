@@ -51,6 +51,7 @@ export default {
         params: { postId: notification.mapValue.fields.threadId.stringValue },
       });
       //通知の削除
+      this.$store.dispatch("notification/deleteNotification", notification);
     },
   },
 };

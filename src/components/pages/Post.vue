@@ -51,9 +51,68 @@
     </div>
 
     <br>
-    <button>回答する</button>
-    <br>
     <button @click="addNotification">テスト用ボタン（ここを押すと通知情報が追加されます）</button>
+    <hr>
+
+    <button @click='addAnswer'>回答を送信</button>
+
+    <br><br>
+    <br><br>
+
+    <template v-if='this.isAnswered'>
+      <h3>回答{{thread.answers.arrayValue.values.length}}件</h3>
+
+      <hr>
+
+      <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue' class='content-box'>
+        <h3>回答</h3>
+        <div>
+          {{answer.mapValue.fields.userName.stringValue}}さん
+        </div>
+        <div>
+          {{answer.mapValue.fields.answer.stringValue}}
+        </div>
+        <div>
+          {{answer.mapValue.fields.created_at.timestampValue | dateFormat}}
+        </div>
+        <hr>
+
+        <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue'>
+          <h3>コメント</h3>
+          <div>
+            {{comment.mapValue.fields.userName.stringValue}}さん
+          </div>
+          <div>
+            {{comment.mapValue.fields.comment.stringValue}}
+          </div>
+          <div>
+            {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
+          </div>
+          <hr>
+        </div>
+
+        <template v-if='isDisplayCommentArea[index].value'>
+          <div class='post-form'>
+            <div>
+                <label for='comment'>*コメント内容</label>
+                <br>
+                <textarea id='comment' cols='30' rows='10' v-model='comment[index].value'></textarea>
+            </div>
+          </div>
+
+          <button @click='addComment(answer.mapValue.fields.answerId.stringValue, index)'>コメントを送信</button>
+        </template>
+        <template v-else>
+          <button @click='displayCommentArea(index)'>コメントする</button>
+        </template>
+
+        <hr>
+      </div>
+    </template>
+
+    <template v-else>
+      <h3>まだ回答がありません</h3>
+    </template>
 
   </div>
 </template>
@@ -63,6 +122,13 @@ export default {
   data() {
     return {
       answer: '',
+      comment: [
+        { value: '' },
+      ],
+      isDisplayCommentArea: [
+        { value: false },
+      ],
+      isAnswered: false,
     }
   },
   props: ['postId'],
@@ -72,7 +138,10 @@ export default {
     },
     uid() {
       return this.$store.getters.uid;
-    }
+    },
+    thread() {
+      return this.$store.getters.thread;
+    },
   },
   methods: {
     deletePost() {
@@ -107,7 +176,99 @@ export default {
       };
       this.$store.dispatch("notification/addNotification", notificationData);
     },
-  }
+    addAnswer() {
+      const answer = {
+        mapValue: {
+          fields: {
+            answer: { stringValue: this.answer },
+            answerId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
+            uid: { stringValue: this.$store.getters.uid },
+            userName: { stringValue: this.$store.getters.userName },
+            created_at: { timestampValue: new Date().toISOString() },
+            updated_at: { timestampValue: new Date().toISOString() },
+            comments: { arrayValue: { values: [] } },
+          }
+        }
+      }
+
+      if (this.isAnswered) {
+        this.comment.push({ value: '' });
+        this.isDisplayCommentArea.push({ value: false });
+        this.$store.dispatch('thread/addThread', {
+          postId: this.postId,
+          answer: answer,
+          type: 'answer',
+        });
+      } else {
+        this.$store.dispatch('thread/createThread', {
+          postId: this.postId,
+          fields: {
+            answers: {
+              arrayValue: {
+                values: [
+                  answer
+                ]
+              }
+            }
+          },
+        }).then((response) => {
+          if (response == 'OK') {
+            this.isAnswered = true;
+          } else if (response == 'ALREADY_EXISTS') {
+            this.comment.push({ value: '' });
+            this.isDisplayCommentArea.push({ value: false });
+            this.$store.dispatch('thread/addThread', {
+              postId: this.postId,
+              answer: answer,
+              type: 'answer',
+            });
+          }
+        });
+      }
+      this.answer = '';
+    },
+    addComment(answerId, index) {
+      const comment = {
+        mapValue: {
+          fields: {
+            comment: { stringValue: this.comment[index].value },
+            commentId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
+            uid: { stringValue: this.$store.getters.uid },
+            userName: { stringValue: this.$store.getters.userName },
+            created_at: { timestampValue: new Date().toISOString() },
+            updated_at: { timestampValue: new Date().toISOString() },
+          }
+        }
+      };
+
+      this.$store.dispatch('thread/addThread', {
+        postId: this.postId,
+        answerId,
+        comment,
+        type: 'comment',
+      });
+
+      this.comment[index].value = '';
+      // this.isDisplayCommentArea[index].value = false;
+    },
+    displayCommentArea(index) {
+      this.isDisplayCommentArea[index].value = true;
+    },
+  },
+  created() {
+    this.$store.dispatch('thread/getThread', this.postId).then(() => {
+      if (this.$store.getters.thread !== null) {
+        const answers = this.$store.getters.thread.answers.arrayValue.values;
+        for (let i = 0; i < answers.length - 1; i++) {
+          this.comment.push({ value: '' });
+          this.isDisplayCommentArea.push({ value: false });
+        }
+        this.isAnswered = true;
+      } else {
+        this.isAnswered = false;
+      }
+    });
+  },
 }
 </script>
 

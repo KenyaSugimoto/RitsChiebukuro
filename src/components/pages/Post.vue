@@ -89,6 +89,9 @@
           <div>
             {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
           </div>
+          <template v-if='uid == comment.mapValue.fields.uid.stringValue'>
+            <button @click='deleteComment(answer.mapValue.fields.answerId.stringValue, comment.mapValue.fields.commentId.stringValue)'>削除</button>
+          </template>
           <hr>
         </div>
 
@@ -245,6 +248,13 @@ export default {
           this.isAnswered = false;
         }
       });
+    },
+    deleteComment(answerId, commentId) {
+      this.$store.dispatch('thread/deleteComment', {
+        postId: this.postId,
+        answerId,
+        commentId,
+      })
     }
   },
   created() {

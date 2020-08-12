@@ -55,7 +55,6 @@ const actions = {
       } else {
         thread.answers.arrayValue.values = [threadInfo.answer];
       }
-      // answers.push(threadInfo.answer);
     } else if (type == 'comment') {
       for (let answer of answers) {
         answer = answer.mapValue.fields;
@@ -95,7 +94,6 @@ const actions = {
     const answers = thread.answers.arrayValue.values;
     const newAnswers = answers.filter(answer => answer.mapValue.fields.answerId.stringValue != threadInfo.answerId);
     thread.answers.arrayValue.values = newAnswers;
-    commit('updateThread', thread, {root: true});
 
     await axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
       {
@@ -114,6 +112,41 @@ const actions = {
     })
     .catch((error) => {
         console.log(error.response);
+    });
+  },
+  deleteComment({rootGetters, commit}, threadInfo) {
+    const thread = {};
+    Object.assign(thread, JSON.parse(JSON.stringify(rootGetters.thread)));
+    const answers = thread.answers.arrayValue.values;
+    let answerIndex = 0;
+    let newComments = [];
+
+    for (let answer of answers) {
+      answer = answer.mapValue.fields;
+      const answerId = answer.answerId.stringValue;
+      if (answerId == threadInfo.answerId) {
+        const comments = answer.comments.arrayValue.values;
+        newComments = comments.filter(comment => comment.mapValue.fields.commentId.stringValue != threadInfo.commentId);
+        break;
+      }
+      answerIndex += 1;
+    }
+
+    if (newComments != []) {
+      thread.answers.arrayValue.values[answerIndex].mapValue.fields.comments.arrayValue.values = newComments;
+    }
+
+    axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
+      {
+        fields : thread,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then((response) => {
+      commit('updateThread', response.data.fields, {root: true});
     });
   }
 };

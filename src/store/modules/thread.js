@@ -20,6 +20,7 @@ const actions = {
   },
   async createThread({rootGetters, commit}, threadInfo) {
     let message = '';
+
     await axiosDb.post(`/tests?documentId=${threadInfo.postId}`,
       {
         fields: threadInfo.fields,
@@ -38,6 +39,7 @@ const actions = {
         message = 'ALREADY_EXISTS';
       }
     });
+
     return message;
   },
   addThread({rootGetters, commit}, threadInfo) {

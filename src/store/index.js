@@ -126,27 +126,11 @@ const mutations = {
       state.postsInfo.newPosts.push(newPostData);
     }
   },
-  // userInfo
+  // threadInfo
   ...{
     updateThread(state, thread) {
       state.threadInfo.thread = thread;
     },
-    addAnswer(state, answer) {
-      const answers = state.threadInfo.thread.answers.arrayValue.values;
-      answers.push(answer);
-      console.log(answers[1]);
-    },
-    addComment(state, comment) {
-      const answers = state.threadInfo.thread.answers.arrayValue.values;
-      for (let answer of answers) {
-        answer = answer.mapValue.fields;
-        const answerId = answer.answerId.stringValue;
-        if (answerId == comment.answerId) {
-          const comments = answer.comments.arrayValue.values;
-          comments.push(comment.comment);
-        }
-      }
-    }
   },
 };
 

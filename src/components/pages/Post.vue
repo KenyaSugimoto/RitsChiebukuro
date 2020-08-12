@@ -73,6 +73,9 @@
         <div>
           {{answer.mapValue.fields.created_at.timestampValue | dateFormat}}
         </div>
+        <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
+          <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue)'>削除</button>
+        </template>
         <hr>
 
         <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue'>
@@ -86,6 +89,9 @@
           <div>
             {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
           </div>
+          <template v-if='uid == comment.mapValue.fields.uid.stringValue'>
+            <button @click='deleteComment(answer.mapValue.fields.answerId.stringValue, comment.mapValue.fields.commentId.stringValue)'>削除</button>
+          </template>
           <hr>
         </div>
 
@@ -127,6 +133,7 @@ export default {
         { value: false },
       ],
       isAnswered: false,
+      threadExists: false,
     }
   },
   props: ['postId'],
@@ -151,6 +158,9 @@ export default {
       }
     },
     addAnswer() {
+      this.comment.push({ value: '' });
+      this.isDisplayCommentArea.push({ value: false });
+
       const answer = {
         mapValue: {
           fields: {
@@ -165,13 +175,15 @@ export default {
         }
       }
 
-      if (this.isAnswered) {
-        this.comment.push({ value: '' });
-        this.isDisplayCommentArea.push({ value: false });
+      if (this.threadExists) {
         this.$store.dispatch('thread/addThread', {
           postId: this.postId,
           answer: answer,
           type: 'answer',
+        }).then((response) => {
+          if (response == 'OK') {
+            this.isAnswered = true;
+          }
         });
       } else {
         this.$store.dispatch('thread/createThread', {
@@ -187,10 +199,9 @@ export default {
           },
         }).then((response) => {
           if (response == 'OK') {
+            this.threadExists = true;
             this.isAnswered = true;
           } else if (response == 'ALREADY_EXISTS') {
-            this.comment.push({ value: '' });
-            this.isDisplayCommentArea.push({ value: false });
             this.$store.dispatch('thread/addThread', {
               postId: this.postId,
               answer: answer,
@@ -228,18 +239,36 @@ export default {
     displayCommentArea(index) {
       this.isDisplayCommentArea[index].value = true;
     },
+    deleteAnswer(answerId) {
+      this.$store.dispatch('thread/deleteAnswer', {
+        postId: this.postId,
+        answerId,
+      }).then(() => {
+        if (this.$store.getters.thread.answers.arrayValue.values.length == 0) {
+          this.isAnswered = false;
+        }
+      });
+    },
+    deleteComment(answerId, commentId) {
+      this.$store.dispatch('thread/deleteComment', {
+        postId: this.postId,
+        answerId,
+        commentId,
+      })
+    }
   },
   created() {
     this.$store.dispatch('thread/getThread', this.postId).then(() => {
       if (this.$store.getters.thread !== null) {
         const answers = this.$store.getters.thread.answers.arrayValue.values;
-        for (let i = 0; i < answers.length - 1; i++) {
-          this.comment.push({ value: '' });
-          this.isDisplayCommentArea.push({ value: false });
+        if (typeof(answers) !== 'undefined') {
+          for (let i = 0; i < answers.length - 1; i++) {
+            this.comment.push({ value: '' });
+            this.isDisplayCommentArea.push({ value: false });
+          }
+          this.isAnswered = true;
         }
-        this.isAnswered = true;
-      } else {
-        this.isAnswered = false;
+        this.threadExists = true;
       }
     });
   },

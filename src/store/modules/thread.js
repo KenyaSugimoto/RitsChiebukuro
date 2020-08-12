@@ -42,15 +42,19 @@ const actions = {
 
     return message;
   },
-  addThread({rootGetters, commit}, threadInfo) {
+  async addThread({rootGetters, commit}, threadInfo) {
+    let message = '';
     const type = threadInfo.type;
     const thread = {};
     Object.assign(thread, JSON.parse(JSON.stringify(rootGetters.thread)));
     const answers = thread.answers.arrayValue.values;
 
     if (type == 'answer') {
-      answers.push(threadInfo.answer)
-      commit('updateThread', thread, {root: true});
+      if (typeof(answers) !== 'undefined') {
+        answers.push(threadInfo.answer);
+      } else {
+        thread.answers.arrayValue.values = [threadInfo.answer];
+      }
     } else if (type == 'comment') {
       for (let answer of answers) {
         answer = answer.mapValue.fields;
@@ -65,6 +69,73 @@ const actions = {
       }
     }
 
+    await axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
+      {
+        fields : thread,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then((response) => {
+      commit('updateThread', response.data.fields, {root: true});
+      message = 'OK';
+    })
+    .catch((error) => {
+        console.log(error.response);
+    });
+
+    return message;
+  },
+  async deleteAnswer({rootGetters, commit}, threadInfo) {
+    const thread = {};
+    Object.assign(thread, JSON.parse(JSON.stringify(rootGetters.thread)));
+    const answers = thread.answers.arrayValue.values;
+    const newAnswers = answers.filter(answer => answer.mapValue.fields.answerId.stringValue != threadInfo.answerId);
+    thread.answers.arrayValue.values = newAnswers;
+
+    await axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
+      {
+        fields : thread,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then((response) => {
+      if (typeof(response.data.fields.answers.arrayValue.values) === 'undefined') {
+        response.data.fields.answers.arrayValue.values = [];
+      }
+      commit('updateThread', response.data.fields, {root: true});
+    })
+    .catch((error) => {
+        console.log(error.response);
+    });
+  },
+  deleteComment({rootGetters, commit}, threadInfo) {
+    const thread = {};
+    Object.assign(thread, JSON.parse(JSON.stringify(rootGetters.thread)));
+    const answers = thread.answers.arrayValue.values;
+    let answerIndex = 0;
+    let newComments = [];
+
+    for (let answer of answers) {
+      answer = answer.mapValue.fields;
+      const answerId = answer.answerId.stringValue;
+      if (answerId == threadInfo.answerId) {
+        const comments = answer.comments.arrayValue.values;
+        newComments = comments.filter(comment => comment.mapValue.fields.commentId.stringValue != threadInfo.commentId);
+        break;
+      }
+      answerIndex += 1;
+    }
+
+    if (newComments != []) {
+      thread.answers.arrayValue.values[answerIndex].mapValue.fields.comments.arrayValue.values = newComments;
+    }
+
     axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
@@ -76,11 +147,8 @@ const actions = {
       }
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
-    })
-    .catch((error) => {
-        console.log(error.response);
     });
-  },
+  }
 };
 
 export default {

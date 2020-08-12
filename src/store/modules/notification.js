@@ -5,7 +5,7 @@ import axiosDb from '../../axios/axios-db';
 const actions = {
   getNotifications({rootGetters, commit}) {
     axiosDb.get(
-      `/notifications/${rootGetters.userInfo.uid}`,
+      `/notifications/${rootGetters.uid}`,
       {
         headers: {Authorization: `Bearer ${rootGetters.idToken}`,},
       })

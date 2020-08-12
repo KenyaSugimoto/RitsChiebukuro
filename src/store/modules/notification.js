@@ -13,7 +13,7 @@ const actions = {
       const data = response.data.fields.notifications.arrayValue.values[0].mapValue.fields;
       commit("updateNotifications", data, {root: true});
     }).catch(() => {
-      router.push({name:"noNotification"})
+      router.push({name:"noNotification"}).catch(() => {});
     });
   },
   async getQuestionerNotifications({rootGetters, commit}, questionerUid) {

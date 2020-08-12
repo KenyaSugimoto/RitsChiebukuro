@@ -53,7 +53,6 @@ const actions = {
       if (typeof(answers) !== 'undefined') {
         answers.push(threadInfo.answer);
       } else {
-        console.log(thread);
         thread.answers.arrayValue.values = [threadInfo.answer];
       }
       // answers.push(threadInfo.answer);

@@ -247,7 +247,21 @@ const actions = {
           Authorization: `Bearer ${rootGetters.idToken}`,
         },
       }
-    );
+    ).then(() => {
+      axiosDb.delete(`threads/${documentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${rootGetters.idToken}`,
+          },
+        }
+      ).then(() => {
+        //
+      }).catch((error) => {
+        console.log(error.response);
+      });
+    }).catch((error) => {
+      console.log(error.response);
+    });
   },
 };
 

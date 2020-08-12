@@ -9,6 +9,7 @@ import post from "./modules/post";
 import getUserInfo from "./modules/getUserInfo";
 import reset from "./modules/reset";
 import notification from "./modules/notification";
+import thread from "./modules/thread";
 
 Vue.use(Vuex);
 
@@ -36,7 +37,10 @@ export const initialState = {
   notificationInfo: {
     notifications: null,
     questionerNotifications: null,
-  }
+  },
+  threadInfo: {
+    thread: null,
+  },
 };
 
 const getters = {
@@ -68,6 +72,10 @@ const getters = {
   ... {
     notifications: state => state.notificationInfo.notifications,
     questionerNotifications: state => state.notificationInfo.questionerNotifications,
+  },
+  // threadInfo
+  ... {
+    thread: state => state.threadInfo.thread,
   },
 };
 
@@ -138,6 +146,12 @@ const mutations = {
       state.notificationInfo.questionerNotifications = questionerNotifications;
     },
   },
+  // threadInfo
+  ...{
+    updateThread(state, thread) {
+      state.threadInfo.thread = thread;
+    },
+  },
 };
 
 
@@ -155,6 +169,7 @@ export default new Vuex.Store({
     getUserInfo,
     reset,
     notification,
+    thread,
   },
   plugins: [
     createPersistedState({

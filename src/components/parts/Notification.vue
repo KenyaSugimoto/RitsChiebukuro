@@ -15,7 +15,6 @@
           回答しました
         </div>
         <div v-else>コメントしました</div>
-        <!-- <p>経過時刻: {{elapsedTime(item)}} </p> -->
         <p>
           投稿時刻:
           {{ item.mapValue.fields.created_at.timestampValue | dateFormat }}
@@ -31,14 +30,6 @@ export default {
     notifications() {
       return this.$store.getters.notifications;
     },
-    // notificationIds() {
-    //   return this.$store.getters.notificationIds;
-    // },
-    // elapsedTime(notification) {
-    //   // const now = new Date();
-    //   // return now.getTime() - Date.parse(notification.mapValue.fields.created_at.timestampValue);
-    //   // return
-    // },
   },
   methods: {
     toPost(notification) {

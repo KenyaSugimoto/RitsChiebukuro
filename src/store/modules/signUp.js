@@ -107,18 +107,21 @@ const actions = {
         // ユーザ名が登録済みの場合
         dispatch('signUp/deleteAccount', {idToken: userInfo.idToken}, {root: true});
       } else {
+
+        dispatch("signUp/createNotificationDocument", userInfo.uid, {root: true});
+
         // ユーザ名が未登録の場合
-          dispatch('signUp/registerUserInfo', {
-            idToken: userInfo.idToken,
-            uid: userInfo.uid,
-            email: userInfo.email,
-            userName: userInfo.userName,
-            major: userInfo.major,
-            grade: userInfo.grade,
-          }, {root: true});
-          dispatch('signUp/sendEmailVerification',  {idToken: userInfo.idToken}, {root: true});
-          commit('updateBeginActivate', true, {root: true});
-          router.push('/activateAccount');
+        dispatch('signUp/registerUserInfo', {
+          idToken: userInfo.idToken,
+          uid: userInfo.uid,
+          email: userInfo.email,
+          userName: userInfo.userName,
+          major: userInfo.major,
+          grade: userInfo.grade,
+        }, {root: true});
+        dispatch('signUp/sendEmailVerification', {idToken: userInfo.idToken}, {root: true});
+        commit('updateBeginActivate', true, {root: true});
+        router.push('/activateAccount');
       }
     });
   },
@@ -143,6 +146,33 @@ const actions = {
         }
       }
     );
+  },
+  createNotificationDocument({rootGetters}, uid) {
+    axiosDb.post(
+      `/notifications_test?documentId=${uid}`,
+      {
+        fields: {
+          notifications: {
+            arrayValue: {
+              values: [{
+                mapValue: {
+                  fields: {
+                    "nullValue": null
+                  }
+                }
+              }]
+            }
+          }
+        }
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then(response => {
+      console.log(response.data);
+    });
   },
 };
 

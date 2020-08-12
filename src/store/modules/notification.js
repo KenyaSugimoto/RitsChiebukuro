@@ -1,18 +1,41 @@
 import axiosDb from "../../axios/axios-db";
-// import axiosQuery from '../../axios/axios-query';
+import router from "../../router";
 
 const actions = {
   getNotifications({ rootGetters, commit }) {
     axiosDb
-      .get(`/notifications/${rootGetters.uid}`, {
+      .get(`/notificationsTest/${rootGetters.uid}`, {
         headers: { Authorization: `Bearer ${rootGetters.idToken}` },
       })
       .then((response) => {
-        commit("updateNotifications", response.data.fields, { root: true });
+        const data =
+          response.data.fields.notifications.arrayValue.values[0].mapValue
+            .fields;
+        commit("updateNotifications", data, { root: true });
+      })
+      .catch(() => {
+        router.push({ name: "noNotification" }).catch(() => {});
       });
   },
-  getQuestionerNotifications({ rootGetters, commit }) {
-    axiosDb
+  async getQuestionerNotifications({ rootGetters, commit }, questionerUid) {
+    await axiosDb
+      .get(`/notificationsTest/${questionerUid}`, {
+        headers: { Authorization: `Bearer ${rootGetters.idToken}` },
+      })
+      .then((response) => {
+        const data =
+          response.data.fields.notifications.arrayValue.values[0].mapValue
+            .fields;
+        commit("updateQuestionerNotifications", null, { root: true });
+        commit("updateQuestionerNotifications", data, { root: true });
+      })
+      .catch(() => {
+        commit("updateQuestionerNotifications", null, { root: true });
+        console.log("まだドキュメントが登録されていません");
+      });
+  },
+  async updateQuestionerNotifications({ rootGetters, commit }) {
+    await axiosDb
       .get(
         `/notifications/${rootGetters.watchingPost.document.fields.uid.stringValue}`,
         {
@@ -20,29 +43,50 @@ const actions = {
         }
       )
       .then((response) => {
+        commit("updateQuestionerNotifications", null, { root: true });
         commit("updateQuestionerNotifications", response.data.fields, {
           root: true,
         });
       });
   },
   addNotification({ rootGetters, dispatch }, notificationData) {
-    const key = notificationData.notificationId.stringValue;
-    const key2 =
-      new Date().getTime().toString(16) +
-      Math.floor(1000 * Math.random()).toString(16);
-    axiosDb
-      .post(
-        `/notifications?documentId=${notificationData.questionerUid.stringValue}`,
+    // patchの準備
+    // 今回の通知情報
+    const objectKey = notificationData.notificationId.stringValue;
+    const newNotificationData = {
+      [objectKey]: {
+        mapValue: {
+          fields: notificationData,
+        },
+      },
+    };
+
+    // vuexに質問者の通知情報を格納 & 今回の通知情報と結合
+    dispatch(
+      "notification/getQuestionerNotifications",
+      notificationData.questionerUid.stringValue,
+      { root: true }
+    ).then(() => {
+      const updateNotificationsData = newNotificationData;
+      Object.assign(
+        updateNotificationsData,
+        JSON.parse(JSON.stringify(rootGetters.questionerNotifications))
+      );
+
+      // patchをするよ
+      axiosDb.patch(
+        `notificationsTest/${notificationData.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
         {
           fields: {
-            [key]: {
-              mapValue: {
-                fields: notificationData,
-              },
-            },
-            [key2]: {
-              mapValue: {
-                fields: notificationData,
+            notifications: {
+              arrayValue: {
+                values: [
+                  {
+                    mapValue: {
+                      fields: updateNotificationsData,
+                    },
+                  },
+                ],
               },
             },
           },
@@ -52,27 +96,8 @@ const actions = {
             Authorization: `Bearer ${rootGetters.idToken}`,
           },
         }
-      )
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        const errorStatus = error.response.data.error.status;
-        if (errorStatus == "ALREADY_EXISTS") {
-          console.log("キャッチ成功");
-          // vuexに質問者の通知情報を格納成功
-          dispatch(
-            "notification/getQuestionerNotifications",
-            {},
-            { root: true }
-          );
-          // 今回の通知情報を追加
-
-          // 追加後再送
-        } else {
-          console.log("キャッチ失敗");
-        }
-      });
+      );
+    });
   },
   // async deleteNitofication({ rootGetters, commit }, notification) {
   async deleteNotification({ rootGetters }, selectedNotification) {
@@ -103,8 +128,8 @@ const actions = {
     //   });
     axiosDb
       .patch(
-        // `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
-        `/notificationsTest/QRdzupR2uzdwuYGcsCZLOPZKq2m1?updateMask.fieldPaths=notifications`,
+        `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
+        // `/notificationsTest/QRdzupR2uzdwuYGcsCZLOPZKq2m1?updateMask.fieldPaths=notifications`,
         {
           fields: {
             notifications: {
@@ -129,14 +154,6 @@ const actions = {
       .then((res) => {
         console.log(res);
       });
-  },
-  async deletePost({ rootGetters }, post) {
-    const documentId = post.postId;
-    await axiosDb.delete(`posts/${documentId}`, {
-      headers: {
-        Authorization: `Bearer ${rootGetters.idToken}`,
-      },
-    });
   },
 };
 

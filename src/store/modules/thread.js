@@ -2,7 +2,7 @@ import axiosDb from '../../axios/axios-db';
 
 const actions = {
   async getThread({rootGetters, commit}, postId) {
-    await axiosDb.get(`tests/${postId}`,
+    await axiosDb.get(`threads/${postId}`,
       {
         headers: {
           Authorization: `Bearer ${rootGetters.idToken}`,
@@ -21,7 +21,7 @@ const actions = {
   async createThread({rootGetters, commit}, threadInfo) {
     let message = '';
 
-    await axiosDb.post(`/tests?documentId=${threadInfo.postId}`,
+    await axiosDb.post(`/threads?documentId=${threadInfo.postId}`,
       {
         fields: threadInfo.fields,
       },
@@ -65,7 +65,7 @@ const actions = {
       }
     }
 
-    axiosDb.patch(`tests/${threadInfo.postId}?updateMask.fieldPaths=answers`,
+    axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
       },

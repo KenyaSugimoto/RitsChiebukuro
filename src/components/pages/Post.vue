@@ -223,7 +223,7 @@ export default {
       });
 
       this.comment[index].value = '';
-      this.isDisplayCommentArea[index].value = false;
+      // this.isDisplayCommentArea[index].value = false;
     },
     displayCommentArea(index) {
       this.isDisplayCommentArea[index].value = true;

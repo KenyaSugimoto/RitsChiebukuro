@@ -51,7 +51,9 @@
     </div>
 
     <br>
-    <button @click="addNotification">回答する</button>
+    <button>回答する</button>
+    <br>
+    <button @click="addNotification">テスト用ボタン（ここを押すと通知情報が追加されます）</button>
 
   </div>
 </template>

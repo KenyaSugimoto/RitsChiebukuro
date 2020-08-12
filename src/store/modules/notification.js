@@ -77,45 +77,58 @@ const actions = {
   // async deleteNitofication({ rootGetters, commit }, notification) {
   async deleteNotification({ rootGetters }, selectedNotification) {
     console.log(Object.keys(rootGetters.notifications).length);
-    console.log(selectedNotification);
 
     let temp = rootGetters.notifications;
-    console.log(temp);
-    // Object.entries(rootGetters.notifications).map(([key, value]) => {
-    //   const deleteKey = key;
-    //   console.log(key);
-    //   console.log(value);
-    //   console.log(selectedNotification);
-    //   if (value.notificationId === selectedNotification.notificationId) {
-    //     delete temp[deleteKey];
-    //   }
-    // });
-    console.log(
-      selectedNotification.mapValue.fields.notificationId.stringValue
-    );
     delete temp[
       selectedNotification.mapValue.fields.notificationId.stringValue
     ];
 
     console.log(temp);
+    console.log(selectedNotification.mapValue.fields.questionerUid.stringValue);
 
-    // if (Object.keys(rootGetters.notifications).length===1) {
-    //   //通知が一個しかなかった場合ドキュメントごと削除
-    //   await axiosDb.delete(
-    //     `notifications/${notification.mapValue.fields.questionerUid.stringValue}`,
+    // axiosDb
+    //   .patch(
+    //     `/notifications/${selectedNotification.mapValue.fields.questionerUid.stringValue}`,
+    //     {
+    //       fields: temp,
+    //     },
     //     {
     //       headers: {
     //         Authorization: `Bearer ${rootGetters.idToken}`,
     //       },
     //     }
-    //   ).then((response) => {
-    //     commit("updateNotifications", null, { root: true });
+    //   )
+    //   .then((res) => {
+    //     console.log(res);
     //   });
-    // } else {
-    //   //通知が2個以上ある場合閲覧した通知以外の通知を残してpatch
-    //   const temp = rootGetters.notifications;
-
-    // }
+    axiosDb
+      .patch(
+        // `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
+        `/notificationsTest/QRdzupR2uzdwuYGcsCZLOPZKq2m1?updateMask.fieldPaths=notifications`,
+        {
+          fields: {
+            notifications: {
+              arrayValue: {
+                values: [
+                  {
+                    mapValue: {
+                      fields: temp,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${rootGetters.idToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      });
   },
   async deletePost({ rootGetters }, post) {
     const documentId = post.postId;

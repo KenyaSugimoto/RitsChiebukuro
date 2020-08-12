@@ -11,7 +11,8 @@ const ActivateAccount = () => import("./components/pages/ActivateAccount");
 const ResetPassword = () => import("./components/pages/ResetPassword");
 const Post = () => import("./components/pages/Post");
 const PostCompleted = () => import("./components/pages/PostCompleted");
-const Notification = () => import("./components/parts/Notification.vue");
+const Notification = () => import("./components/parts/Notification");
+const NoNotification = () => import("./components/parts/NoNotification");
 
 //Vue Routerの利用宣言
 Vue.use(Router)
@@ -81,6 +82,13 @@ export default new Router({
       name: "notification",
       components: {
         default: Notification,
+      },
+    },
+    {
+      path: "/noNotification",
+      name: "noNotification",
+      components: {
+        default: NoNotification,
       },
     },
     // 上記全てのURL以外

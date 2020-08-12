@@ -1,7 +1,22 @@
 import axiosDb from '../../axios/axios-db';
+import router from "../../router";
 
 
 const actions = {
+  getMyNotifications({rootGetters, commit}) {
+    axiosDb.get(
+      `/notificationsTest/${rootGetters.uid}`,
+      {
+        headers: {Authorization: `Bearer ${rootGetters.idToken}`,},
+      })
+    .then(response => {
+      const data = response.data.fields;
+      commit("updateNotifications", data, {root: true});
+      console.log(data);
+    }).catch(() => {
+      router.push({name:"noNotification"})
+    });
+  },
   getNotifications({rootGetters, commit}) {
     axiosDb.get(
       `/notificationsTest/${rootGetters.uid}`,

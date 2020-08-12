@@ -36,7 +36,7 @@ export default {
       this.$store.dispatch('logout/logout');
     },
     getNotification() {
-      this.$store.dispatch("notification/getNotifications");
+      this.$store.dispatch("notification/getMyNotifications");
       this.$router.push('/notification');
 
     },

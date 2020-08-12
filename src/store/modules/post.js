@@ -57,7 +57,7 @@ const actions = {
   createPost({ rootGetters, commit }, postData) {
     const Fields = {
       postId: {
-        stringValue: ''
+        stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16)
       },
       title: {
         stringValue: postData.title
@@ -91,7 +91,7 @@ const actions = {
       },
     };
 
-    axiosDb.post('/posts/',
+    axiosDb.post(`/posts/?documentId=${Fields.postId.stringValue}`,
       {
         fields: Fields,
       },
@@ -100,20 +100,7 @@ const actions = {
           Authorization: `Bearer ${postData.idToken}`,
         },
       }
-    ).then((response) => {
-      const documentId = response.data.name.split('/')[6];
-      axiosDb.patch(`posts/${documentId}?updateMask.fieldPaths=postId`,
-        {
-          fields: {
-            postId: {stringValue: documentId}
-          }
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${postData.idToken}`,
-          },
-        }
-      );
+    ).then(() => {
       //Vuexに投稿データを格納する処理
       const newPostData = {document: {
         fields: Fields

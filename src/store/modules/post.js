@@ -58,7 +58,7 @@ const actions = {
   createPost({ rootGetters, commit }, postData) {
     const Fields = {
       postId: {
-        stringValue: "",
+        stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16)
       },
       title: {
         stringValue: postData.title,
@@ -92,45 +92,25 @@ const actions = {
       },
     };
 
-    axiosDb
-      .post(
-        "/posts/",
-        {
-          fields: Fields,
+    axiosDb.post(`/posts/?documentId=${Fields.postId.stringValue}`,
+      {
+        fields: Fields,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${postData.idToken}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${postData.idToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        const documentId = response.data.name.split("/")[6];
-        axiosDb.patch(
-          `posts/${documentId}?updateMask.fieldPaths=postId`,
-          {
-            fields: {
-              postId: { stringValue: documentId },
-            },
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${postData.idToken}`,
-            },
-          }
-        );
-        //Vuexに投稿データを格納する処理
-        const newPostData = {
-          document: {
-            fields: Fields,
-          },
-        };
-        commit("addNewPost", newPostData, { root: true });
-        router.push("/postCompleted");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      }
+    ).then(() => {
+      //Vuexに投稿データを格納する処理
+      const newPostData = {document: {
+        fields: Fields
+      }};
+      commit("addNewPost", newPostData, {root: true});
+      router.push("/postCompleted");
+    }).catch((error) => {
+      console.log(error);
+    });
   },
   getIndividualPosts({ rootGetters, commit }) {
     axiosQuery
@@ -262,57 +242,72 @@ const actions = {
         });
     }
   },
-  async deletePost({ rootGetters }, post) {
-    const documentId = post.postId;
-    await axiosDb.delete(`posts/${documentId}`, {
-      headers: {
-        Authorization: `Bearer ${rootGetters.idToken}`,
-      },
-    });
-  },
   getPostByPostId({ rootGetters, commit }, postId) {
-    axiosQuery
-      .post(
-        "/documents:runQuery",
-        {
-          structuredQuery: {
-            select: {
-              fields,
-            },
-            from,
-            where: {
-              compositeFilter: {
-                op: "AND",
-                filters: [
-                  {
-                    fieldFilter: {
-                      field: {
-                        fieldPath: "postId",
-                      },
-                      op: "EQUAL",
-                      value: {
-                        stringValue: postId,
-                      },
+    axiosQuery.post(
+      "/documents:runQuery",
+      {
+        structuredQuery: {
+          select: {
+            fields,
+          },
+          from,
+          where: {
+            compositeFilter: {
+              op: "AND",
+              filters: [
+                {
+                  fieldFilter: {
+                    field: {
+                      fieldPath: "postId",
+                    },
+                    op: "EQUAL",
+                    value: {
+                      stringValue: postId,
                     },
                   },
-                ],
-              },
+                },
+              ],
             },
           },
         },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    )
+    .then((response) => {
+      commit("updateWatchingPost", null, { root: true });
+      commit("updateWatchingPost", response.data[0], { root: true });
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
+  },
+  async deletePost({rootGetters}, post) {
+    const documentId = post.postId;
+    await axiosDb.delete(`posts/${documentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then(() => {
+      axiosDb.delete(`threads/${documentId}`,
         {
           headers: {
             Authorization: `Bearer ${rootGetters.idToken}`,
           },
         }
-      )
-      .then((response) => {
-        commit("updateWatchingPost", null, { root: true });
-        commit("updateWatchingPost", response.data[0], { root: true });
-      })
-      .catch((error) => {
+      ).then(() => {
+        //
+      }).catch((error) => {
         console.log(error.response);
       });
+    }).catch((error) => {
+      console.log(error.response);
+    });
   },
 };
 

@@ -35,7 +35,7 @@ export const initialState = {
     selectedCategoryNewPosts: null,
     watchingPost: null,
     searchResultPosts: null,
-    serachKeyWords: null,
+    searchKeyWords: null,
   },
   notificationInfo: {
     notifications: null,
@@ -71,7 +71,7 @@ const getters = {
     selectedCategoryNewPosts: state => state.postsInfo.selectedCategoryNewPosts,
     watchingPost: state => state.postsInfo.watchingPost,
     searchResultPosts: state => state.postsInfo.searchResultPosts,
-    serachKeyWords: state => state.postsInfo.serachKeyWords,
+    searchKeyWords: state => state.postsInfo.searchKeyWords,
   },
 
   // notificationInfo
@@ -143,8 +143,8 @@ const mutations = {
     updateSearchResultPosts(state, searchResultPosts) {
       state.postsInfo.searchResultPosts = searchResultPosts;
     },
-    updateSearchKeyWords(state, serachKeyWords) {
-      state.postsInfo.serachKeyWords = serachKeyWords;
+    updateSearchKeyWords(state, searchKeyWords) {
+      state.postsInfo.searchKeyWords = searchKeyWords;
     },
     addNewPost(state, newPostData) {
       state.postsInfo.newPosts.push(newPostData);

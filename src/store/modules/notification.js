@@ -44,8 +44,8 @@ const actions = {
 
     dispatch("notification/getQuestionerNotifications", notificationData.questionerUid.stringValue, {root: true })
     .then(() => {
-      const updateNotificationsData = newNotificationData;
-      Object.assign(updateNotificationsData, JSON.parse(JSON.stringify(rootGetters.questionerNotifications)));
+      const updatedNotificationsData = newNotificationData;
+      Object.assign(updatedNotificationsData, JSON.parse(JSON.stringify(rootGetters.questionerNotifications)));
       axiosDb.patch(
         `notificationsTest/${notificationData.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
         {
@@ -55,7 +55,7 @@ const actions = {
                 values: [
                   {
                     mapValue: {
-                      fields: updateNotificationsData,
+                      fields: updatedNotificationsData,
                     },
                   },
                 ],

@@ -1,6 +1,7 @@
 import axiosDb from "../../axios/axios-db";
 import axiosQuery from "../../axios/axios-query";
 import router from "../../router";
+import { segmentText } from "./../../function/segmentText.js"
 
 const fields = [
   { fieldPath: "postId" },
@@ -90,6 +91,11 @@ const actions = {
       updated_at: {
         timestampValue: new Date().toISOString(),
       },
+      keyWords: {
+        arrayValue: {
+          values: segmentText(postData.title).length != 0 ? segmentText(postData.title) : [ { 'nullValue': null } ]
+        }
+      }
     };
 
     axiosDb.post(`/posts/?documentId=${Fields.postId.stringValue}`,
@@ -102,7 +108,7 @@ const actions = {
         },
       }
     ).then(() => {
-      //Vuexに投稿データを格納する処理
+      // Vuexに投稿データを格納する処理
       const newPostData = {document: {
         fields: Fields
       }};

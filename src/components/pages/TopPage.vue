@@ -4,8 +4,6 @@
 
     <hr>
 
-    <router-view name="search"></router-view>
-
     <div class="post-form">
       <h3>投稿フォーム</h3>
 

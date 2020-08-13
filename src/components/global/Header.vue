@@ -36,10 +36,13 @@
         </ul>
       </nav>
     </header>
+
+    <Search></Search>
   </div>
 </template>
 
 <script>
+import Search from "./../parts/Search";
 export default {
   computed: {
     userName() {
@@ -54,6 +57,9 @@ export default {
       this.$store.dispatch("notification/getNotifications");
       this.$router.push("/notification").catch(() => {});
     },
+  },
+  components: {
+    Search,
   },
 };
 </script>

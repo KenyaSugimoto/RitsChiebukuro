@@ -5,6 +5,7 @@
 
     <hr>
 
+    <!-- 質問 -->
     <div class='content-box'>
       <div>
         投稿者：
@@ -41,6 +42,7 @@
 
     <!-- ベストアンサーが選ばれたら回答エリアを消す -->
     <template v-if='!post.document.fields.isResolved.booleanValue && (thread === null ? true : (typeof(thread.isResolved) === "undefined") ? true : !thread.isResolved.booleanValue)'>
+      <!-- 回答エリア -->
       <div class='post-form'>
         <div>
             <label for='answer'>*回答内容</label>
@@ -57,11 +59,13 @@
     <br><br>
     <br><br>
 
+    <!-- 回答がある場合 -->
     <template v-if='this.isAnswered'>
       <h3>回答{{thread.answers.arrayValue.values.length}}件</h3>
 
       <hr>
 
+      <!-- ベストアンサー -->
       <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue + "best"' class='content-box'>
         <template v-if='answer.mapValue.fields.isBestAnswer.booleanValue'>
           <h3>ベストアンサーに選ばれた回答</h3>
@@ -82,6 +86,7 @@
 
           <hr>
 
+          <!-- コメントエリア -->
           <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue + "best"'>
             <h3>コメント</h3>
             <div>
@@ -102,9 +107,9 @@
           <template v-if='isDisplayCommentArea[index].value'>
             <div class='post-form'>
               <div>
-                  <label for='comment'>*コメント内容</label>
-                  <br>
-                  <textarea id='comment' cols='30' rows='10' v-model='comment[index].value'></textarea>
+                <label for='comment'>*コメント内容</label>
+                <br>
+                <textarea id='comment' cols='30' rows='10' v-model='comment[index].value'></textarea>
               </div>
             </div>
 
@@ -116,10 +121,12 @@
         </template>
       </div>
 
+      <!-- ベストアンサーと回答を区切るための<hr> -->
       <template v-if='!(!post.document.fields.isResolved.booleanValue && (thread === null ? true : (typeof(thread.isResolved) === "undefined") ? true : !thread.isResolved.booleanValue))'>
         <hr>
       </template>
 
+      <!-- 回答 -->
       <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue' class='content-box'>
         <template v-if='!answer.mapValue.fields.isBestAnswer.booleanValue'>
           <h3>回答</h3>
@@ -146,6 +153,7 @@
 
           <hr>
 
+          <!-- コメントエリア -->
           <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue'>
             <h3>コメント</h3>
             <div>
@@ -166,9 +174,9 @@
           <template v-if='isDisplayCommentArea[index].value'>
             <div class='post-form'>
               <div>
-                  <label for='comment'>*コメント内容</label>
-                  <br>
-                  <textarea id='comment' cols='30' rows='10' v-model='comment[index].value'></textarea>
+                <label for='comment'>*コメント内容</label>
+                <br>
+                <textarea id='comment' cols='30' rows='10' v-model='comment[index].value'></textarea>
               </div>
             </div>
 
@@ -352,6 +360,7 @@ export default {
         postId: this.postId,
         answerId,
       }).then(() => {
+        // 全ての回答が削除された場合、回答あり --> 未回答にする
         if (this.$store.getters.thread.answers.arrayValue.values.length == 0) {
           this.isAnswered = false;
           this.$store.dispatch('post/updateIsAnswered', {
@@ -359,6 +368,7 @@ export default {
             isAnswered: false
           });
         }
+        // ベストアンサーが削除された場合、解決済み --> 未解決にする
         if (isBestAnswer) {
           this.$store.dispatch('thread/updateBestAnswer', {
             postId: this.postId,

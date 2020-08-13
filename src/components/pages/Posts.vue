@@ -1,30 +1,37 @@
 <template>
   <div>
-    <h3>{{name}}</h3>
+    <h3>{{ name }}</h3>
 
-    <hr>
+    <hr />
 
-    <div v-for='post in posts' :key='post.document.fields.postId.stringValue' class='content-box'>
+    <div
+      v-for="post in posts"
+      :key="post.document.fields.postId.stringValue"
+      class="content-box"
+    >
       <div>
-        <div @click='toPost(post)' class="answer-link title">
-          {{post.document.fields.title.stringValue}}
+        <div @click="toPost(post)" class="answer-link title">
+          {{ post.document.fields.title.stringValue }}
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 export default {
-  props: ['posts', 'name'],
+  props: ["posts", "name"],
   methods: {
     toPost(post) {
-      this.$store.commit('updateWatchingPost', post);
-      this.$router.push({name: 'post', params: {postId: post.document.fields.postId.stringValue}});
+      this.$store.commit("updateWatchingPost", null);
+      this.$store.commit("updateWatchingPost", post);
+      this.$router.push({
+        name: "post",
+        params: { postId: post.document.fields.postId.stringValue },
+      });
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -47,7 +54,7 @@ div .title {
   margin: 20px auto;
 }
 .answer-link {
-  padding:  10px;
+  padding: 10px;
   cursor: pointer;
 }
 .answer-link:hover {

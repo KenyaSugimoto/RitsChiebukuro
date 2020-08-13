@@ -50,6 +50,8 @@
       </div>
     </div>
 
+    <br>
+    <button @click="addNotification">テスト用ボタン（ここを押すと通知情報が追加されます）</button>
     <hr>
 
     <button @click='addAnswer'>回答を送信</button>
@@ -156,6 +158,30 @@ export default {
           this.$router.push('/');
         });
       }
+    },
+    addNotification() {
+      const notificationId = new Date().getTime().toString(16) + Math.floor(1000*Math.random()).toString(16);
+      const notificationData = {
+        notificationId: {
+          stringValue: notificationId
+        },
+        created_at: {
+          timestampValue: new Date().toISOString()
+        },
+        respondentName: {
+          stringValue: this.$store.getters.userName
+        },
+        threadId: {
+          stringValue: this.$store.getters.watchingPost.document.fields.postId.stringValue
+        },
+        type: {
+          stringValue: "answer"
+        },
+        questionerUid: {
+          stringValue: this.$store.getters.watchingPost.document.fields.uid.stringValue
+        },
+      };
+      this.$store.dispatch("notification/addNotification", notificationData);
     },
     addAnswer() {
       this.comment.push({ value: '' });

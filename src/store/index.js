@@ -8,6 +8,7 @@ import signUp from "./modules/signUp";
 import post from "./modules/post";
 import getUserInfo from "./modules/getUserInfo";
 import reset from "./modules/reset";
+import notification from "./modules/notification";
 import thread from "./modules/thread";
 
 Vue.use(Vuex);
@@ -33,9 +34,13 @@ export const initialState = {
     selectedCategoryNewPosts: null,
     watchingPost: null,
   },
+  notificationInfo: {
+    notifications: null,
+    questionerNotifications: null,
+  },
   threadInfo: {
     thread: null,
-  }
+  },
 };
 
 const getters = {
@@ -62,10 +67,16 @@ const getters = {
     selectedCategoryNewPosts: state => state.postsInfo.selectedCategoryNewPosts,
     watchingPost: state => state.postsInfo.watchingPost,
   },
+
+  // notificationInfo
+  ... {
+    notifications: state => state.notificationInfo.notifications,
+    questionerNotifications: state => state.notificationInfo.questionerNotifications,
+  },
   // threadInfo
   ... {
     thread: state => state.threadInfo.thread,
-  }
+  },
 };
 
 const mutations = {
@@ -126,6 +137,15 @@ const mutations = {
       state.postsInfo.newPosts.push(newPostData);
     }
   },
+  // notificationInfo
+  ... {
+    updateNotifications(state, notifications) {
+      state.notificationInfo.notifications = notifications;
+    },
+    updateQuestionerNotifications(state, questionerNotifications) {
+      state.notificationInfo.questionerNotifications = questionerNotifications;
+    },
+  },
   // threadInfo
   ...{
     updateThread(state, thread) {
@@ -148,6 +168,7 @@ export default new Vuex.Store({
     post,
     getUserInfo,
     reset,
+    notification,
     thread,
   },
   plugins: [

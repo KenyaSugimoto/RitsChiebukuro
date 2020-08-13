@@ -29,31 +29,28 @@ const createdAtDesc = [
 
 const actions = {
   getPosts({ rootGetters, commit }) {
-    axiosQuery
-      .post(
-        "/documents:runQuery",
-        {
-          structuredQuery: {
-            select: {
-              fields,
-            },
-            from,
-            orderBy: createdAtDesc,
+    axiosQuery.post(
+      "/documents:runQuery",
+      {
+        structuredQuery: {
+          select: {
+            fields,
           },
+          from,
+          orderBy: createdAtDesc,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${rootGetters.idToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        commit("updateNewPosts", null, { root: true });
-        commit("updateNewPosts", response.data, { root: true });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then((response) => {
+      commit("updateNewPosts", null, { root: true });
+      commit("updateNewPosts", response.data, { root: true });
+    }).catch((error) => {
+      console.log(error);
+    });
   },
   createPost({ rootGetters, commit }, postData) {
     const Fields = {
@@ -90,6 +87,11 @@ const actions = {
       updated_at: {
         timestampValue: new Date().toISOString(),
       },
+      keyWords: {
+        arrayValue: {
+          values: segmentText(postData.title).length != 0 ? segmentText(postData.title) : [ { 'nullValue': null } ]
+        }
+      }
     };
 
     axiosDb.post(`/posts/?documentId=${Fields.postId.stringValue}`,
@@ -102,7 +104,7 @@ const actions = {
         },
       }
     ).then(() => {
-      //Vuexに投稿データを格納する処理
+      // Vuexに投稿データを格納する処理
       const newPostData = {document: {
         fields: Fields
       }};
@@ -113,53 +115,50 @@ const actions = {
     });
   },
   getIndividualPosts({ rootGetters, commit }) {
-    axiosQuery
-      .post(
-        "/documents:runQuery",
-        {
-          structuredQuery: {
-            select: {
-              fields,
-            },
-            from,
-            orderBy: createdAtDesc,
-            where: {
-              compositeFilter: {
-                op: "AND",
-                filters: [
-                  {
-                    fieldFilter: {
-                      field: {
-                        fieldPath: "uid",
-                      },
-                      op: "EQUAL",
-                      value: {
-                        stringValue: rootGetters.uid,
-                      },
+    axiosQuery.post(
+      "/documents:runQuery",
+      {
+        structuredQuery: {
+          select: {
+            fields,
+          },
+          from,
+          orderBy: createdAtDesc,
+          where: {
+            compositeFilter: {
+              op: "AND",
+              filters: [
+                {
+                  fieldFilter: {
+                    field: {
+                      fieldPath: "uid",
+                    },
+                    op: "EQUAL",
+                    value: {
+                      stringValue: rootGetters.uid,
                     },
                   },
-                ],
-              },
+                },
+              ],
             },
           },
         },
-        {
-          headers: {
-            Authorization: `Bearer ${rootGetters.idToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        if ("document" in response.data[0]) {
-          commit("updateIndividualNewPosts", null, { root: true });
-          commit("updateIndividualNewPosts", response.data, { root: true });
-        } else {
-          commit("updateIndividualNewPosts", null, { root: true });
-        }
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then((response) => {
+      if ("document" in response.data[0]) {
+        commit("updateIndividualNewPosts", null, { root: true });
+        commit("updateIndividualNewPosts", response.data, { root: true });
+      } else {
+        commit("updateIndividualNewPosts", null, { root: true });
+      }
+    }).catch((error) => {
+      console.log(error.response);
+    });
   },
   getSelectedCategoryNewPosts({ rootGetters, commit }, category) {
     if (!category || category == "全て") {

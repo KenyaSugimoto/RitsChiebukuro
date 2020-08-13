@@ -30,6 +30,20 @@ export default {
     notifications() {
       return this.$store.getters.notifications;
     },
+    sortedNotificationByCreatedTime() {
+      function compare(a, b) {
+        if (a.mapValue.fields.created_at.timestampValue > b.mapValue.fields.created_at.timestampValue)
+          return -1;
+        if (a.mapValue.fields.created_at.timestampValue < b.mapValue.fields.created_at.timestampValue)
+          return 1;
+        return 0;
+      }
+      let list = [];
+      Object.keys(this.notifications).forEach(key => {
+        list.push(this.notifications[key]);
+      });
+      return list.sort(compare);
+    },
   },
   methods: {
     toPost(notification) {

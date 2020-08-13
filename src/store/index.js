@@ -10,6 +10,7 @@ import getUserInfo from "./modules/getUserInfo";
 import reset from "./modules/reset";
 import notification from "./modules/notification";
 import thread from "./modules/thread";
+import search from "./modules/search";
 
 Vue.use(Vuex);
 
@@ -33,6 +34,8 @@ export const initialState = {
     individualNewPosts: null,
     selectedCategoryNewPosts: null,
     watchingPost: null,
+    searchResultPosts: null,
+    serachKeyWords: null,
   },
   notificationInfo: {
     notifications: null,
@@ -66,6 +69,8 @@ const getters = {
     individualNewPosts: state => state.postsInfo.individualNewPosts,
     selectedCategoryNewPosts: state => state.postsInfo.selectedCategoryNewPosts,
     watchingPost: state => state.postsInfo.watchingPost,
+    searchResultPosts: state => state.postsInfo.searchResultPosts,
+    serachKeyWords: state => state.postsInfo.serachKeyWords,
   },
 
   // notificationInfo
@@ -133,6 +138,12 @@ const mutations = {
     updateWatchingPost(state, watchingPost) {
       state.postsInfo.watchingPost = watchingPost;
     },
+    updateSearchResultPosts(state, searchResultPosts) {
+      state.postsInfo.searchResultPosts = searchResultPosts;
+    },
+    updateSerachKeyWords(state, serachKeyWords) {
+      state.postsInfo.serachKeyWords = serachKeyWords;
+    },
     addNewPost(state, newPostData) {
       state.postsInfo.newPosts.push(newPostData);
     }
@@ -170,6 +181,7 @@ export default new Vuex.Store({
     reset,
     notification,
     thread,
+    search,
   },
   plugins: [
     createPersistedState({

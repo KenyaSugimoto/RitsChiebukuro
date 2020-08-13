@@ -2,7 +2,7 @@
   <div>
     <h2>通知</h2>
     <div
-      v-for="item in notifications"
+      v-for="item in displayNotifications"
       :key="item.mapValue.fields.notificationId.stringValue"
       class="content-box"
     >
@@ -27,22 +27,8 @@
 <script>
 export default {
   computed: {
-    notifications() {
-      return this.$store.getters.notifications;
-    },
-    sortedNotificationByCreatedTime() {
-      function compare(a, b) {
-        if (a.mapValue.fields.created_at.timestampValue > b.mapValue.fields.created_at.timestampValue)
-          return -1;
-        if (a.mapValue.fields.created_at.timestampValue < b.mapValue.fields.created_at.timestampValue)
-          return 1;
-        return 0;
-      }
-      let list = [];
-      Object.keys(this.notifications).forEach(key => {
-        list.push(this.notifications[key]);
-      });
-      return list.sort(compare);
+    displayNotifications() {
+      return this.$store.getters.displayNotifications;
     },
   },
   methods: {

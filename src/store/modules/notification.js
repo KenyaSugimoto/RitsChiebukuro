@@ -8,7 +8,24 @@ const actions = {
       {headers: { Authorization: `Bearer ${rootGetters.idToken}` },}
     ).then((response) => {
       const data = response.data.fields.notifications.arrayValue.values[0].mapValue.fields;
+      commit("updateNotifications", null, { root: true });
       commit("updateNotifications", data, { root: true });
+
+      function compare(a, b) {
+        if (a.mapValue.fields.created_at.timestampValue > b.mapValue.fields.created_at.timestampValue)
+          return -1;
+        if (a.mapValue.fields.created_at.timestampValue < b.mapValue.fields.created_at.timestampValue)
+          return 1;
+        return 0;
+      }
+      let list = [];
+      Object.keys(data).forEach(key => {
+        list.push(data[key]);
+      });
+      const sortedList = list.sort(compare);
+      commit("updateDisplayNotifications", null, { root: true });
+      commit("updateDisplayNotifications", sortedList, { root: true });
+
     }).catch(() => {
       console.log("通知はありません");
       router.push({ name: "noNotification" }).catch(() => {});
@@ -44,8 +61,8 @@ const actions = {
 
     dispatch("notification/getQuestionerNotifications", notificationData.questionerUid.stringValue, {root: true })
     .then(() => {
-      const updateNotificationsData = newNotificationData;
-      Object.assign(updateNotificationsData, JSON.parse(JSON.stringify(rootGetters.questionerNotifications)));
+      const updatedNotificationsData = newNotificationData;
+      Object.assign(updatedNotificationsData, JSON.parse(JSON.stringify(rootGetters.questionerNotifications)));
       axiosDb.patch(
         `notificationsTest/${notificationData.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
         {
@@ -55,7 +72,7 @@ const actions = {
                 values: [
                   {
                     mapValue: {
-                      fields: updateNotificationsData,
+                      fields: updatedNotificationsData,
                     },
                   },
                 ],
@@ -83,6 +100,7 @@ const actions = {
           },
         });
         commit("updateNotifications", null, {root: true});
+        commit("updateDisplayNotifications", null, {root: true});
     }else {
       let temp = rootGetters.notifications;
       delete temp[selectedNotification.mapValue.fields.notificationId.stringValue];

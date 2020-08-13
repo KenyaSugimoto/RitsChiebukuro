@@ -40,6 +40,7 @@ export const initialState = {
   notificationInfo: {
     notifications: null,
     questionerNotifications: null,
+    displayNotifications: null,
   },
   threadInfo: {
     thread: null,
@@ -77,6 +78,7 @@ const getters = {
   ... {
     notifications: state => state.notificationInfo.notifications,
     questionerNotifications: state => state.notificationInfo.questionerNotifications,
+    displayNotifications: state => state.notificationInfo.displayNotifications,
   },
   // threadInfo
   ... {
@@ -141,7 +143,7 @@ const mutations = {
     updateSearchResultPosts(state, searchResultPosts) {
       state.postsInfo.searchResultPosts = searchResultPosts;
     },
-    updateSerachKeyWords(state, serachKeyWords) {
+    updateSearchKeyWords(state, serachKeyWords) {
       state.postsInfo.serachKeyWords = serachKeyWords;
     },
     addNewPost(state, newPostData) {
@@ -155,6 +157,9 @@ const mutations = {
     },
     updateQuestionerNotifications(state, questionerNotifications) {
       state.notificationInfo.questionerNotifications = questionerNotifications;
+    },
+    updateDisplayNotifications(state, displayNotifications) {
+      state.notificationInfo.displayNotifications = displayNotifications;
     },
   },
   // threadInfo

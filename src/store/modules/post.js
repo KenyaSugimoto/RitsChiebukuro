@@ -1,6 +1,7 @@
 import axiosDb from "../../axios/axios-db";
 import axiosQuery from "../../axios/axios-query";
 import router from "../../router";
+import { segmentText } from "./../../function/segmentText.js"
 
 const fields = [
   { fieldPath: "postId" },

@@ -53,7 +53,7 @@ const actions = {
         } else {
           commit('updateSearchResultPosts', null, {root: true});
         }
-        commit('updateSerachKeyWords', text, {root: true})
+        commit('updateSearchKeyWords', text, {root: true})
         router.push('/searchResult').catch(() => {});
       }).catch((error) => {
         console.log(error.response);

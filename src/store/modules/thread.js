@@ -149,15 +149,18 @@ const actions = {
   updateBestAnswer({rootGetters, commit, dispatch}, answerInfo) {
     const thread = {};
     Object.assign(thread, JSON.parse(JSON.stringify(rootGetters.thread)));
-    thread.isResolved.booleanValue = answerInfo.isResolved;
-    const answers = thread.answers.arrayValue.values;
-    for (let answer of answers) {
-      answer = answer.mapValue.fields;
-      const answerId = answer.answerId.stringValue;
-      if (answerId == answerInfo.answerId) {
-        answer.isBestAnswer.booleanValue = true;
+
+    if (answerInfo.isResolved) {
+      const answers = thread.answers.arrayValue.values;
+      for (let answer of answers) {
+        answer = answer.mapValue.fields;
+        const answerId = answer.answerId.stringValue;
+        if (answerId == answerInfo.answerId) {
+          answer.isBestAnswer.booleanValue = true;
+        }
       }
     }
+    thread.isResolved.booleanValue = answerInfo.isResolved;
 
     const postId = answerInfo.postId;
     axiosDb.patch(`threads/${postId}?updateMask.fieldPaths=answers&updateMask.fieldPaths=isResolved`,
@@ -173,7 +176,7 @@ const actions = {
       commit('updateThread', response.data.fields, {root: true});
       dispatch('post/updateIsResolved', {
         postId,
-        isResolved: true
+        isResolved: answerInfo.isResolved
       }, {root: true})
     });
   },

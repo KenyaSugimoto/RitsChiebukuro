@@ -77,7 +77,7 @@
 
           <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
             <div>
-              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue)'>削除</button>
+              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue, answer.mapValue.fields.isBestAnswer.booleanValue)'>削除</button>
             </div>
           </template>
         </template>
@@ -310,7 +310,7 @@ export default {
     displayCommentArea(index) {
       this.isDisplayCommentArea[index].value = true;
     },
-    deleteAnswer(answerId) {
+    deleteAnswer(answerId, isBestAnswer) {
       this.$store.dispatch('thread/deleteAnswer', {
         postId: this.postId,
         answerId,
@@ -320,6 +320,13 @@ export default {
           this.$store.dispatch('post/updateIsAnswered', {
             postId: this.postId,
             isAnswered: false
+          });
+        }
+        if (isBestAnswer) {
+          this.$store.dispatch('thread/updateBestAnswer', {
+            postId: this.postId,
+            answerId,
+            isResolved: false
           });
         }
       });

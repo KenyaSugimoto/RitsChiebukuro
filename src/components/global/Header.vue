@@ -55,6 +55,7 @@ export default {
     },
     getNotification() {
       this.$store.dispatch("notification/getNotifications");
+
       this.$router.push("/notification").catch(() => {});
     },
   },

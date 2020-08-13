@@ -8,7 +8,26 @@ const actions = {
       {headers: { Authorization: `Bearer ${rootGetters.idToken}` },}
     ).then((response) => {
       const data = response.data.fields.notifications.arrayValue.values[0].mapValue.fields;
+      commit("updateNotifications", null, { root: true });
       commit("updateNotifications", data, { root: true });
+
+      let list = [];
+      Object.keys(data).forEach(key => {
+        list.push(data[key]);
+      });
+      const sortedList = list.sort((a, b) => {
+        if (a.mapValue.fields.created_at.timestampValue > b.mapValue.fields.created_at.timestampValue) {
+          return -1;
+        }else if (a.mapValue.fields.created_at.timestampValue < b.mapValue.fields.created_at.timestampValue) {
+          return 1;
+        }else {
+          return 0;
+        }
+      });
+
+      commit("updateDisplayNotifications", null, { root: true });
+      commit("updateDisplayNotifications", sortedList, { root: true });
+
     }).catch(() => {
       console.log("通知はありません");
       router.push({ name: "noNotification" }).catch(() => {});
@@ -83,6 +102,7 @@ const actions = {
           },
         });
         commit("updateNotifications", null, {root: true});
+        commit("updateDisplayNotifications", null, {root: true});
     }else {
       let temp = rootGetters.notifications;
       delete temp[selectedNotification.mapValue.fields.notificationId.stringValue];

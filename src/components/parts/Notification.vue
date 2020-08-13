@@ -2,7 +2,7 @@
   <div>
     <h2>通知</h2>
     <div
-      v-for="item in notifications"
+      v-for="item in displayNotifications"
       :key="item.mapValue.fields.notificationId.stringValue"
       class="content-box"
     >
@@ -27,8 +27,8 @@
 <script>
 export default {
   computed: {
-    notifications() {
-      return this.$store.getters.notifications;
+    displayNotifications() {
+      return this.$store.getters.displayNotifications;
     },
   },
   methods: {

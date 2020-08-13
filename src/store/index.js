@@ -35,11 +35,12 @@ export const initialState = {
     selectedCategoryNewPosts: null,
     watchingPost: null,
     searchResultPosts: null,
-    serachKeyWords: null,
+    searchKeyWords: null,
   },
   notificationInfo: {
     notifications: null,
     questionerNotifications: null,
+    displayNotifications: null,
   },
   threadInfo: {
     thread: null,
@@ -70,13 +71,14 @@ const getters = {
     selectedCategoryNewPosts: state => state.postsInfo.selectedCategoryNewPosts,
     watchingPost: state => state.postsInfo.watchingPost,
     searchResultPosts: state => state.postsInfo.searchResultPosts,
-    serachKeyWords: state => state.postsInfo.serachKeyWords,
+    searchKeyWords: state => state.postsInfo.searchKeyWords,
   },
 
   // notificationInfo
   ... {
     notifications: state => state.notificationInfo.notifications,
     questionerNotifications: state => state.notificationInfo.questionerNotifications,
+    displayNotifications: state => state.notificationInfo.displayNotifications,
   },
   // threadInfo
   ... {
@@ -141,8 +143,8 @@ const mutations = {
     updateSearchResultPosts(state, searchResultPosts) {
       state.postsInfo.searchResultPosts = searchResultPosts;
     },
-    updateSerachKeyWords(state, serachKeyWords) {
-      state.postsInfo.serachKeyWords = serachKeyWords;
+    updateSearchKeyWords(state, searchKeyWords) {
+      state.postsInfo.searchKeyWords = searchKeyWords;
     },
     addNewPost(state, newPostData) {
       state.postsInfo.newPosts.push(newPostData);
@@ -155,6 +157,9 @@ const mutations = {
     },
     updateQuestionerNotifications(state, questionerNotifications) {
       state.notificationInfo.questionerNotifications = questionerNotifications;
+    },
+    updateDisplayNotifications(state, displayNotifications) {
+      state.notificationInfo.displayNotifications = displayNotifications;
     },
   },
   // threadInfo

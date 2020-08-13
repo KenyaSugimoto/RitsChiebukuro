@@ -12,6 +12,7 @@ const actions = {
         commit("updateNotifications", data, { root: true });
       })
       .catch(() => {
+        console.log("通知はありません");
         router.push({ name: "noNotification" }).catch(() => {});
       });
   },
@@ -27,7 +28,7 @@ const actions = {
       })
       .catch(() => {
         commit("updateQuestionerNotifications", null, { root: true });
-        console.log("まだドキュメントが登録されていません");
+        console.log("まだドキュメントが登録されていません（でした）");
       });
   },
   async updateQuestionerNotifications({ rootGetters, commit }) {
@@ -93,39 +94,18 @@ const actions = {
       );
     });
   },
-  async deleteNotification({ rootGetters }, selectedNotification) {
+  async deleteNotification({ rootGetters, commit }, selectedNotification) {
     const notificationsLength = Object.keys(rootGetters.notifications).length;
-    console.log("通知の数",notificationsLength);
     let updatedNotifications = {};
     if (notificationsLength <= 1) {
-      console.log("最後の通知です。");
-      updatedNotifications = {
-        notifications: {
-          arrayValue: {
-            values: [{
-              mapValue: {
-                fields: {
-                  "nullValue": null
-                }
-              }
-            }]
-          }
-        }
-      };
-
       axiosDb.delete(
         `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}`,
         {
           headers: {
             Authorization: `Bearer ${rootGetters.idToken}`,
           },
-        }).then(response => {
-          console.log(response.data);
-        }).catch(error => {
-          console.log(error.response);
         });
-
-      return;
+        commit("updateNotifications", null, {root: true});
     }else {
       let temp = rootGetters.notifications;
       delete temp[selectedNotification.mapValue.fields.notificationId.stringValue];
@@ -152,10 +132,7 @@ const actions = {
               Authorization: `Bearer ${rootGetters.idToken}`,
             },
           }
-        )
-        .then((res) => {
-          console.log(res);
-        });
+        );
     }
   },
 };

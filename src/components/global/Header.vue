@@ -19,11 +19,13 @@
         </ul>
       </nav>
     </header>
+    <Search></Search>
 
   </div>
 </template>
 
 <script>
+import Search from "./../parts/Search";
 export default {
   computed: {
     getUserName() {
@@ -34,6 +36,9 @@ export default {
     logout() {
       this.$store.dispatch('logout/logout');
     }
+  },
+  components: {
+    Search,
   },
 }
 </script>

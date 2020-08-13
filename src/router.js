@@ -1,16 +1,16 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-const TopPage = () => import("./components/pages/TopPage.vue");
-const Category = () => import("./components/pages/Category.vue");
-const MyPage = () => import("./components/pages/MyPage.vue");
-const Search = () => import("./components/parts/Search.vue");
-const Login = () => import("./components/pages/Login.vue");
-const SignUp = () => import("./components/pages/SignUp.vue");
+const TopPage = () => import("./components/pages/TopPage");
+const Category = () => import("./components/pages/Category");
+const MyPage = () => import("./components/pages/MyPage");
+const Login = () => import("./components/pages/Login");
+const SignUp = () => import("./components/pages/SignUp");
 const ActivateAccount = () => import("./components/pages/ActivateAccount");
 const ResetPassword = () => import("./components/pages/ResetPassword");
 const Post = () => import("./components/pages/Post");
 const PostCompleted = () => import("./components/pages/PostCompleted");
+const SearchResult = () => import("./components/pages/SearchResult")
 
 //Vue Routerの利用宣言
 Vue.use(Router)
@@ -22,21 +22,18 @@ export default new Router({
       path: "/",
       components: {
         default: TopPage,
-        search: Search,
       },
     },
     {
       path: "/category",
       components: {
         default: Category,
-        search: Search,
       },
     },
     {
       path: "/my-page",
       components: {
         default: MyPage,
-        search: Search,
       },
     },
     {
@@ -73,6 +70,12 @@ export default new Router({
       path: "/postCompleted",
       components: {
         default: PostCompleted,
+      },
+    },
+    {
+      path: "/searchResult",
+      components: {
+        default: SearchResult,
       },
     },
     // 上記全てのURL以外

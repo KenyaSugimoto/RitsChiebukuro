@@ -8,9 +8,7 @@ const actions = {
         headers: { Authorization: `Bearer ${rootGetters.idToken}` },
       })
       .then((response) => {
-        const data =
-          response.data.fields.notifications.arrayValue.values[0].mapValue
-            .fields;
+        const data = response.data.fields.notifications.arrayValue.values[0].mapValue.fields;
         commit("updateNotifications", data, { root: true });
       })
       .catch(() => {
@@ -23,9 +21,7 @@ const actions = {
         headers: { Authorization: `Bearer ${rootGetters.idToken}` },
       })
       .then((response) => {
-        const data =
-          response.data.fields.notifications.arrayValue.values[0].mapValue
-            .fields;
+        const data = response.data.fields.notifications.arrayValue.values[0].mapValue.fields;
         commit("updateQuestionerNotifications", null, { root: true });
         commit("updateQuestionerNotifications", data, { root: true });
       })
@@ -43,10 +39,8 @@ const actions = {
         }
       )
       .then((response) => {
-        commit("updateQuestionerNotifications", null, { root: true });
-        commit("updateQuestionerNotifications", response.data.fields, {
-          root: true,
-        });
+        commit("updateQuestionerNotifications", null, {root: true});
+        commit("updateQuestionerNotifications", response.data.fields, {root: true});
       });
   },
   addNotification({ rootGetters, dispatch }, notificationData) {
@@ -99,63 +93,74 @@ const actions = {
       );
     });
   },
-  // async deleteNitofication({ rootGetters, commit }, notification) {
   async deleteNotification({ rootGetters }, selectedNotification) {
-    console.log(Object.keys(rootGetters.notifications).length);
+    const notificationsLength = Object.keys(rootGetters.notifications).length;
+    console.log("通知の数",notificationsLength);
+    let updatedNotifications = {};
+    if (notificationsLength <= 1) {
+      console.log("最後の通知です。");
+      updatedNotifications = {
+        notifications: {
+          arrayValue: {
+            values: [{
+              mapValue: {
+                fields: {
+                  "nullValue": null
+                }
+              }
+            }]
+          }
+        }
+      };
 
-    let temp = rootGetters.notifications;
-    delete temp[
-      selectedNotification.mapValue.fields.notificationId.stringValue
-    ];
-
-    console.log(temp);
-    console.log(selectedNotification.mapValue.fields.questionerUid.stringValue);
-
-    // axiosDb
-    //   .patch(
-    //     `/notifications/${selectedNotification.mapValue.fields.questionerUid.stringValue}`,
-    //     {
-    //       fields: temp,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${rootGetters.idToken}`,
-    //       },
-    //     }
-    //   )
-    //   .then((res) => {
-    //     console.log(res);
-    //   });
-    axiosDb
-      .patch(
-        `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
-        // `/notificationsTest/QRdzupR2uzdwuYGcsCZLOPZKq2m1?updateMask.fieldPaths=notifications`,
-        {
-          fields: {
-            notifications: {
-              arrayValue: {
-                values: [
-                  {
-                    mapValue: {
-                      fields: temp,
-                    },
-                  },
-                ],
-              },
-            },
-          },
-        },
+      axiosDb.delete(
+        `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}`,
         {
           headers: {
             Authorization: `Bearer ${rootGetters.idToken}`,
           },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-      });
+        }).then(response => {
+          console.log(response.data);
+        }).catch(error => {
+          console.log(error.response);
+        });
+
+      return;
+    }else {
+      let temp = rootGetters.notifications;
+      delete temp[selectedNotification.mapValue.fields.notificationId.stringValue];
+      updatedNotifications = temp;
+      axiosDb.patch(
+          `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
+          {
+            fields: {
+              notifications: {
+                arrayValue: {
+                  values: [
+                    {
+                      mapValue: {
+                        fields: updatedNotifications,
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${rootGetters.idToken}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+        });
+    }
   },
 };
+
+
 
 export default {
   namespaced: true,

@@ -33,14 +33,8 @@ export default {
   },
   methods: {
     toPost(notification) {
-      this.$store.dispatch(
-        "post/getPostByPostId",
-        notification.mapValue.fields.threadId.stringValue
-      );
-      this.$router.push({
-        name: "post",
-        params: { postId: notification.mapValue.fields.threadId.stringValue },
-      });
+      this.$store.dispatch("post/getPostByPostId", notification.mapValue.fields.threadId.stringValue);
+      this.$router.push({name: "post", params: {postId: notification.mapValue.fields.threadId.stringValue}});
       //通知の削除
       this.$store.dispatch("notification/deleteNotification", notification);
     },

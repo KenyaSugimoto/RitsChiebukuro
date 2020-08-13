@@ -23,6 +23,7 @@ export default {
   props: ["posts", "name"],
   methods: {
     toPost(post) {
+      this.$store.commit("updateWatchingPost", null);
       this.$store.commit("updateWatchingPost", post);
       this.$router.push({
         name: "post",

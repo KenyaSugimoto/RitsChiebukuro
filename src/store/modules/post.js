@@ -48,6 +48,7 @@ const actions = {
         }
       )
       .then((response) => {
+        commit("updateNewPosts", null, { root: true });
         commit("updateNewPosts", response.data, { root: true });
       })
       .catch((error) => {
@@ -170,6 +171,7 @@ const actions = {
       )
       .then((response) => {
         if ("document" in response.data[0]) {
+          commit("updateIndividualNewPosts", null, { root: true });
           commit("updateIndividualNewPosts", response.data, { root: true });
         } else {
           commit("updateIndividualNewPosts", null, { root: true });
@@ -201,9 +203,8 @@ const actions = {
         )
         .then((response) => {
           if ("document" in response.data[0]) {
-            commit("updateSelectedCategoryNewPosts", response.data, {
-              root: true,
-            });
+            commit("updateSelectedCategoryNewPosts", null, {root: true});
+            commit("updateSelectedCategoryNewPosts", response.data, {root: true});
           } else {
             commit("updateSelectedCategoryNewPosts", null, { root: true });
           }
@@ -250,9 +251,8 @@ const actions = {
         )
         .then((response) => {
           if ("document" in response.data[0]) {
-            commit("updateSelectedCategoryNewPosts", response.data, {
-              root: true,
-            });
+            commit("updateSelectedCategoryNewPosts", null, {root: true});
+            commit("updateSelectedCategoryNewPosts", response.data, {root: true});
           } else {
             commit("updateSelectedCategoryNewPosts", null, { root: true });
           }
@@ -307,6 +307,7 @@ const actions = {
         }
       )
       .then((response) => {
+        commit("updateWatchingPost", null, { root: true });
         commit("updateWatchingPost", response.data[0], { root: true });
       })
       .catch((error) => {

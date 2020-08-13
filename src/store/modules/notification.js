@@ -11,18 +11,20 @@ const actions = {
       commit("updateNotifications", null, { root: true });
       commit("updateNotifications", data, { root: true });
 
-      function compare(a, b) {
-        if (a.mapValue.fields.created_at.timestampValue > b.mapValue.fields.created_at.timestampValue)
-          return -1;
-        if (a.mapValue.fields.created_at.timestampValue < b.mapValue.fields.created_at.timestampValue)
-          return 1;
-        return 0;
-      }
       let list = [];
       Object.keys(data).forEach(key => {
         list.push(data[key]);
       });
-      const sortedList = list.sort(compare);
+      const sortedList = list.sort((a, b) => {
+        if (a.mapValue.fields.created_at.timestampValue > b.mapValue.fields.created_at.timestampValue) {
+          return -1;
+        }else if (a.mapValue.fields.created_at.timestampValue < b.mapValue.fields.created_at.timestampValue) {
+          return 1;
+        }else {
+          return 0;
+        }
+      });
+
       commit("updateDisplayNotifications", null, { root: true });
       commit("updateDisplayNotifications", sortedList, { root: true });
 

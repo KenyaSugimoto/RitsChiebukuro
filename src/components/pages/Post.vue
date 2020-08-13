@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2>質問{{postId}}のページ</h2>
+    <h2>質問</h2>
+    <button @click="addNotification">テスト用ボタン（ここを押すと通知情報が追加されます）</button>
 
     <hr>
 
@@ -38,19 +39,20 @@
 
     <hr>
 
-    <div class='post-form'>
-      <div>
-          <label for='answer'>*回答内容</label>
-          <br>
-          <textarea id='answer' cols='30' rows='10' v-model='answer'></textarea>
+    <!-- ベストアンサーが選ばれたら回答エリアを消す -->
+    <template v-if='!post.document.fields.isResolved.booleanValue && (thread === null ? true : (typeof(thread.isResolved) === "undefined") ? true : !thread.isResolved.booleanValue)'>
+      <div class='post-form'>
+        <div>
+            <label for='answer'>*回答内容</label>
+            <br>
+            <textarea id='answer' cols='30' rows='10' v-model='answer'></textarea>
+        </div>
       </div>
-    </div>
 
-    <br>
-    <button @click="addNotification">テスト用ボタン（ここを押すと通知情報が追加されます）</button>
-    <hr>
+      <hr>
 
-    <button @click='addAnswer'>回答を送信</button>
+      <button @click='addAnswer'>回答を送信</button>
+    </template>
 
     <br><br>
     <br><br>
@@ -60,55 +62,86 @@
 
       <hr>
 
-      <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue' class='content-box'>
-        <h3>回答</h3>
-        <div>
-          {{answer.mapValue.fields.userName.stringValue}}さん
-        </div>
-        <div>
-          {{answer.mapValue.fields.answer.stringValue}}
-        </div>
-        <div>
-          {{answer.mapValue.fields.created_at.timestampValue | dateFormat}}
-        </div>
-        <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
-          <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue)'>削除</button>
-        </template>
-        <hr>
+      <div v-for='answer in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue + "best"' class='content-box'>
+        <template v-if='answer.mapValue.fields.isBestAnswer.booleanValue'>
+          <h3>ベストアンサーに選ばれた回答</h3>
+          <div>
+            {{answer.mapValue.fields.userName.stringValue}}さん
+          </div>
+          <div>
+            {{answer.mapValue.fields.answer.stringValue}}
+          </div>
+          <div>
+            {{answer.mapValue.fields.created_at.timestampValue | dateFormat}}
+          </div>
 
-        <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue'>
-          <h3>コメント</h3>
+          <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
+            <div>
+              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue)'>削除</button>
+            </div>
+          </template>
+        </template>
+      </div>
+
+      <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue' class='content-box'>
+        <template v-if='!answer.mapValue.fields.isBestAnswer.booleanValue'>
+          <h3>回答</h3>
           <div>
-            {{comment.mapValue.fields.userName.stringValue}}さん
+            {{answer.mapValue.fields.userName.stringValue}}さん
           </div>
           <div>
-            {{comment.mapValue.fields.comment.stringValue}}
+            {{answer.mapValue.fields.answer.stringValue}}
           </div>
           <div>
-            {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
+            {{answer.mapValue.fields.created_at.timestampValue | dateFormat}}
           </div>
-          <template v-if='uid == comment.mapValue.fields.uid.stringValue'>
-            <button @click='deleteComment(answer.mapValue.fields.answerId.stringValue, comment.mapValue.fields.commentId.stringValue)'>削除</button>
+          <template v-if='!answer.mapValue.fields.isBestAnswer.booleanValue && uid == post.document.fields.uid.stringValue && !thread.isResolved.booleanValue'>
+            <div>
+              <button @click='updateBestAnswer(answer.mapValue.fields.answerId.stringValue)'>ベストアンサーにする</button>
+            </div>
+          </template>
+
+          <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
+            <div>
+              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue)'>削除</button>
+            </div>
           </template>
           <hr>
-        </div>
 
-        <template v-if='isDisplayCommentArea[index].value'>
-          <div class='post-form'>
+          <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue'>
+            <h3>コメント</h3>
             <div>
-                <label for='comment'>*コメント内容</label>
-                <br>
-                <textarea id='comment' cols='30' rows='10' v-model='comment[index].value'></textarea>
+              {{comment.mapValue.fields.userName.stringValue}}さん
             </div>
+            <div>
+              {{comment.mapValue.fields.comment.stringValue}}
+            </div>
+            <div>
+              {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
+            </div>
+            <template v-if='uid == comment.mapValue.fields.uid.stringValue'>
+              <button @click='deleteComment(answer.mapValue.fields.answerId.stringValue, comment.mapValue.fields.commentId.stringValue)'>削除</button>
+            </template>
+            <hr>
           </div>
 
-          <button @click='addComment(answer.mapValue.fields.answerId.stringValue, index)'>コメントを送信</button>
-        </template>
-        <template v-else>
-          <button @click='displayCommentArea(index)'>コメントする</button>
-        </template>
+          <template v-if='isDisplayCommentArea[index].value'>
+            <div class='post-form'>
+              <div>
+                  <label for='comment'>*コメント内容</label>
+                  <br>
+                  <textarea id='comment' cols='30' rows='10' v-model='comment[index].value'></textarea>
+              </div>
+            </div>
 
-        <hr>
+            <button @click='addComment(answer.mapValue.fields.answerId.stringValue, index)'>コメントを送信</button>
+          </template>
+          <template v-else>
+            <button @click='displayCommentArea(index)'>コメントする</button>
+          </template>
+
+          <hr>
+        </template>
       </div>
     </template>
 
@@ -195,6 +228,7 @@ export default {
           fields: {
             answer: { stringValue: this.answer },
             answerId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
+            isBestAnswer: { booleanValue: false },
             uid: { stringValue: this.$store.getters.uid },
             userName: { stringValue: this.$store.getters.userName },
             created_at: { timestampValue: new Date().toISOString() },
@@ -224,7 +258,10 @@ export default {
                   answer
                 ]
               }
-            }
+            },
+            isResolved: {
+              booleanValue: false
+            },
           },
         }).then((response) => {
           this.threadExists = true;
@@ -293,6 +330,13 @@ export default {
         answerId,
         commentId,
       })
+    },
+    updateBestAnswer(answerId) {
+      this.$store.dispatch('thread/updateBestAnswer', {
+        postId: this.postId,
+        answerId,
+        isResolved: true
+      });
     }
   },
   created() {

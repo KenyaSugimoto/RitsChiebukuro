@@ -15,6 +15,7 @@ const fields = [
   { fieldPath: "grade" },
   { fieldPath: "created_at" },
   { fieldPath: "updated_at" },
+  { fieldPath: "isResolved" },
 ];
 
 const from = [{ collectionId: "posts" }];
@@ -95,7 +96,10 @@ const actions = {
         arrayValue: {
           values: segmentText(postData.title).length != 0 ? segmentText(postData.title) : [ { 'nullValue': null } ]
         }
-      }
+      },
+      isResolved: {
+        booleanValue: false
+      },
     };
 
     axiosDb.post(`/posts/?documentId=${Fields.postId.stringValue}`,
@@ -318,6 +322,25 @@ const actions = {
       {
         fields : {
           isAnswered: {booleanValue: postInfo.isAnswered},
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then(() => {
+      //
+    })
+    .catch((error) => {
+        console.log(error.response);
+    });
+  },
+  updateIsResolved({rootGetters}, postInfo) {
+    axiosDb.patch(`posts/${postInfo.postId}?updateMask.fieldPaths=isResolved`,
+      {
+        fields : {
+          isResolved: {booleanValue: postInfo.isResolved},
         },
       },
       {

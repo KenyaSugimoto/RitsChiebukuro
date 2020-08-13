@@ -242,8 +242,8 @@ const actions = {
         });
     }
   },
-  getPostByPostId({ rootGetters, commit }, postId) {
-    axiosQuery.post(
+  async getPostByPostId({ rootGetters, commit }, postId) {
+    await axiosQuery.post(
       "/documents:runQuery",
       {
         structuredQuery: {
@@ -276,8 +276,7 @@ const actions = {
           Authorization: `Bearer ${rootGetters.idToken}`,
         },
       }
-    )
-    .then((response) => {
+    ).then((response) => {
       commit("updateWatchingPost", null, { root: true });
       commit("updateWatchingPost", response.data[0], { root: true });
     })

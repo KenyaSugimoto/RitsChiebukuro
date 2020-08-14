@@ -147,7 +147,7 @@ const mutations = {
       state.postsInfo.searchKeyWords = searchKeyWords;
     },
     addNewPost(state, newPostData) {
-      state.postsInfo.newPosts.push(newPostData);
+      state.postsInfo.newPosts.unshift(newPostData);
     }
   },
   // notificationInfo

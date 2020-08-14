@@ -1,4 +1,5 @@
 import axiosAuth from '../../axios/axios-auth';
+import {toast} from "../../function/toastr.js";
 
 const actions = {
   async sendPasswordResetEmail(context, authData) {
@@ -13,11 +14,11 @@ const actions = {
         }
       }
     ).then(() => {
-      alert('入力されたメールアドレスに、パスワード変更ページのURLが記載されたメールを送信しました。');
+      toast('入力されたメールアドレスに、パスワード変更ページのURLが記載されたメールを送信しました。', "error");
     }).catch(error => {
       for (const err of error.response.data.error.errors) {
         if (err.message == 'EMAIL_NOT_FOUND') {
-          alert('入力されたメールアドレスは登録されていません。')
+          toast('入力されたメールアドレスは登録されていません。', "error");
         }
       }
     });

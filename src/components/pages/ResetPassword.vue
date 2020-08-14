@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import {toast} from "../../function/toastr.js";
 export default {
   data() {
     return {
@@ -31,9 +32,9 @@ export default {
     sendPasswordResetEmail() {
       const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
       if (this.email == '') {
-        alert('メールアドレスを入力してください。');
+        toast('メールアドレスを入力してください。', "error");
       } else if (!reg.test(this.email)) {
-        alert('正しいメールアドレスを入力してください。')
+        toast('正しいメールアドレスを入力してください。', "error");
       } else {
         this.$store.dispatch('reset/sendPasswordResetEmail', {
           email: this.email,

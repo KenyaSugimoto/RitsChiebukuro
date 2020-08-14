@@ -67,6 +67,7 @@
 
 <script>
 import ritsData from "../../assets/rits.json";
+import {toast} from "../../function/toastr.js";
 export default {
   data() {
     return {
@@ -86,15 +87,15 @@ export default {
     signup() {
       const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
       if (this.email == "" || this.password == "", this.confirmPassword == "", this.userName == "", this.major == "", this.grade == "") {
-        alert("登録情報を全て入力してください。");
+        toast('登録情報を全て入力してください。', "error");
       } else if (this.password != this.confirmPassword) {
-        alert("パスワードが一致しません。");
+        toast('パスワードが一致しません。', "error");
         this.password == "";
         this.confirmPassword = "";
       } else if (this.userName.match(/[^0-9 ^a-z ^A-Z]/g )) {
-        alert("ユーザIDが不正です。\n半角英数字で入力してください。");
+        toast('ユーザIDが不正です。\n半角英数字で入力してください。', "error");
       } else if (!reg.test(this.email)) {
-        alert("正しいメールアドレスを入力してください。")
+        toast('正しいメールアドレスを入力してください。', "error");
       } else {
         if (confirm("入力内容に間違いはありませんか？")) {
           this.$store.dispatch('signUp/signUp', {

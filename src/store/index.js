@@ -6,7 +6,7 @@ import login from "./modules/login";
 import logout from "./modules/logout";
 import signUp from "./modules/signUp";
 import post from "./modules/post";
-import getUserInfo from "./modules/getUserInfo";
+import user from "./modules/user";
 import reset from "./modules/reset";
 import notification from "./modules/notification";
 import thread from "./modules/thread";
@@ -21,6 +21,7 @@ export const initialState = {
     major: null,
     grade: null,
     watchedPostIds: [],
+    favoritePostIds: [],
   },
   authInfo: {
     idToken: null,
@@ -55,6 +56,7 @@ const getters = {
     major: state => state.userInfo.major,
     grade: state => state.userInfo.grade,
     watchedPostIds: state => state.userInfo.watchedPostIds,
+    favoritePostIds: state => state.userInfo.favoritePostIds,
   },
   // authInfo
   ... {
@@ -104,6 +106,9 @@ const mutations = {
     addWatchedPostId(state, watchedPostId) {
       state.userInfo.watchedPostIds.push(watchedPostId);
     },
+    updateFavoritePostIds(state, favoritePostIds) {
+      state.userInfo.favoritePostIds = favoritePostIds;
+    }
   },
   // authInfo
   ... {
@@ -182,7 +187,7 @@ export default new Vuex.Store({
     logout,
     signUp,
     post,
-    getUserInfo,
+    user,
     reset,
     notification,
     thread,

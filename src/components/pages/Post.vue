@@ -29,15 +29,22 @@
       <div>
         投稿時間：{{post.document.fields.created_at.timestampValue | dateFormat}}
       </div>
-      <div>
-        編集時間：{{post.document.fields.updated_at.timestampValue | dateFormat}}
-      </div>
+
       <div>
         閲覧数：{{post.document.fields.views.integerValue}}
       </div>
 
+      <template v-if='!favoritePostIds.includes(post.document.fields.postId.stringValue)'>
+        <button @click='updateFavorite(true)'>気になる</button>
+      </template>
+      <template v-else>
+        <button @click='updateFavorite(false)'>気にならない</button>
+      </template>
+
       <template v-if='uid == post.document.fields.uid.stringValue'>
-        <button @click='deletePost'>削除</button>
+        <div>
+          <button @click='deletePost'>削除</button>
+        </div>
       </template>
     </div>
 
@@ -227,6 +234,9 @@ export default {
     },
     thread() {
       return this.$store.getters.thread;
+    },
+    favoritePostIds() {
+      return this.$store.getters.favoritePostIds;
     },
   },
   methods: {
@@ -439,7 +449,13 @@ export default {
           isResolved: true
         });
       });
-    }
+    },
+    updateFavorite(isFavorite) {
+      this.$store.dispatch('user/updateFavoritePostIds', {
+        postId: this.postId,
+        isFavorite,
+      });
+    },
   },
   created() {
     // スレッドの取得

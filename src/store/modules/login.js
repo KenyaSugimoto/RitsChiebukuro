@@ -20,7 +20,7 @@ const actions = {
             expiresIn: response.data.expiresIn,
             uid: response.data.localId,
           }, {root: true}).then(() => {
-            dispatch('getUserInfo/getUserInfo', {}, {root: true}).then(() => {
+            dispatch('user/getUserInfo', {}, {root: true}).then(() => {
               router.push('/');
             });
           });
@@ -55,7 +55,7 @@ const actions = {
         dispatch('auth/refreshIdToken', refreshToken, {root: true});
       }, expiresInMs);
     }
-    dispatch('getUserInfo/getUserInfo', {}, {root: true});
+    dispatch('user/getUserInfo', {}, {root: true});
   },
 };
 

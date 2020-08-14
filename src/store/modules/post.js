@@ -357,22 +357,22 @@ const actions = {
   },
   updateViews({rootGetters, commit}, postInfo) {
     axiosDb.patch(`posts/${postInfo.postId}?updateMask.fieldPaths=views`,
-    {
-      fields : {
-        views: {integerValue: `${postInfo.views}`},
+      {
+        fields : {
+          views: {integerValue: `${postInfo.views}`},
+        },
       },
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${rootGetters.idToken}`,
-      },
-    }
-  ).then(() => {
-    commit('addWatchedPostId', postInfo.postId, {root: true});
-  })
-  .catch((error) => {
-      console.log(error.response);
-  });
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then(() => {
+      commit('addWatchedPostId', postInfo.postId, {root: true});
+    })
+    .catch((error) => {
+        console.log(error.response);
+    });
   }
 };
 

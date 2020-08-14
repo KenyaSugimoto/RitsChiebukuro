@@ -56,13 +56,13 @@ const actions = {
       commit('updateFavoritePostIds', favoritePostIds, {root: true});
     });
   },
-  updateFavoritePostIds({rootGetters, commit}, isFavorite) {
+  updateFavoritePostIds({rootGetters, commit}, favoriteInfo) {
     let favoritePostIds = rootGetters.favoritePostIds.concat();
 
-    if (isFavorite) {
-      favoritePostIds.push(rootGetters.watchingPost.postId);
+    if (favoriteInfo.isFavorite) {
+      favoritePostIds.push(favoriteInfo.postId);
     } else {
-      favoritePostIds = favoritePostIds.filter(postId => postId != rootGetters.watchingPost.postId);
+      favoritePostIds = favoritePostIds.filter(postId => postId != favoriteInfo.postId);
     }
 
     if (favoritePostIds.length == 0) {

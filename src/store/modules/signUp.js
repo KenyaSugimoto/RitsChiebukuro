@@ -108,9 +108,6 @@ const actions = {
         // ユーザ名が登録済みの場合
         dispatch('signUp/deleteAccount', {idToken: userInfo.idToken}, {root: true});
       } else {
-
-        dispatch("signUp/createNotificationDocument", userInfo.uid, {root: true});
-
         // ユーザ名が未登録の場合
         dispatch('signUp/registerUserInfo', {
           idToken: userInfo.idToken,
@@ -147,33 +144,6 @@ const actions = {
         }
       }
     );
-  },
-  createNotificationDocument({rootGetters}, uid) {
-    axiosDb.post(
-      `/notifications_test?documentId=${uid}`,
-      {
-        fields: {
-          notifications: {
-            arrayValue: {
-              values: [{
-                mapValue: {
-                  fields: {
-                    "nullValue": null
-                  }
-                }
-              }]
-            }
-          }
-        }
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${rootGetters.idToken}`,
-        },
-      }
-    ).then(response => {
-      console.log(response.data);
-    });
   },
 };
 

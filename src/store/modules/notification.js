@@ -4,12 +4,10 @@ import router from "../../router";
 const actions = {
   async getNotifications({ rootGetters, commit }) {
     await axiosDb.get(
-      `/notificationsTest/${rootGetters.uid}`,
+      `/notifications/${rootGetters.uid}`,
       {headers: { Authorization: `Bearer ${rootGetters.idToken}` },}
     ).then((response) => {
       const data = response.data.fields.notifications.arrayValue.values[0].mapValue.fields;
-      commit("updateNotifications", null, { root: true });
-      commit("updateNotifications", data, { root: true });
 
       let list = [];
       Object.keys(data).forEach(key => {
@@ -36,7 +34,7 @@ const actions = {
 
   async getQuestionerNotifications({ rootGetters, commit }, questionerUid) {
     await axiosDb.get(
-      `/notificationsTest/${questionerUid}`,
+      `/notifications/${questionerUid}`,
       {
         headers: { Authorization: `Bearer ${rootGetters.idToken}` },
       }).then((response) => {
@@ -61,12 +59,12 @@ const actions = {
       },
     };
 
-    dispatch("notification/getQuestionerNotifications", notificationData.questionerUid.stringValue, {root: true })
+    dispatch("notification/getQuestionerNotifications", notificationData.questionerUid.stringValue, {root: true})
     .then(() => {
       const updatedNotificationsData = newNotificationData;
       Object.assign(updatedNotificationsData, JSON.parse(JSON.stringify(rootGetters.questionerNotifications)));
       axiosDb.patch(
-        `notificationsTest/${notificationData.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
+        `notifications/${notificationData.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
         {
           fields: {
             notifications: {
@@ -90,25 +88,31 @@ const actions = {
       );
     });
   },
-  async deleteNotification({ rootGetters, commit }, selectedNotification) {
-    const notificationsLength = Object.keys(rootGetters.notifications).length;
+  deleteNotification({ rootGetters, commit, dispatch }, selectedNotification) {
     let updatedNotifications = {};
+    const notificationsLength = rootGetters.displayNotifications.length;
+    const questionerUid = selectedNotification.mapValue.fields.questionerUid.stringValue;
+
     if (notificationsLength <= 1) {
-      axiosDb.delete(
-        `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}`,
-        {
-          headers: {
-            Authorization: `Bearer ${rootGetters.idToken}`,
-          },
-        });
-        commit("updateNotifications", null, {root: true});
-        commit("updateDisplayNotifications", null, {root: true});
+      dispatch("notification/deleteNotificationDocument", questionerUid, {root: true});
     }else {
-      let temp = rootGetters.notifications;
-      delete temp[selectedNotification.mapValue.fields.notificationId.stringValue];
-      updatedNotifications = temp;
-      axiosDb.patch(
-          `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
+      let displayNotifications = rootGetters.displayNotifications;
+      const selectedPostId = selectedNotification.mapValue.fields.postId.stringValue;
+
+      let updatedNotificationsList = displayNotifications.filter((notification) => {
+        return notification.mapValue.fields.postId.stringValue !== selectedPostId;
+      });
+
+      updatedNotificationsList.forEach((item) => {
+        let itemNotificationId = item.mapValue.fields.notificationId.stringValue;
+        updatedNotifications[itemNotificationId] = item;
+      });
+
+      if (updatedNotificationsList.length == 0) {
+        dispatch("notification/deleteNotificationDocument", questionerUid, {root: true});
+      }else {
+        axiosDb.patch(
+          `/notifications/${selectedNotification.mapValue.fields.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
           {
             fields: {
               notifications: {
@@ -129,9 +133,23 @@ const actions = {
               Authorization: `Bearer ${rootGetters.idToken}`,
             },
           }
-        );
+        ).then(() => {
+          commit("updateDisplayNotifications", null, {root: true});
+        });
+      }
     }
   },
+  deleteNotificationDocument({rootGetters, commit}, questionerUid) {
+    axiosDb.delete(
+      `/notifications/${questionerUid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }).then(() => {
+        commit("updateDisplayNotifications", null, {root: true});
+      });
+  }
 };
 
 

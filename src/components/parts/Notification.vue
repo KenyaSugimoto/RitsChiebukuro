@@ -7,13 +7,9 @@
       class="content-box"
     >
       <div @click="toPost(item)" class="notification-link">
-        <p>{{ item.mapValue.fields.notificationId.stringValue }}</p>
-        あなたの投稿に対して{{
-          item.mapValue.fields.respondentName.stringValue
-        }}さんが
-        <div v-if="item.mapValue.fields.type.stringValue == 'answer'">
-          回答しました
-        </div>
+        <p>あなたの『 {{ item.mapValue.fields.postTitle.stringValue }} 』の質問に対して</p>
+          {{item.mapValue.fields.respondentName.stringValue}}さんが
+        <div v-if="item.mapValue.fields.type.stringValue == 'answer'">回答しました</div>
         <div v-else>コメントしました</div>
         <p>
           投稿時刻:
@@ -33,8 +29,8 @@ export default {
   },
   methods: {
     toPost(notification) {
-      this.$store.dispatch("post/getPostByPostId", notification.mapValue.fields.threadId.stringValue);
-      this.$router.push({name: "post", params: {postId: notification.mapValue.fields.threadId.stringValue}});
+      this.$store.dispatch("post/getPostByPostId", notification.mapValue.fields.postId.stringValue);
+      this.$router.push({name: "post", params: {postId: notification.mapValue.fields.postId.stringValue}});
       //通知の削除
       this.$store.dispatch("notification/deleteNotification", notification);
     },

@@ -38,7 +38,6 @@ export const initialState = {
     searchKeyWords: null,
   },
   notificationInfo: {
-    notifications: null,
     questionerNotifications: null,
     displayNotifications: null,
   },
@@ -76,7 +75,6 @@ const getters = {
 
   // notificationInfo
   ... {
-    notifications: state => state.notificationInfo.notifications,
     questionerNotifications: state => state.notificationInfo.questionerNotifications,
     displayNotifications: state => state.notificationInfo.displayNotifications,
   },
@@ -152,9 +150,6 @@ const mutations = {
   },
   // notificationInfo
   ... {
-    updateNotifications(state, notifications) {
-      state.notificationInfo.notifications = notifications;
-    },
     updateQuestionerNotifications(state, questionerNotifications) {
       state.notificationInfo.questionerNotifications = questionerNotifications;
     },

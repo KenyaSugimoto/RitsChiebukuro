@@ -11,8 +11,7 @@ const actions = {
       }
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
-    })
-    .catch((error) => {
+    }).catch((error) => {
       if (error.response.data.error.status == 'NOT_FOUND') {
         console.log('まだ回答がありません');
         commit('updateThread', null, {root: true});
@@ -84,8 +83,7 @@ const actions = {
       commit('updateThread', response.data.fields, {root: true});
       message = 'OK';
       toast("投稿に成功しました", "success");
-    })
-    .catch((error) => {
+    }).catch((error) => {
         console.log(error.response);
     });
 
@@ -113,8 +111,7 @@ const actions = {
       }
       commit('updateThread', response.data.fields, {root: true});
       toast("回答を削除しました", "success");
-    })
-    .catch((error) => {
+    }).catch((error) => {
         console.log(error.response);
     });
   },
@@ -153,7 +150,41 @@ const actions = {
       commit('updateThread', response.data.fields, {root: true});
       toast("コメントを削除しました", "success");
     });
-  }
+  },
+  updateBestAnswer({rootGetters, commit, dispatch}, answerInfo) {
+    const thread = {};
+    Object.assign(thread, JSON.parse(JSON.stringify(rootGetters.thread)));
+
+    if (answerInfo.isResolved) {
+      const answers = thread.answers.arrayValue.values;
+      for (let answer of answers) {
+        answer = answer.mapValue.fields;
+        const answerId = answer.answerId.stringValue;
+        if (answerId == answerInfo.answerId) {
+          answer.isBestAnswer.booleanValue = true;
+        }
+      }
+    }
+    thread.isResolved.booleanValue = answerInfo.isResolved;
+
+    const postId = answerInfo.postId;
+    axiosDb.patch(`threads/${postId}?updateMask.fieldPaths=answers&updateMask.fieldPaths=isResolved`,
+      {
+        fields : thread,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then((response) => {
+      commit('updateThread', response.data.fields, {root: true});
+      dispatch('post/updateIsResolved', {
+        postId,
+        isResolved: answerInfo.isResolved
+      }, {root: true})
+    });
+  },
 };
 
 export default {

@@ -33,7 +33,7 @@ const actions = {
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
       message = 'OK';
-      toast("投稿に成功しました", "success");
+      toast("回答を送信しました", "success");
     }).catch((error) => {
       console.log(error.response);
       if (error.response.data.error.status == 'ALREADY_EXISTS') {
@@ -82,7 +82,11 @@ const actions = {
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
       message = 'OK';
-      toast("投稿に成功しました", "success");
+      if (type == 'answer') {
+        toast("回答を送信しました", "success");
+      } else if (type == 'comment') {
+        toast("コメントを送信しました", "success");
+      }
     }).catch((error) => {
         console.log(error.response);
     });
@@ -155,6 +159,7 @@ const actions = {
     const thread = {};
     Object.assign(thread, JSON.parse(JSON.stringify(rootGetters.thread)));
 
+    // 解決済みにする場合
     if (answerInfo.isResolved) {
       const answers = thread.answers.arrayValue.values;
       for (let answer of answers) {
@@ -182,7 +187,11 @@ const actions = {
       dispatch('post/updateIsResolved', {
         postId,
         isResolved: answerInfo.isResolved
-      }, {root: true})
+      }, {root: true});
+      // 解決済みにする場合
+      if (answerInfo.isResolved) {
+        toast("ベストアンサーにしました", "success");
+      }
     });
   },
 };

@@ -2,17 +2,19 @@
   <div>
     <h2>カテゴリ一覧ページ</h2>
 
-    <hr>
-
     <select id="categoryData" v-model="selectedCategory">
       <option disabled value="">カテゴリを選択してください。</option>
       <option v-for="(item) in categoryData" v-bind:key="item.id"> {{item}} </option>
     </select>
 
-    <p v-if="selectedCategory">カテゴリ：{{selectedCategory}}</p>
-    <p v-else> 全てのカテゴリ</p>
+    <h2 v-if="selectedCategory">カテゴリ：{{selectedCategory}}</h2>
+    <h2 v-else> 全てのカテゴリ</h2>
 
-    <Posts v-bind:posts='selectedCategoryNewPosts' v-bind:name='name'></Posts>
+    <hr>
+    <br>
+
+    <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+    <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
   </div>
 </template>
 

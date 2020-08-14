@@ -29,7 +29,8 @@
       <button @click="createPost">投稿</button>
     </div>
 
-    <Posts v-bind:posts='newPosts' name='新着の質問'></Posts>
+    <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+    <Posts v-bind:posts='newPosts | resolved' name='解決済みの質問'></Posts>
 
   </div>
 </template>
@@ -43,7 +44,7 @@ export default {
     return {
       title: "",
       content: "",
-      categoryData: categoryFromJson.categoryData,
+      categoryData: categoryFromJson.categoryData.filter(category => category != '全て'),
       selectedCategory: "",
     };
   },

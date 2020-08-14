@@ -34,7 +34,25 @@ Vue.filter('dateFormat', function(isoString) {
   const minute = date.getMinutes();
   const second = date.getSeconds();
   return `${year}年${month}月${day}日 ${hour}時${minute}分${second}秒`
-})
+});
+
+Vue.filter('acceptingAnswer', function(posts) {
+  if (posts !== null) {
+    const acceptingAnswerPosts = posts.filter(post => post.document.fields.isResolved.booleanValue == false);
+    return acceptingAnswerPosts;
+  } else {
+    return posts;
+  }
+});
+
+Vue.filter('resolved', function(posts) {
+  if (posts !== null) {
+    const resolvedPosts = posts.filter(post => post.document.fields.isResolved.booleanValue == true);
+    return resolvedPosts;
+  } else {
+    return posts;
+  }
+});
 
 store.dispatch('login/autoLogin').then(() => {
   new Vue({

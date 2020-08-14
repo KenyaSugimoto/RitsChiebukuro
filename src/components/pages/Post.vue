@@ -359,41 +359,47 @@ export default {
       this.isDisplayCommentArea[index].value = true;
     },
     deleteAnswer(answerId, isBestAnswer) {
-      this.$store.dispatch('thread/deleteAnswer', {
-        postId: this.postId,
-        answerId,
-      }).then(() => {
-        // 全ての回答が削除された場合、回答あり --> 回答なし
-        if (this.$store.getters.thread.answers.arrayValue.values.length == 0) {
-          this.isAnswered = false;
-          this.$store.dispatch('post/updateIsAnswered', {
-            postId: this.postId,
-            isAnswered: false
-          });
-        }
-        // ベストアンサーが削除された場合、解決済み --> 未解決にする
-        if (isBestAnswer) {
-          this.$store.dispatch('thread/updateBestAnswer', {
-            postId: this.postId,
-            answerId,
-            isResolved: false
-          });
-        }
-      });
+      if (confirm('本当にこの回答を削除しますか？')) {
+        this.$store.dispatch('thread/deleteAnswer', {
+          postId: this.postId,
+          answerId,
+        }).then(() => {
+          // 全ての回答が削除された場合、回答あり --> 回答なし
+          if (this.$store.getters.thread.answers.arrayValue.values.length == 0) {
+            this.isAnswered = false;
+            this.$store.dispatch('post/updateIsAnswered', {
+              postId: this.postId,
+              isAnswered: false
+            });
+          }
+          // ベストアンサーが削除された場合、解決済み --> 未解決にする
+          if (isBestAnswer) {
+            this.$store.dispatch('thread/updateBestAnswer', {
+              postId: this.postId,
+              answerId,
+              isResolved: false
+            });
+          }
+        });
+      }
     },
     deleteComment(answerId, commentId) {
-      this.$store.dispatch('thread/deleteComment', {
-        postId: this.postId,
-        answerId,
-        commentId,
-      })
+      if (confirm('本当にこのコメントを削除しますか？')) {
+        this.$store.dispatch('thread/deleteComment', {
+          postId: this.postId,
+          answerId,
+          commentId,
+        })
+      }
     },
     updateBestAnswer(answerId) {
-      this.$store.dispatch('thread/updateBestAnswer', {
-        postId: this.postId,
-        answerId,
-        isResolved: true
-      });
+      if (confirm('この回答をベストアンサーにしますか？')) {
+        this.$store.dispatch('thread/updateBestAnswer', {
+          postId: this.postId,
+          answerId,
+          isResolved: true
+        });
+      }
     }
   },
   created() {

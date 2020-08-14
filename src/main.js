@@ -5,6 +5,9 @@ import store from "./store";
 
 
 Vue.config.productionTip = false;
+import VuejsDialog from 'vuejs-dialog';
+import 'vuejs-dialog/dist/vuejs-dialog.min.css';
+Vue.use(VuejsDialog);
 
 router.beforeEach((to, from, next) => {
   const withoutLogin = ["/login", "/signUp", "/activateAccount", "/resetPassword"];  // ログインなしで閲覧できるページ

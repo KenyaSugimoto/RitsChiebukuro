@@ -228,12 +228,20 @@ export default {
   },
   methods: {
     deletePost() {
-      if (confirm('本当にこの質問を削除しますか？')) {
+      this.$dialog.confirm(
+        {
+          body: '本当にこの質問を削除しますか？'
+        },
+        {
+          okText: 'はい',
+          cancelText: 'キャンセル',
+        }
+      ).then(() => {
         this.$store.dispatch('post/deletePost', this.postId).then(() => {
           toast('質問を削除しました', "success");
           this.$router.push('/');
         });
-      }
+      });
     },
     addNotification() {
       const notificationId = new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16);
@@ -363,7 +371,15 @@ export default {
       this.isDisplayCommentArea[index].value = true;
     },
     deleteAnswer(answerId, isBestAnswer) {
-      if (confirm('本当にこの回答を削除しますか？')) {
+      this.$dialog.confirm(
+        {
+          body: '本当にこの回答を削除しますか？'
+        },
+        {
+          okText: 'はい',
+          cancelText: 'キャンセル',
+        }
+      ).then(() => {
         this.$store.dispatch('thread/deleteAnswer', {
           postId: this.postId,
           answerId,
@@ -385,25 +401,41 @@ export default {
             });
           }
         });
-      }
+      });
     },
     deleteComment(answerId, commentId) {
-      if (confirm('本当にこのコメントを削除しますか？')) {
+      this.$dialog.confirm(
+        {
+          body: '本当にこのコメントを削除しますか？'
+        },
+        {
+          okText: 'はい',
+          cancelText: 'キャンセル',
+        }
+      ).then(() => {
         this.$store.dispatch('thread/deleteComment', {
           postId: this.postId,
           answerId,
           commentId,
-        })
-      }
+        });
+      });
     },
     updateBestAnswer(answerId) {
-      if (confirm('この回答をベストアンサーにしますか？')) {
+      this.$dialog.confirm(
+        {
+          body: 'この回答をベストアンサーにしますか？'
+        },
+        {
+          okText: 'はい',
+          cancelText: 'キャンセル',
+        }
+      ).then(() => {
         this.$store.dispatch('thread/updateBestAnswer', {
           postId: this.postId,
           answerId,
           isResolved: true
         });
-      }
+      });
     }
   },
   created() {

@@ -259,6 +259,7 @@ export default {
       this.$store.dispatch("notification/addNotification", notificationData);
     },
     addAnswer() {
+      // 回答が存在しない場合、回答なし --> 回答ありにする
       if (!this.isAnswered) {
         this.$store.dispatch('post/updateIsAnswered', {
           postId: this.postId,
@@ -285,6 +286,7 @@ export default {
       }
 
       if (this.threadExists) {
+        // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
         this.$store.dispatch('thread/addThread', {
           postId: this.postId,
           answer: answer,
@@ -295,6 +297,7 @@ export default {
           }
         });
       } else {
+        // スレッドが存在しない場合、スレッドを作成し、スレッドあり・回答ありに設定
         this.$store.dispatch('thread/createThread', {
           postId: this.postId,
           fields: {
@@ -313,13 +316,13 @@ export default {
           if (response == 'OK') {
             this.isAnswered = true;
           } else if (response == 'ALREADY_EXISTS') {
+            // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
             this.$store.dispatch('thread/addThread', {
               postId: this.postId,
               answer: answer,
               type: 'answer',
             }).then((response) => {
               if (response == 'OK') {
-                console.log('ALREADY_EXISTS');
                 this.isAnswered = true;
               }
             });
@@ -360,7 +363,7 @@ export default {
         postId: this.postId,
         answerId,
       }).then(() => {
-        // 全ての回答が削除された場合、回答あり --> 未回答にする
+        // 全ての回答が削除された場合、回答あり --> 回答なし
         if (this.$store.getters.thread.answers.arrayValue.values.length == 0) {
           this.isAnswered = false;
           this.$store.dispatch('post/updateIsAnswered', {

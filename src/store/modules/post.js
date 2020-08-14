@@ -317,11 +317,11 @@ const actions = {
       console.log(error.response);
     });
   },
-  updateIsAnswered({rootGetters}, postInfo) {
-    axiosDb.patch(`posts/${postInfo.postId}?updateMask.fieldPaths=isAnswered`,
+  updateIsAnswered({rootGetters}, isAnswered) {
+    axiosDb.patch(`posts/${rootGetters.watchingPost.postId}?updateMask.fieldPaths=isAnswered`,
       {
         fields : {
-          isAnswered: {booleanValue: postInfo.isAnswered},
+          isAnswered: {booleanValue: isAnswered},
         },
       },
       {
@@ -336,11 +336,11 @@ const actions = {
         console.log(error.response);
     });
   },
-  updateIsResolved({rootGetters}, postInfo) {
-    axiosDb.patch(`posts/${postInfo.postId}?updateMask.fieldPaths=isResolved`,
+  updateIsResolved({rootGetters}, isResolved) {
+    axiosDb.patch(`posts/${rootGetters.watchingPost.postId}?updateMask.fieldPaths=isResolved`,
       {
         fields : {
-          isResolved: {booleanValue: postInfo.isResolved},
+          isResolved: {booleanValue: isResolved},
         },
       },
       {
@@ -355,11 +355,11 @@ const actions = {
         console.log(error.response);
     });
   },
-  updateViews({rootGetters, commit}, postInfo) {
-    axiosDb.patch(`posts/${postInfo.postId}?updateMask.fieldPaths=views`,
+  updateViews({rootGetters, commit}, views) {
+    axiosDb.patch(`posts/${rootGetters.watchingPost.postId}?updateMask.fieldPaths=views`,
       {
         fields : {
-          views: {integerValue: `${postInfo.views}`},
+          views: {integerValue: `${views}`},
         },
       },
       {
@@ -368,7 +368,7 @@ const actions = {
         },
       }
     ).then(() => {
-      commit('addWatchedPostId', postInfo.postId, {root: true});
+      commit('addWatchedPostId', rootGetters.watchingPost.postId, {root: true});
     })
     .catch((error) => {
         console.log(error.response);

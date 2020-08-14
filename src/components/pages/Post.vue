@@ -286,10 +286,7 @@ export default {
     addAnswer() {
       // 回答が存在しない場合、回答なし --> 回答ありにする
       if (!this.isAnswered) {
-        this.$store.dispatch('post/updateIsAnswered', {
-          postId: this.postId,
-          isAnswered: true
-        });
+        this.$store.dispatch('post/updateIsAnswered', true);
       }
 
       this.comment.push({ value: '' });
@@ -313,7 +310,6 @@ export default {
       if (this.threadExists) {
         // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
         this.$store.dispatch('thread/addThread', {
-          postId: this.postId,
           answer: answer,
           type: 'answer',
         }).then((response) => {
@@ -324,7 +320,6 @@ export default {
       } else {
         // スレッドが存在しない場合、スレッドを作成し、スレッドあり・回答ありに設定
         this.$store.dispatch('thread/createThread', {
-          postId: this.postId,
           fields: {
             answers: {
               arrayValue: {
@@ -343,7 +338,6 @@ export default {
           } else if (response == 'ALREADY_EXISTS') {
             // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
             this.$store.dispatch('thread/addThread', {
-              postId: this.postId,
               answer: answer,
               type: 'answer',
             }).then((response) => {
@@ -371,7 +365,6 @@ export default {
       };
 
       this.$store.dispatch('thread/addThread', {
-        postId: this.postId,
         answerId,
         comment,
         type: 'comment',
@@ -393,22 +386,15 @@ export default {
           cancelText: 'キャンセル',
         }
       ).then(() => {
-        this.$store.dispatch('thread/deleteAnswer', {
-          postId: this.postId,
-          answerId,
-        }).then(() => {
+        this.$store.dispatch('thread/deleteAnswer', answerId).then(() => {
           // 全ての回答が削除された場合、回答あり --> 回答なし
           if (this.thread.answers.arrayValue.values.length == 0) {
             this.isAnswered = false;
-            this.$store.dispatch('post/updateIsAnswered', {
-              postId: this.postId,
-              isAnswered: false
-            });
+            this.$store.dispatch('post/updateIsAnswered', false);
           }
           // ベストアンサーが削除された場合、解決済み --> 未解決にする
           if (isBestAnswer) {
             this.$store.dispatch('thread/updateBestAnswer', {
-              postId: this.postId,
               answerId,
               isResolved: false
             });
@@ -427,7 +413,6 @@ export default {
         }
       ).then(() => {
         this.$store.dispatch('thread/deleteComment', {
-          postId: this.postId,
           answerId,
           commentId,
         });
@@ -444,17 +429,13 @@ export default {
         }
       ).then(() => {
         this.$store.dispatch('thread/updateBestAnswer', {
-          postId: this.postId,
           answerId,
           isResolved: true
         });
       });
     },
     updateFavorite(isFavorite) {
-      this.$store.dispatch('user/updateFavoritePostIds', {
-        postId: this.postId,
-        isFavorite,
-      });
+      this.$store.dispatch('user/updateFavoritePostIds', isFavorite);
     },
   },
   created() {
@@ -477,10 +458,7 @@ export default {
     if (!this.$store.getters.watchedPostIds.includes(this.postId) && this.uid != this.post.document.fields.uid.stringValue) {
       let views = Number(this.post.document.fields.views.integerValue);
       views = views + 1;
-      this.$store.dispatch('post/updateViews', {
-        postId: this.postId,
-        views
-      });
+      this.$store.dispatch('post/updateViews', views);
     }
   },
 }

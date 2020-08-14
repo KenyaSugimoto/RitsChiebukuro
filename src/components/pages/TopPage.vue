@@ -64,15 +64,25 @@ export default {
       if (!this.title || !this.content || !this.selectedCategory) {
         toast('入力に不備があります。', "error");
       } else {
-        this.$store.dispatch("post/createPost", {
-          title: this.title,
-          content: this.content,
-          category: this.selectedCategory,
-          idToken: this.idToken,
+        this.$dialog.confirm(
+          {
+            body: '質問を投稿しますか？'
+          },
+          {
+            okText: 'はい',
+            cancelText: 'キャンセル',
+          }
+        ).then(() => {
+          this.$store.dispatch("post/createPost", {
+            title: this.title,
+            content: this.content,
+            category: this.selectedCategory,
+            idToken: this.idToken,
+          });
+          this.content = "";
+          this.title = "";
+          this.selectedCategory = "";
         });
-        this.content = "";
-        this.title = "";
-        this.selectedCategory = "";
       }
     },
   },

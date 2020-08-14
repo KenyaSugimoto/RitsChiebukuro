@@ -97,7 +97,15 @@ export default {
       } else if (!reg.test(this.email)) {
         toast('正しいメールアドレスを入力してください。', "error");
       } else {
-        if (confirm("入力内容に間違いはありませんか？")) {
+        this.$dialog.confirm(
+          {
+            body: '入力内容に間違いはありませんか？'
+          },
+          {
+            okText: 'はい',
+            cancelText: 'いいえ',
+          }
+        ).then(() => {
           this.$store.dispatch('signUp/signUp', {
             email: this.email,
             password: this.password,
@@ -105,7 +113,7 @@ export default {
             major: this.major,
             grade: this.grade,
           });
-        }
+        });
       }
     }
   }

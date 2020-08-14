@@ -21,7 +21,7 @@ const actions = {
   async createThread({rootGetters, commit}, threadInfo) {
     let message = '';
 
-    await axiosDb.post(`/threads?documentId=${rootGetters.watchingPost.postId}`,
+    await axiosDb.post(`/threads?documentId=${threadInfo.postId}`,
       {
         fields: threadInfo.fields,
       },
@@ -70,7 +70,7 @@ const actions = {
       }
     }
 
-    await axiosDb.patch(`threads/${rootGetters.watchingPost.postId}?updateMask.fieldPaths=answers`,
+    await axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
       },
@@ -93,14 +93,14 @@ const actions = {
 
     return message;
   },
-  async deleteAnswer({rootGetters, commit}, answerId) {
+  async deleteAnswer({rootGetters, commit}, threadInfo) {
     const thread = {};
     Object.assign(thread, JSON.parse(JSON.stringify(rootGetters.thread)));
     const answers = thread.answers.arrayValue.values;
-    const newAnswers = answers.filter(answer => answer.mapValue.fields.answerId.stringValue != answerId);
+    const newAnswers = answers.filter(answer => answer.mapValue.fields.answerId.stringValue != threadInfo.answerId);
     thread.answers.arrayValue.values = newAnswers;
 
-    await axiosDb.patch(`threads/${rootGetters.watchingPost.postId}?updateMask.fieldPaths=answers`,
+    await axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
       },
@@ -141,7 +141,7 @@ const actions = {
       thread.answers.arrayValue.values[answerIndex].mapValue.fields.comments.arrayValue.values = newComments;
     }
 
-    axiosDb.patch(`threads/${rootGetters.watchingPost.postId}?updateMask.fieldPaths=answers`,
+    axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
       },
@@ -172,7 +172,8 @@ const actions = {
     }
     thread.isResolved.booleanValue = answerInfo.isResolved;
 
-    axiosDb.patch(`threads/${rootGetters.watchingPost.postId}?updateMask.fieldPaths=answers&updateMask.fieldPaths=isResolved`,
+    const postId = answerInfo.postId;
+    axiosDb.patch(`threads/${postId}?updateMask.fieldPaths=answers&updateMask.fieldPaths=isResolved`,
       {
         fields : thread,
       },
@@ -183,7 +184,10 @@ const actions = {
       }
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
-      dispatch('post/updateIsResolved', answerInfo.isResolved, {root: true});
+      dispatch('post/updateIsResolved', {
+        postId,
+        isResolved: answerInfo.isResolved
+      }, {root: true});
       // 解決済みにする場合
       if (answerInfo.isResolved) {
         toast("ベストアンサーにしました", "success");

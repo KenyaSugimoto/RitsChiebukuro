@@ -57,6 +57,18 @@ Vue.filter('resolved', function(posts) {
   }
 });
 
+Vue.filter('manyViews', function(posts) {
+  if (posts !== null) {
+    let newPosts = posts.concat();
+    newPosts.sort((a, b) => {
+      return Number(a.document.fields.views.integerValue) < Number(b.document.fields.views.integerValue) ? 1 : -1;
+    });
+    return newPosts;
+  } else {
+    return posts;
+  }
+});
+
 store.dispatch('login/autoLogin').then(() => {
   new Vue({
     router,

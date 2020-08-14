@@ -17,6 +17,7 @@ const fields = [
   { fieldPath: "created_at" },
   { fieldPath: "updated_at" },
   { fieldPath: "isResolved" },
+  { fieldPath: "views" },
 ];
 
 const from = [{ collectionId: "posts" }];
@@ -97,6 +98,9 @@ const actions = {
       },
       isResolved: {
         booleanValue: false
+      },
+      views: {
+        integerValue: '0'
       },
     };
 
@@ -350,6 +354,25 @@ const actions = {
     .catch((error) => {
         console.log(error.response);
     });
+  },
+  updateViews({rootGetters, commit}, postInfo) {
+    axiosDb.patch(`posts/${postInfo.postId}?updateMask.fieldPaths=views`,
+    {
+      fields : {
+        views: {integerValue: `${postInfo.views}`},
+      },
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${rootGetters.idToken}`,
+      },
+    }
+  ).then(() => {
+    commit('addWatchedPostId', postInfo.postId, {root: true});
+  })
+  .catch((error) => {
+      console.log(error.response);
+  });
   }
 };
 

@@ -20,6 +20,7 @@ export const initialState = {
     userName: null,
     major: null,
     grade: null,
+    watchedPostIds: [],
   },
   authInfo: {
     idToken: null,
@@ -54,6 +55,7 @@ const getters = {
     userName: state => state.userInfo.userName,
     major: state => state.userInfo.major,
     grade: state => state.userInfo.grade,
+    watchedPostIds: state => state.userInfo.watchedPostIds,
   },
   // authInfo
   ... {
@@ -100,6 +102,9 @@ const mutations = {
     },
     updateGrade(state, grade) {
       state.userInfo.grade = grade;
+    },
+    addWatchedPostId(state, watchedPostId) {
+      state.userInfo.watchedPostIds.push(watchedPostId);
     },
   },
   // authInfo

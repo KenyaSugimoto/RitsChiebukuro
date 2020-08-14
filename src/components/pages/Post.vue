@@ -32,6 +32,9 @@
       <div>
         編集時間：{{post.document.fields.updated_at.timestampValue | dateFormat}}
       </div>
+      <div>
+        閲覧数：{{post.document.fields.views.integerValue}}
+      </div>
 
       <template v-if='uid == post.document.fields.uid.stringValue'>
         <button @click='deletePost'>削除</button>
@@ -248,13 +251,13 @@ export default {
           stringValue: this.$store.getters.userName
         },
         threadId: {
-          stringValue: this.$store.getters.watchingPost.document.fields.postId.stringValue
+          stringValue: this.post.document.fields.postId.stringValue
         },
         type: {
           stringValue: "answer"
         },
         questionerUid: {
-          stringValue: this.$store.getters.watchingPost.document.fields.uid.stringValue
+          stringValue: this.post.document.fields.uid.stringValue
         },
       };
       this.$store.dispatch("notification/addNotification", notificationData);
@@ -277,7 +280,7 @@ export default {
             answer: { stringValue: this.answer },
             answerId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
             isBestAnswer: { booleanValue: false },
-            uid: { stringValue: this.$store.getters.uid },
+            uid: { stringValue: this.uid },
             userName: { stringValue: this.$store.getters.userName },
             created_at: { timestampValue: new Date().toISOString() },
             updated_at: { timestampValue: new Date().toISOString() },
@@ -338,7 +341,7 @@ export default {
           fields: {
             comment: { stringValue: this.comment[index].value },
             commentId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
-            uid: { stringValue: this.$store.getters.uid },
+            uid: { stringValue: this.uid },
             userName: { stringValue: this.$store.getters.userName },
             created_at: { timestampValue: new Date().toISOString() },
             updated_at: { timestampValue: new Date().toISOString() },
@@ -366,7 +369,7 @@ export default {
           answerId,
         }).then(() => {
           // 全ての回答が削除された場合、回答あり --> 回答なし
-          if (this.$store.getters.thread.answers.arrayValue.values.length == 0) {
+          if (this.thread.answers.arrayValue.values.length == 0) {
             this.isAnswered = false;
             this.$store.dispatch('post/updateIsAnswered', {
               postId: this.postId,
@@ -404,9 +407,10 @@ export default {
     }
   },
   created() {
+    // スレッドの取得
     this.$store.dispatch('thread/getThread', this.postId).then(() => {
-      if (this.$store.getters.thread !== null) {
-        const answers = this.$store.getters.thread.answers.arrayValue.values;
+      if (this.thread !== null) {
+        const answers = this.thread.answers.arrayValue.values;
         if (typeof(answers) !== 'undefined') {
           for (let i = 0; i < answers.length - 1; i++) {
             this.comment.push({ value: '' });
@@ -417,6 +421,16 @@ export default {
         this.threadExists = true;
       }
     });
+
+    // 質問者以外が、ログインしてから初めて閲覧した場合、閲覧数を更新
+    if (!this.$store.getters.watchedPostIds.includes(this.postId) && this.uid != this.post.document.fields.uid.stringValue) {
+      let views = Number(this.post.document.fields.views.integerValue);
+      views = views + 1;
+      this.$store.dispatch('post/updateViews', {
+        postId: this.postId,
+        views
+      });
+    }
   },
 }
 </script>

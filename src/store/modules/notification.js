@@ -104,10 +104,34 @@ const actions = {
         commit("updateNotifications", null, {root: true});
         commit("updateDisplayNotifications", null, {root: true});
     }else {
-      let temp = rootGetters.notifications;
-      delete temp[selectedNotification.mapValue.fields.notificationId.stringValue];
-      updatedNotifications = temp;
-      axiosDb.patch(
+      let displayNotifications = rootGetters.displayNotifications;
+      const selectedPostId = selectedNotification.mapValue.fields.threadId.stringValue;
+
+      let updatedNotificationsList = displayNotifications.filter((notification) => {
+        return notification.mapValue.fields.threadId.stringValue !== selectedPostId;
+      });
+
+      console.log("updatedNotificationsList", updatedNotificationsList);
+
+      updatedNotificationsList.forEach((item) => {
+        let itemNotificationId = item.mapValue.fields.notificationId.stringValue;
+        updatedNotifications[itemNotificationId] = item;
+      });
+      console.log("updatedNotifications", updatedNotifications);
+      console.log("len", updatedNotificationsList.length);
+
+      if (updatedNotificationsList.length == 0) {
+        axiosDb.delete(
+          `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}`,
+          {
+            headers: {
+              Authorization: `Bearer ${rootGetters.idToken}`,
+            },
+          });
+          commit("updateNotifications", null, {root: true});
+          commit("updateDisplayNotifications", null, {root: true});
+      }else {
+        axiosDb.patch(
           `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
           {
             fields: {
@@ -130,6 +154,7 @@ const actions = {
             },
           }
         );
+      }
     }
   },
 };

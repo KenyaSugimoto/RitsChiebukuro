@@ -4,7 +4,7 @@ import router from "../../router";
 const actions = {
   async getNotifications({ rootGetters, commit }) {
     await axiosDb.get(
-      `/notificationsTest/${rootGetters.uid}`,
+      `/notifications/${rootGetters.uid}`,
       {headers: { Authorization: `Bearer ${rootGetters.idToken}` },}
     ).then((response) => {
       const data = response.data.fields.notifications.arrayValue.values[0].mapValue.fields;
@@ -34,7 +34,7 @@ const actions = {
 
   async getQuestionerNotifications({ rootGetters, commit }, questionerUid) {
     await axiosDb.get(
-      `/notificationsTest/${questionerUid}`,
+      `/notifications/${questionerUid}`,
       {
         headers: { Authorization: `Bearer ${rootGetters.idToken}` },
       }).then((response) => {
@@ -59,12 +59,12 @@ const actions = {
       },
     };
 
-    dispatch("notification/getQuestionerNotifications", notificationData.questionerUid.stringValue, {root: true })
+    dispatch("notification/getQuestionerNotifications", notificationData.questionerUid.stringValue, {root: true})
     .then(() => {
       const updatedNotificationsData = newNotificationData;
       Object.assign(updatedNotificationsData, JSON.parse(JSON.stringify(rootGetters.questionerNotifications)));
       axiosDb.patch(
-        `notificationsTest/${notificationData.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
+        `notifications/${notificationData.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
         {
           fields: {
             notifications: {
@@ -97,10 +97,10 @@ const actions = {
       dispatch("notification/deleteNotificationDocument", questionerUid, {root: true});
     }else {
       let displayNotifications = rootGetters.displayNotifications;
-      const selectedPostId = selectedNotification.mapValue.fields.threadId.stringValue;
+      const selectedPostId = selectedNotification.mapValue.fields.postId.stringValue;
 
       let updatedNotificationsList = displayNotifications.filter((notification) => {
-        return notification.mapValue.fields.threadId.stringValue !== selectedPostId;
+        return notification.mapValue.fields.postId.stringValue !== selectedPostId;
       });
 
       updatedNotificationsList.forEach((item) => {
@@ -112,7 +112,7 @@ const actions = {
         dispatch("notification/deleteNotificationDocument", questionerUid, {root: true});
       }else {
         axiosDb.patch(
-          `/notificationsTest/${selectedNotification.mapValue.fields.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
+          `/notifications/${selectedNotification.mapValue.fields.questionerUid.stringValue}?updateMask.fieldPaths=notifications`,
           {
             fields: {
               notifications: {
@@ -140,7 +140,7 @@ const actions = {
   },
   deleteNotificationDocument({rootGetters, commit}, questionerUid) {
     axiosDb.delete(
-      `/notificationsTest/${questionerUid}`,
+      `/notifications/${questionerUid}`,
       {
         headers: {
           Authorization: `Bearer ${rootGetters.idToken}`,

@@ -247,14 +247,17 @@ export default {
         respondentName: {
           stringValue: this.$store.getters.userName
         },
-        threadId: {
+        postId: {
           stringValue: this.$store.getters.watchingPost.document.fields.postId.stringValue
         },
-        type: {
-          stringValue: "answer"
+        postTitle: {
+          stringValue: this.$store.getters.watchingPost.document.fields.title.stringValue
         },
         questionerUid: {
           stringValue: this.$store.getters.watchingPost.document.fields.uid.stringValue
+        },
+        type: {
+          stringValue: "answer"
         },
       };
       this.$store.dispatch("notification/addNotification", notificationData);

@@ -6,7 +6,6 @@ import store from "./store";
 
 Vue.config.productionTip = false;
 
-
 router.beforeEach((to, from, next) => {
   const withoutLogin = ["/login", "/signUp", "/activateAccount", "/resetPassword"];  // ログインなしで閲覧できるページ
   if (withoutLogin.includes(to.path)) {

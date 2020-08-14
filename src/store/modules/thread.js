@@ -1,4 +1,5 @@
 import axiosDb from '../../axios/axios-db';
+import {toast} from "../../function/toastr.js";
 
 const actions = {
   async getThread({rootGetters, commit}, postId) {
@@ -32,6 +33,7 @@ const actions = {
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
       message = 'OK';
+      toast("投稿に成功しました", "success");
     }).catch((error) => {
       console.log(error.response);
       if (error.response.data.error.status == 'ALREADY_EXISTS') {
@@ -80,6 +82,7 @@ const actions = {
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
       message = 'OK';
+      toast("投稿に成功しました", "success");
     }).catch((error) => {
         console.log(error.response);
     });
@@ -107,6 +110,7 @@ const actions = {
         response.data.fields.answers.arrayValue.values = [];
       }
       commit('updateThread', response.data.fields, {root: true});
+      toast("回答を削除しました", "success");
     }).catch((error) => {
         console.log(error.response);
     });
@@ -144,6 +148,7 @@ const actions = {
       }
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
+      toast("コメントを削除しました", "success");
     });
   },
   updateBestAnswer({rootGetters, commit, dispatch}, answerInfo) {

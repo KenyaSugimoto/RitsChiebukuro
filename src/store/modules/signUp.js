@@ -2,6 +2,7 @@ import axiosAuth from '../../axios/axios-auth';
 import axiosDb from '../../axios/axios-db';
 import axiosQuery from '../../axios/axios-query';
 import router from '../../router';
+import {toast} from "../../function/toastr.js";
 
 const actions = {
   signUp({commit, dispatch}, authData) {
@@ -28,7 +29,7 @@ const actions = {
     }).catch(error => {
       for (const err of error.response.data.error.errors) {
         if (err.message == 'EMAIL_EXISTS') {
-          alert('入力されたメールアドレスはすでに登録されています。')
+          toast('入力されたメールアドレスはすでに登録されています。', "error");
         }
       }
     });
@@ -131,7 +132,7 @@ const actions = {
         idToken: userInfo.idToken
       },
     ).then(() => {
-      alert('このユーザ名は既に存在しています。');
+      toast('このユーザ名は既に存在しています。', "error");
     });
   },
   sendEmailVerification(context, userInfo) {

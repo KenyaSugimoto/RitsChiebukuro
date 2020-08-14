@@ -1,5 +1,6 @@
 import axiosAuth from '../../axios/axios-auth';
 import router from '../../router';
+import {toast} from "../../function/toastr.js";
 
 const actions = {
   login({rootGetters, dispatch}, authData) {
@@ -24,15 +25,15 @@ const actions = {
             });
           });
         } else {
-          alert('登録されたメールアドレスに、アカウントを有効化するためのURLが記載されたメールを送信しました。URLをクリックしてアカウントを有効化してください。')
+          toast('登録されたメールアドレスに、アカウントを有効化するためのURLが記載されたメールを送信しました。URLをクリックしてアカウントを有効化してください。', "error");
         }
       });
     }).catch(error => {
       for (const err of error.response.data.error.errors) {
         if (err.message == 'EMAIL_NOT_FOUND') {
-          alert('ログインに失敗しました。入力されたメールアドレスが間違っています。')
+          toast('ログインに失敗しました。入力されたメールアドレスが間違っています。', "error");
         } else if (err.message == 'INVALID_PASSWORD') {
-          alert('ログインに失敗しました。入力されたパスワードが間違っています。');
+          toast('ログインに失敗しました。入力されたパスワードが間違っています。', "error");
         }
       }
     });

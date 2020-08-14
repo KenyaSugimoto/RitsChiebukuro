@@ -199,6 +199,7 @@
 </template>
 
 <script>
+import {toast} from "../../function/toastr.js";
 export default {
   data() {
     return {
@@ -229,7 +230,7 @@ export default {
     deletePost() {
       if (confirm('本当にこの質問を削除しますか？')) {
         this.$store.dispatch('post/deletePost', this.postId).then(() => {
-          alert('質問を削除しました。');
+          toast('質問を削除しました', "success");
           this.$router.push('/');
         });
       }

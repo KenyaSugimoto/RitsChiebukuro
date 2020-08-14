@@ -1,7 +1,8 @@
 import axiosDb from "../../axios/axios-db";
 import axiosQuery from "../../axios/axios-query";
-import router from "../../router";
+// import router from "../../router";
 import { segmentText } from "./../../function/segmentText.js"
+import {toast} from "../../function/toastr.js";
 
 const fields = [
   { fieldPath: "postId" },
@@ -114,7 +115,8 @@ const actions = {
         fields: Fields
       }};
       commit("addNewPost", newPostData, {root: true});
-      router.push("/postCompleted");
+      toast("質問を投稿しました", "success");
+      // router.push("/postCompleted");
     }).catch((error) => {
       console.log(error);
     });

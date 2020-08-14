@@ -37,6 +37,7 @@
 <script>
 import categoryFromJson from "../../assets/categoryData.json";
 import Posts from './Posts';
+import {toast} from "../../function/toastr.js";
 export default {
   data() {
     return {
@@ -60,7 +61,7 @@ export default {
   methods: {
     createPost() {
       if (!this.title || !this.content || !this.selectedCategory) {
-        alert("入力に不備があります。");
+        toast('入力に不備があります。', "error");
       } else {
         this.$store.dispatch("post/createPost", {
           title: this.title,

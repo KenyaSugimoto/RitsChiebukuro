@@ -36,7 +36,7 @@ const actions = {
   },
   registerUserInfo(context, userInfo) {
     axiosDb.post(
-      '/users',
+      `/users?documentId=${userInfo.uid}`,
       {
         fields: {
           uid: {
@@ -53,6 +53,11 @@ const actions = {
           },
           grade: {
             stringValue: userInfo.grade
+          },
+          favoritePostIds: {
+            arrayValue: {
+              values: [ { 'nullValue': null } ]
+            }
           },
           created_at: {
             timestampValue: new Date().toISOString()

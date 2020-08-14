@@ -133,8 +133,9 @@ const actions = {
               Authorization: `Bearer ${rootGetters.idToken}`,
             },
           }
-        );
-        commit("updateDisplayNotifications", null, {root: true});
+        ).then(() => {
+          commit("updateDisplayNotifications", null, {root: true});
+        });
       }
     }
   },
@@ -145,8 +146,9 @@ const actions = {
         headers: {
           Authorization: `Bearer ${rootGetters.idToken}`,
         },
+      }).then(() => {
+        commit("updateDisplayNotifications", null, {root: true});
       });
-      commit("updateDisplayNotifications", null, {root: true});
   }
 };
 

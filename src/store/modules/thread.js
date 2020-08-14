@@ -85,7 +85,7 @@ const actions = {
       if (type == 'answer') {
         toast("回答を送信しました", "success");
       } else if (type == 'comment') {
-        toast("回答を送信しました", "success");
+        toast("コメントを送信しました", "success");
       }
     }).catch((error) => {
         console.log(error.response);

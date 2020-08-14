@@ -6,10 +6,6 @@
 
     <div class='content-box'>
       <div>
-        {{post.document.fields.isAnswered.booleanValue ? '解決済み' : '未解決'}}
-      </div>
-
-      <div>
         投稿者：
         <router-link to='/my-page'>
           {{post.document.fields.userName.stringValue}}さん
@@ -154,14 +150,14 @@ export default {
   methods: {
     deletePost() {
       if (confirm('本当にこの質問を削除しますか？')) {
-        this.$store.dispatch('post/deletePost', {postId: this.postId}).then(() => {
+        this.$store.dispatch('post/deletePost', this.postId).then(() => {
           toast('質問を削除しました', "success");
           this.$router.push('/');
         });
       }
     },
     addNotification() {
-      const notificationId = new Date().getTime().toString(16) + Math.floor(1000*Math.random()).toString(16);
+      const notificationId = new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16);
       const notificationData = {
         notificationId: {
           stringValue: notificationId
@@ -185,6 +181,13 @@ export default {
       this.$store.dispatch("notification/addNotification", notificationData);
     },
     addAnswer() {
+      if (!this.isAnswered) {
+        this.$store.dispatch('post/updateIsAnswered', {
+          postId: this.postId,
+          isAnswered: true
+        });
+      }
+
       this.comment.push({ value: '' });
       this.isDisplayCommentArea.push({ value: false });
 
@@ -225,14 +228,19 @@ export default {
             }
           },
         }).then((response) => {
+          this.threadExists = true;
           if (response == 'OK') {
-            this.threadExists = true;
             this.isAnswered = true;
           } else if (response == 'ALREADY_EXISTS') {
             this.$store.dispatch('thread/addThread', {
               postId: this.postId,
               answer: answer,
               type: 'answer',
+            }).then((response) => {
+              if (response == 'OK') {
+                console.log('ALREADY_EXISTS');
+                this.isAnswered = true;
+              }
             });
           }
         });
@@ -273,6 +281,10 @@ export default {
       }).then(() => {
         if (this.$store.getters.thread.answers.arrayValue.values.length == 0) {
           this.isAnswered = false;
+          this.$store.dispatch('post/updateIsAnswered', {
+            postId: this.postId,
+            isAnswered: false
+          });
         }
       });
     },

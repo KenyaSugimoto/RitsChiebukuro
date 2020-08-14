@@ -60,34 +60,34 @@ const actions = {
         stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16)
       },
       title: {
-        stringValue: postData.title,
+        stringValue: postData.title
       },
       content: {
-        stringValue: postData.content,
+        stringValue: postData.content
       },
       category: {
-        stringValue: postData.category,
+        stringValue: postData.category
       },
       isAnswered: {
-        booleanValue: false,
+        booleanValue: false
       },
       uid: {
-        stringValue: rootGetters.uid,
+        stringValue: rootGetters.uid
       },
       userName: {
-        stringValue: rootGetters.userName,
+        stringValue: rootGetters.userName
       },
       major: {
-        stringValue: rootGetters.major,
+        stringValue: rootGetters.major
       },
       grade: {
-        stringValue: rootGetters.grade,
+        stringValue: rootGetters.grade
       },
       created_at: {
-        timestampValue: new Date().toISOString(),
+        timestampValue: new Date().toISOString()
       },
       updated_at: {
-        timestampValue: new Date().toISOString(),
+        timestampValue: new Date().toISOString()
       },
       keyWords: {
         arrayValue: {
@@ -286,16 +286,15 @@ const actions = {
       console.log(error.response);
     });
   },
-  async deletePost({rootGetters}, post) {
-    const documentId = post.postId;
-    await axiosDb.delete(`posts/${documentId}`,
+  async deletePost({rootGetters}, postId) {
+    await axiosDb.delete(`posts/${postId}`,
       {
         headers: {
           Authorization: `Bearer ${rootGetters.idToken}`,
         },
       }
     ).then(() => {
-      axiosDb.delete(`threads/${documentId}`,
+      axiosDb.delete(`threads/${postId}`,
         {
           headers: {
             Authorization: `Bearer ${rootGetters.idToken}`,
@@ -310,6 +309,25 @@ const actions = {
       console.log(error.response);
     });
   },
+  updateIsAnswered({rootGetters}, postInfo) {
+    axiosDb.patch(`posts/${postInfo.postId}?updateMask.fieldPaths=isAnswered`,
+      {
+        fields : {
+          isAnswered: {booleanValue: postInfo.isAnswered},
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then(() => {
+      //
+    })
+    .catch((error) => {
+        console.log(error.response);
+    });
+  }
 };
 
 export default {

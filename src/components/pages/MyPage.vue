@@ -2,7 +2,8 @@
   <div>
     <h2>マイページ</h2>
 
-    <Posts v-bind:posts='individualNewPosts' v-bind:name="`${userName}さんの質問`"></Posts>
+    <Posts v-bind:posts='individualNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+    <Posts v-bind:posts='individualNewPosts | resolved' name='解決済みの質問'></Posts>
   </div>
 </template>
 

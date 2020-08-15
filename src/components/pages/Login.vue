@@ -23,7 +23,7 @@
 </template>
 
 <script>
-
+import {toast} from "../../function/toastr.js";
 export default {
   data() {
     return {
@@ -33,10 +33,17 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch('login/login', {
+      const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+      if (this.email == "" || this.password == "") {
+        toast('ログイン情報を全て入力してください。', "error");
+      } else if (!reg.test(this.email)) {
+        toast('正しいメールアドレスを入力してください。', "error");
+      } else {
+        this.$store.dispatch('login/login', {
         email: this.email,
         password: this.password
       })
+      }
     }
   }
 

@@ -69,6 +69,24 @@ Vue.filter('manyViews', function(posts) {
   }
 });
 
+Vue.filter('user', function(posts, uid) {
+  if (posts !== null) {
+    const userPosts = posts.filter(post => post.document.fields.uid.stringValue == uid);
+    return userPosts;
+  } else {
+    return posts;
+  }
+});
+
+Vue.filter('favorite', function(posts, favoritePostIds) {
+  if (posts !== null) {
+    const favoritePosts = posts.filter(post => favoritePostIds.includes(post.document.fields.postId.stringValue));
+    return favoritePosts;
+  } else {
+    return posts;
+  }
+});
+
 store.dispatch('login/autoLogin').then(() => {
   new Vue({
     router,

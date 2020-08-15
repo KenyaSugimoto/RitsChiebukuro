@@ -14,7 +14,11 @@ router.beforeEach((to, from, next) => {
   if (withoutLogin.includes(to.path)) {
     // 認証している場合は、トップページに飛ばす
     if (store.getters.idToken) {
-      next("/");
+      if (to.path == '/resetPassword') {
+        next();
+      } else {
+        next("/");
+      }
     } else {
       next();
     }

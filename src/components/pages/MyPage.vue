@@ -9,9 +9,11 @@
     <hr>
     <router-link to=''>プロフィールの変更</router-link>
     <hr>
-    <router-link to=''>パスワードの変更</router-link>
+    <router-link to='/resetPassword'>パスワードの変更</router-link>
     <hr>
     <router-link to=''>通知の設定</router-link>
+    <hr>
+    <span class='logout' @click='logout'>ログアウト</span>
     <hr>
 
   </div>
@@ -24,6 +26,22 @@ export default {
     userName() {
       return this.$store.getters.userName;
     },
-  }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logout/logout");
+    },
+  },
 }
 </script>
+
+<style scoped>
+.logout {
+  padding: 10px;
+  cursor: pointer;
+}
+.logout:hover {
+  background-color: #b1abab;
+  color: red;
+}
+</style>

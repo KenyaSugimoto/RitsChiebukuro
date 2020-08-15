@@ -7,7 +7,6 @@
         >さん
       </p>
       <div class="header-item" @click="getNotification">通知</div>
-      <span class="header-item" @click="logout">ログアウト</span>
       <nav>
         <ul class="manu">
           <li>
@@ -50,9 +49,6 @@ export default {
     },
   },
   methods: {
-    logout() {
-      this.$store.dispatch("logout/logout");
-    },
     getNotification() {
       this.$store.dispatch("notification/getNotifications");
 
@@ -100,8 +96,5 @@ router-link {
 .header-item:hover {
   background-color: #b1abab;
   color: red;
-}
-header span {
-  float: right;
 }
 </style>

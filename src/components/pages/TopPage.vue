@@ -40,6 +40,8 @@
 import categoryFromJson from "../../assets/categoryData.json";
 import Posts from './Posts';
 import {toast} from "../../function/toastr.js";
+import {dialog} from "../../function/dialog.js";
+
 export default {
   data() {
     return {
@@ -65,24 +67,21 @@ export default {
       if (!this.title || !this.content || !this.selectedCategory) {
         toast('入力に不備があります。', "error");
       } else {
-        this.$dialog.confirm(
-          {
-            body: '質問を投稿しますか？'
-          },
-          {
-            okText: 'はい',
-            cancelText: 'キャンセル',
+        dialog(this, {
+          title: '質問を投稿しますか？',
+          body: `タイトル： ${this.title} <br><br><br> 質問内容： ${this.content}`
+        }).then((response) => {
+          if (response == 'OK') {
+            this.$store.dispatch("post/createPost", {
+              title: this.title,
+              content: this.content,
+              category: this.selectedCategory,
+              idToken: this.idToken,
+            });
+            this.content = "";
+            this.title = "";
+            this.selectedCategory = "";
           }
-        ).then(() => {
-          this.$store.dispatch("post/createPost", {
-            title: this.title,
-            content: this.content,
-            category: this.selectedCategory,
-            idToken: this.idToken,
-          });
-          this.content = "";
-          this.title = "";
-          this.selectedCategory = "";
         });
       }
     },

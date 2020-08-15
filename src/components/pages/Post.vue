@@ -89,7 +89,7 @@
           </div>
           <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
             <div>
-              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue, answer.mapValue.fields.isBestAnswer.booleanValue)'>削除</button>
+              <button @click='deleteAnswer(answer.mapValue.fields, true)'>削除</button>
             </div>
           </template>
 
@@ -108,7 +108,7 @@
               {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
             </div>
             <template v-if='uid == comment.mapValue.fields.uid.stringValue'>
-              <button @click='deleteComment(answer.mapValue.fields.answerId.stringValue, comment.mapValue.fields.commentId.stringValue)'>削除</button>
+              <button @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)'>削除</button>
             </template>
             <hr>
           </div>
@@ -122,7 +122,7 @@
               </div>
             </div>
 
-            <button @click='addComment(answer.mapValue.fields.answerId.stringValue, index)'>コメントを送信</button>
+            <button @click='addComment(answer.mapValue.fields, index)'>コメントを送信</button>
           </template>
           <template v-else>
             <button @click='displayCommentArea(index)'>コメントする</button>
@@ -150,13 +150,13 @@
           </div>
           <template v-if='!answer.mapValue.fields.isBestAnswer.booleanValue && uid == post.document.fields.uid.stringValue && !thread.isResolved.booleanValue'>
             <div>
-              <button @click='updateBestAnswer(answer.mapValue.fields.answerId.stringValue)'>ベストアンサーにする</button>
+              <button @click='updateBestAnswer(answer.mapValue.fields)'>ベストアンサーにする</button>
             </div>
           </template>
 
           <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
             <div>
-              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue)'>削除</button>
+              <button @click='deleteAnswer(answer.mapValue.fields, false)'>削除</button>
             </div>
           </template>
 
@@ -175,7 +175,7 @@
               {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
             </div>
             <template v-if='uid == comment.mapValue.fields.uid.stringValue'>
-              <button @click='deleteComment(answer.mapValue.fields.answerId.stringValue, comment.mapValue.fields.commentId.stringValue)'>削除</button>
+              <button @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)'>削除</button>
             </template>
             <hr>
           </div>
@@ -189,7 +189,7 @@
               </div>
             </div>
 
-            <button @click='addComment(answer.mapValue.fields.answerId.stringValue, index)'>コメントを送信</button>
+            <button @click='addComment(answer.mapValue.fields, index)'>コメントを送信</button>
           </template>
           <template v-else>
             <button @click='displayCommentArea(index)'>コメントする</button>
@@ -209,6 +209,8 @@
 
 <script>
 import {toast} from "../../function/toastr.js";
+import {dialog} from "../../function/dialog.js";
+
 export default {
   data() {
     return {
@@ -240,19 +242,16 @@ export default {
   },
   methods: {
     deletePost() {
-      this.$dialog.confirm(
-        {
-          body: '本当にこの質問を削除しますか？'
-        },
-        {
-          okText: 'はい',
-          cancelText: 'キャンセル',
+      dialog(this, {
+        title: '本当にこの質問を削除しますか？',
+        body: `タイトル： ${this.post.document.fields.title.stringValue} <br><br><br> 質問内容： ${this.post.document.fields.content.stringValue}`
+      }).then((response) => {
+        if (response == 'OK') {
+          this.$store.dispatch('post/deletePost', this.postId).then(() => {
+            toast('質問を削除しました', "success");
+            this.$router.push('/');
+          });
         }
-      ).then(() => {
-        this.$store.dispatch('post/deletePost', this.postId).then(() => {
-          toast('質問を削除しました', "success");
-          this.$router.push('/');
-        });
       });
     },
     addNotification(type) {
@@ -283,64 +282,40 @@ export default {
       this.$store.dispatch("notification/addNotification", notificationData);
     },
     addAnswer() {
-      this.addNotification("answer");
-      // 回答が存在しない場合、回答なし --> 回答ありにする
-      if (!this.isAnswered) {
-        this.$store.dispatch('post/updateIsAnswered', {
-          postId: this.postId,
-          isAnswered: true
-        });
-      }
-
-      this.comment.push({ value: '' });
-      this.isDisplayCommentArea.push({ value: false });
-
-      const answer = {
-        mapValue: {
-          fields: {
-            answer: { stringValue: this.answer },
-            answerId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
-            isBestAnswer: { booleanValue: false },
-            uid: { stringValue: this.uid },
-            userName: { stringValue: this.$store.getters.userName },
-            created_at: { timestampValue: new Date().toISOString() },
-            updated_at: { timestampValue: new Date().toISOString() },
-            comments: { arrayValue: { values: [] } },
+      dialog(this, {
+        title: '回答を送信しますか？',
+        body: `回答： ${this.answer}`
+      }).then((response) => {
+        if (response == 'OK') {
+          // 回答が存在しない場合、回答なし --> 回答ありにする
+          if (!this.isAnswered) {
+            this.$store.dispatch('post/updateIsAnswered', {
+              postId: this.postId,
+              isAnswered: true
+            });
           }
-        }
-      }
+          
+          this.addNotification("answer");
 
-      if (this.threadExists) {
-        // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
-        this.$store.dispatch('thread/addThread', {
-          postId: this.postId,
-          answer: answer,
-          type: 'answer',
-        }).then((response) => {
-          if (response == 'OK') {
-            this.isAnswered = true;
-          }
-        });
-      } else {
-        // スレッドが存在しない場合、スレッドを作成し、スレッドあり・回答ありに設定
-        this.$store.dispatch('thread/createThread', {
-          postId: this.postId,
-          fields: {
-            answers: {
-              arrayValue: {
-                values: [
-                  answer
-                ]
+          this.comment.push({ value: '' });
+          this.isDisplayCommentArea.push({ value: false });
+
+          const answer = {
+            mapValue: {
+              fields: {
+                answer: { stringValue: this.answer },
+                answerId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
+                isBestAnswer: { booleanValue: false },
+                uid: { stringValue: this.uid },
+                userName: { stringValue: this.$store.getters.userName },
+                created_at: { timestampValue: new Date().toISOString() },
+                updated_at: { timestampValue: new Date().toISOString() },
+                comments: { arrayValue: { values: [] } },
               }
-            },
-            isResolved: { booleanValue: false },
-            created_at: { timestampValue: new Date().toISOString() },
-          },
-        }).then((response) => {
-          this.threadExists = true;
-          if (response == 'OK') {
-            this.isAnswered = true;
-          } else if (response == 'ALREADY_EXISTS') {
+            }
+          }
+
+          if (this.threadExists) {
             // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
             this.$store.dispatch('thread/addThread', {
               postId: this.postId,
@@ -351,105 +326,135 @@ export default {
                 this.isAnswered = true;
               }
             });
+          } else {
+            // スレッドが存在しない場合、スレッドを作成し、スレッドあり・回答ありに設定
+            this.$store.dispatch('thread/createThread', {
+              postId: this.postId,
+              fields: {
+                answers: {
+                  arrayValue: {
+                    values: [
+                      answer
+                    ]
+                  }
+                },
+                isResolved: { booleanValue: false },
+                created_at: { timestampValue: new Date().toISOString() },
+              },
+            }).then((response) => {
+              this.threadExists = true;
+              if (response == 'OK') {
+                this.isAnswered = true;
+              } else if (response == 'ALREADY_EXISTS') {
+                // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
+                this.$store.dispatch('thread/addThread', {
+                  postId: this.postId,
+                  answer: answer,
+                  type: 'answer',
+                }).then((response) => {
+                  if (response == 'OK') {
+                    this.isAnswered = true;
+                  }
+                });
+              }
+            });
           }
-        });
-      }
-      this.answer = '';
-    },
-    addComment(answerId, index) {
-      this.addNotification("comment");
-
-      const comment = {
-        mapValue: {
-          fields: {
-            comment: { stringValue: this.comment[index].value },
-            commentId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
-            uid: { stringValue: this.uid },
-            userName: { stringValue: this.$store.getters.userName },
-            created_at: { timestampValue: new Date().toISOString() },
-            updated_at: { timestampValue: new Date().toISOString() },
-          }
+          this.answer = '';
         }
-      };
-
-      this.$store.dispatch('thread/addThread', {
-        postId: this.postId,
-        answerId,
-        comment,
-        type: 'comment',
       });
+    },
+    addComment(fields, index) {
+      dialog(this, {
+        title: 'コメントを送信しますか？',
+        body: `コメント： ${this.comment[index].value}`
+      }).then((response) => {
+        if (response == 'OK') {
+          this.addNotification("comment");
 
-      this.comment[index].value = '';
-      // this.isDisplayCommentArea[index].value = false;
+          const comment = {
+            mapValue: {
+              fields: {
+                comment: { stringValue: this.comment[index].value },
+                commentId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
+                uid: { stringValue: this.uid },
+                userName: { stringValue: this.$store.getters.userName },
+                created_at: { timestampValue: new Date().toISOString() },
+                updated_at: { timestampValue: new Date().toISOString() },
+              }
+            }
+          };
+
+          this.$store.dispatch('thread/addThread', {
+            postId: this.postId,
+            answerId: fields.answerId.stringValue,
+            comment,
+            type: 'comment',
+          });
+
+          this.comment[index].value = '';
+          // this.isDisplayCommentArea[index].value = false;
+        }
+      });
     },
     displayCommentArea(index) {
       this.isDisplayCommentArea[index].value = true;
     },
-    deleteAnswer(answerId, isBestAnswer) {
-      this.$dialog.confirm(
-        {
-          body: '本当にこの回答を削除しますか？'
-        },
-        {
-          okText: 'はい',
-          cancelText: 'キャンセル',
+    deleteAnswer(fields, isBestAnswer) {
+      dialog(this, {
+        title: '本当にこの回答を削除しますか？',
+        body: `回答： ${fields.answer.stringValue}`
+      }).then((response) => {
+        if (response == 'OK') {
+          this.$store.dispatch('thread/deleteAnswer', {
+            postId: this.postId,
+            answerId: fields.answerId.stringValue,
+          }).then(() => {
+            // 全ての回答が削除された場合、回答あり --> 回答なし
+            if (this.thread.answers.arrayValue.values.length == 0) {
+              this.isAnswered = false;
+              this.$store.dispatch('post/updateIsAnswered', {
+                postId: this.postId,
+                isAnswered: false
+              });
+            }
+            // ベストアンサーが削除された場合、解決済み --> 未解決にする
+            if (isBestAnswer) {
+              this.$store.dispatch('thread/updateBestAnswer', {
+                postId: this.postId,
+                answerId: fields.answerId.stringValue,
+                isResolved: false
+              });
+            }
+          });
         }
-      ).then(() => {
-        this.$store.dispatch('thread/deleteAnswer', {
-          postId: this.postId,
-          answerId,
-        }).then(() => {
-          // 全ての回答が削除された場合、回答あり --> 回答なし
-          if (this.thread.answers.arrayValue.values.length == 0) {
-            this.isAnswered = false;
-            this.$store.dispatch('post/updateIsAnswered', {
-              postId: this.postId,
-              isAnswered: false
-            });
-          }
-          // ベストアンサーが削除された場合、解決済み --> 未解決にする
-          if (isBestAnswer) {
-            this.$store.dispatch('thread/updateBestAnswer', {
-              postId: this.postId,
-              answerId,
-              isResolved: false
-            });
-          }
-        });
       });
     },
-    deleteComment(answerId, commentId) {
-      this.$dialog.confirm(
-        {
-          body: '本当にこのコメントを削除しますか？'
-        },
-        {
-          okText: 'はい',
-          cancelText: 'キャンセル',
+    deleteComment(answerFields, commentFields) {
+      dialog(this, {
+        title: '本当にこのコメントを削除しますか？',
+        body: `コメント： ${commentFields.comment.stringValue}`
+      }).then((response) => {
+        if (response == 'OK') {
+          this.$store.dispatch('thread/deleteComment', {
+            postId: this.postId,
+            answerId: answerFields.answerId.stringValue,
+            commentId: commentFields.commentId.stringValue,
+          });
         }
-      ).then(() => {
-        this.$store.dispatch('thread/deleteComment', {
-          postId: this.postId,
-          answerId,
-          commentId,
-        });
       });
     },
-    updateBestAnswer(answerId) {
-      this.$dialog.confirm(
-        {
-          body: 'この回答をベストアンサーにしますか？'
-        },
-        {
-          okText: 'はい',
-          cancelText: 'キャンセル',
+    updateBestAnswer(fields) {
+      dialog(this, {
+        title: 'この回答をベストアンサーにしますか？',
+        body: `回答： ${fields.answer.stringValue}`
+      }).then((response) => {
+        if (response == 'OK') {
+          this.$store.dispatch('thread/updateBestAnswer', {
+            postId: this.postId,
+            answerId: fields.answerId.stringValue,
+            isResolved: true
+          });
         }
-      ).then(() => {
-        this.$store.dispatch('thread/updateBestAnswer', {
-          postId: this.postId,
-          answerId,
-          isResolved: true
-        });
       });
     },
     updateFavorite(isFavorite) {

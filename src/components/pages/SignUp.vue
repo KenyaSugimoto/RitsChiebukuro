@@ -2,9 +2,11 @@
   <div id="app">
     <hr>
 
-    <h2>登録ページ</h2>
+    <h2>ユーザ登録</h2>
+    <router-link to="/login" class="login">ログインはこちらから</router-link>
 
-    <br>
+    <br><br>
+    <br><br>
 
     <label for="email">Email：</label>
     <input type="email" id="email" v-model="email">
@@ -60,7 +62,7 @@
     <br><br>
     <br><br>
 
-    <button @click="signup">登録</button>
+    <button @click="signup">ユーザ登録</button>
 
   </div>
 </template>
@@ -120,4 +122,13 @@ export default {
 
 </script>
 
-
+<style scoped>
+.login {
+  padding: 10px;
+  cursor: pointer;
+}
+.login:hover {
+  background-color: #b1abab;
+  color: red;
+}
+</style>

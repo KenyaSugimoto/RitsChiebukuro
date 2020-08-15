@@ -30,8 +30,6 @@ export const initialState = {
     refreshToken: null,
     expiryTimeMs: null,
     emailVerified: false,
-    beginActivate: false,
-    beginResetPassword: false,
   },
   postsInfo: {
     newPosts: null,
@@ -67,8 +65,6 @@ const getters = {
     refreshToken: state => state.authInfo.refreshToken,
     expiryTimeMs: state => state.authInfo.expiryTimeMs,
     emailVerified: state => state.authInfo.emailVerified,
-    beginActivate: state => state.authInfo.beginActivate,
-    beginResetPassword: state => state.authInfo.beginResetPassword,
   },
   // postsInfo
   ... {
@@ -127,12 +123,6 @@ const mutations = {
     },
     updateEmailVerified(state, emailVerified) {
       state.authInfo.emailVerified = emailVerified;
-    },
-    updateBeginActivate(state, beginActivate) {
-      state.authInfo.beginActivate = beginActivate;
-    },
-    updateBeginResetPassword(state, beginResetPassword) {
-      state.authInfo.beginResetPassword = beginResetPassword;
     },
     resetState(state) {
       Object.assign(state, JSON.parse(JSON.stringify(initialState)));

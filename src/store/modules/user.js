@@ -1,5 +1,6 @@
 import axiosQuery from "../../axios/axios-query";
 import axiosDb from "../../axios/axios-db";
+import {toast} from "../../function/toastr.js";
 
 const actions = {
   async getUserInfo({rootGetters, commit}) {
@@ -96,6 +97,11 @@ const actions = {
         }
       });
       commit('updateFavoritePostIds', favoritePostIds, {root: true});
+      if (isFavorite) {
+        toast("気になる質問に登録しました", "success");
+      } else {
+        toast("気になる質問から解除しました", "success");
+      }
     })
     .catch((error) => {
         console.log(error.response);

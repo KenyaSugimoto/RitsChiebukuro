@@ -93,14 +93,14 @@ const actions = {
 
     return message;
   },
-  async deleteAnswer({rootGetters, commit}, threadInfo) {
+  async deleteAnswer({rootGetters, commit}, answerId) {
     const thread = {};
     Object.assign(thread, JSON.parse(JSON.stringify(rootGetters.thread)));
     const answers = thread.answers.arrayValue.values;
-    const newAnswers = answers.filter(answer => answer.mapValue.fields.answerId.stringValue != threadInfo.answerId);
+    const newAnswers = answers.filter(answer => answer.mapValue.fields.answerId.stringValue != answerId);
     thread.answers.arrayValue.values = newAnswers;
 
-    await axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
+    await axiosDb.patch(`threads/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
       },

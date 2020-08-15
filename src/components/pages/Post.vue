@@ -402,10 +402,7 @@ export default {
         body: `回答： ${fields.answer.stringValue}`
       }).then((response) => {
         if (response == 'OK') {
-          this.$store.dispatch('thread/deleteAnswer', {
-            postId: this.postId,
-            answerId: fields.answerId.stringValue,
-          }).then(() => {
+          this.$store.dispatch('thread/deleteAnswer', fields.answerId.stringValue).then(() => {
             // 全ての回答が削除された場合、回答あり --> 回答なし
             if (this.thread.answers.arrayValue.values.length == 0) {
               this.isAnswered = false;

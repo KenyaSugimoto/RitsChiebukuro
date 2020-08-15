@@ -2,10 +2,13 @@
   <div>
     <br>
     <template v-if='searchResultPosts != null'>
-      <Posts v-bind:posts='searchResultPosts' v-bind:name='`${searchKeyWords} の検索結果`'></Posts>
+      <h2>「{{searchKeyWords}}」 の検索結果</h2>
+      <Posts v-bind:posts='searchResultPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+      <Posts v-bind:posts='searchResultPosts | manyViews' name='よく見られている質問'></Posts>
+      <Posts v-bind:posts='searchResultPosts | resolved' name='解決済みの質問'></Posts>
     </template>
     <template v-else>
-      <h2>{{searchKeyWords}} の検索結果はありません</h2>
+      <h2>「{{searchKeyWords}}」 の検索結果はありません</h2>
       <router-link to="/">Homeへ戻る</router-link>
     </template>
   </div>

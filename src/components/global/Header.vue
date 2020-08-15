@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Search></Search>
     <header>
       <div class="header-item" @click="getNotification">通知</div>
       <nav>
@@ -30,8 +31,6 @@
         </ul>
       </nav>
     </header>
-
-    <Search></Search>
   </div>
 </template>
 

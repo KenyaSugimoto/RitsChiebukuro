@@ -38,6 +38,7 @@ export const initialState = {
     watchingPost: null,
     searchResultPosts: null,
     searchKeyWords: null,
+    favoritePosts: null,
   },
   notificationInfo: {
     questionerNotifications: null,
@@ -74,6 +75,7 @@ const getters = {
     watchingPost: state => state.postsInfo.watchingPost,
     searchResultPosts: state => state.postsInfo.searchResultPosts,
     searchKeyWords: state => state.postsInfo.searchKeyWords,
+    favoritePosts: state => state.postsInfo.favoritePosts,
   },
 
   // notificationInfo
@@ -150,6 +152,9 @@ const mutations = {
     },
     addNewPost(state, newPostData) {
       state.postsInfo.newPosts.unshift(newPostData);
+    },
+    updateFavoritePosts(state, favoritePosts) {
+      state.postsInfo.favoritePosts = favoritePosts;
     }
   },
   // notificationInfo

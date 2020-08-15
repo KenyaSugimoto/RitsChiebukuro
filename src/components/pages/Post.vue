@@ -423,7 +423,6 @@ export default {
       }).then((response) => {
         if (response == 'OK') {
           this.$store.dispatch('thread/deleteComment', {
-            postId: this.postId,
             answerId: answerFields.answerId.stringValue,
             commentId: commentFields.commentId.stringValue,
           });

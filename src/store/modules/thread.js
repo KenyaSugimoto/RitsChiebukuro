@@ -141,7 +141,7 @@ const actions = {
       thread.answers.arrayValue.values[answerIndex].mapValue.fields.comments.arrayValue.values = newComments;
     }
 
-    axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
+    axiosDb.patch(`threads/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
       },

@@ -184,6 +184,7 @@ const actions = {
       }
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
+      commit('updateIsResolved', answerInfo.isResolved, {root: true});
       dispatch('post/updateIsResolved', {
         postId,
         isResolved: answerInfo.isResolved

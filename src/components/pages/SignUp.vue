@@ -68,6 +68,8 @@
 <script>
 import ritsData from "../../assets/rits.json";
 import {toast} from "../../function/toastr.js";
+import {dialog} from "../../function/dialog.js";
+
 export default {
   data() {
     return {
@@ -97,22 +99,19 @@ export default {
       } else if (!reg.test(this.email)) {
         toast('正しいメールアドレスを入力してください。', "error");
       } else {
-        this.$dialog.confirm(
-          {
-            body: '入力内容に間違いはありませんか？'
-          },
-          {
-            okText: 'はい',
-            cancelText: 'いいえ',
+        dialog(this, {
+          title: 'この入力内容で登録しますか？',
+          body: `Email： <b>${this.email}</b> <br><br><br> ユーザ名： <b>${this.userName}</b> <br><br><br> ${this.degree == 'bachelor' ? '学部' : '研究科'}： <b>${this.major}</b> <br><br><br> 学年： <b>${this.grade}</b>`
+        }).then((response) => {
+          if (response == 'OK') {
+            this.$store.dispatch('signUp/signUp', {
+              email: this.email,
+              password: this.password,
+              userName: this.userName,
+              major: this.major,
+              grade: this.grade,
+            });
           }
-        ).then(() => {
-          this.$store.dispatch('signUp/signUp', {
-            email: this.email,
-            password: this.password,
-            userName: this.userName,
-            major: this.major,
-            grade: this.grade,
-          });
         });
       }
     }

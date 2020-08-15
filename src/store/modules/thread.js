@@ -2,8 +2,8 @@ import axiosDb from '../../axios/axios-db';
 import {toast} from "../../function/toastr.js";
 
 const actions = {
-  async getThread({rootGetters, commit}, postId) {
-    await axiosDb.get(`threads/${postId}`,
+  async getThread({rootGetters, commit}) {
+    await axiosDb.get(`threads/${rootGetters.watchingPost.document.fields.postId.stringValue}`,
       {
         headers: {
           Authorization: `Bearer ${rootGetters.idToken}`,
@@ -18,12 +18,12 @@ const actions = {
       }
     });
   },
-  async createThread({rootGetters, commit}, threadInfo) {
+  async createThread({rootGetters, commit}, fields) {
     let message = '';
 
-    await axiosDb.post(`/threads?documentId=${threadInfo.postId}`,
+    await axiosDb.post(`/threads?documentId=${rootGetters.watchingPost.document.fields.postId.stringValue}`,
       {
-        fields: threadInfo.fields,
+        fields,
       },
       {
         headers: {
@@ -70,7 +70,7 @@ const actions = {
       }
     }
 
-    await axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
+    await axiosDb.patch(`threads/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
       },

@@ -321,7 +321,6 @@ export default {
           if (this.threadExists) {
             // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
             this.$store.dispatch('thread/addThread', {
-              postId: this.postId,
               answer: answer,
               type: 'answer',
             }).then((response) => {
@@ -332,18 +331,15 @@ export default {
           } else {
             // スレッドが存在しない場合、スレッドを作成し、スレッドあり・回答ありに設定
             this.$store.dispatch('thread/createThread', {
-              postId: this.postId,
-              fields: {
-                answers: {
-                  arrayValue: {
-                    values: [
-                      answer
-                    ]
-                  }
-                },
-                isResolved: { booleanValue: false },
-                created_at: { timestampValue: new Date().toISOString() },
+              answers: {
+                arrayValue: {
+                  values: [
+                    answer
+                  ]
+                }
               },
+              isResolved: { booleanValue: false },
+              created_at: { timestampValue: new Date().toISOString() },
             }).then((response) => {
               this.threadExists = true;
               if (response == 'OK') {
@@ -351,7 +347,6 @@ export default {
               } else if (response == 'ALREADY_EXISTS') {
                 // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
                 this.$store.dispatch('thread/addThread', {
-                  postId: this.postId,
                   answer: answer,
                   type: 'answer',
                 }).then((response) => {
@@ -388,7 +383,6 @@ export default {
           };
 
           this.$store.dispatch('thread/addThread', {
-            postId: this.postId,
             answerId: fields.answerId.stringValue,
             comment,
             type: 'comment',
@@ -469,7 +463,7 @@ export default {
   },
   created() {
     // スレッドの取得
-    this.$store.dispatch('thread/getThread', this.postId).then(() => {
+    this.$store.dispatch('thread/getThread').then(() => {
       if (this.thread !== null) {
         const answers = this.thread.answers.arrayValue.values;
         if (typeof(answers) !== 'undefined') {

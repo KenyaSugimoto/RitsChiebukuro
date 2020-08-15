@@ -2,8 +2,8 @@ import axiosDb from '../../axios/axios-db';
 import {toast} from "../../function/toastr.js";
 
 const actions = {
-  async getThread({rootGetters, commit}, postId) {
-    await axiosDb.get(`threads/${postId}`,
+  async getThread({rootGetters, commit}) {
+    await axiosDb.get(`threads/${rootGetters.watchingPost.document.fields.postId.stringValue}`,
       {
         headers: {
           Authorization: `Bearer ${rootGetters.idToken}`,
@@ -18,12 +18,12 @@ const actions = {
       }
     });
   },
-  async createThread({rootGetters, commit}, threadInfo) {
+  async createThread({rootGetters, commit}, fields) {
     let message = '';
 
-    await axiosDb.post(`/threads?documentId=${threadInfo.postId}`,
+    await axiosDb.post(`/threads?documentId=${rootGetters.watchingPost.document.fields.postId.stringValue}`,
       {
-        fields: threadInfo.fields,
+        fields,
       },
       {
         headers: {
@@ -70,7 +70,7 @@ const actions = {
       }
     }
 
-    await axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
+    await axiosDb.patch(`threads/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
       },
@@ -93,14 +93,14 @@ const actions = {
 
     return message;
   },
-  async deleteAnswer({rootGetters, commit}, threadInfo) {
+  async deleteAnswer({rootGetters, commit}, answerId) {
     const thread = {};
     Object.assign(thread, JSON.parse(JSON.stringify(rootGetters.thread)));
     const answers = thread.answers.arrayValue.values;
-    const newAnswers = answers.filter(answer => answer.mapValue.fields.answerId.stringValue != threadInfo.answerId);
+    const newAnswers = answers.filter(answer => answer.mapValue.fields.answerId.stringValue != answerId);
     thread.answers.arrayValue.values = newAnswers;
 
-    await axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
+    await axiosDb.patch(`threads/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
       },
@@ -141,7 +141,7 @@ const actions = {
       thread.answers.arrayValue.values[answerIndex].mapValue.fields.comments.arrayValue.values = newComments;
     }
 
-    axiosDb.patch(`threads/${threadInfo.postId}?updateMask.fieldPaths=answers`,
+    axiosDb.patch(`threads/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=answers`,
       {
         fields : thread,
       },
@@ -172,8 +172,7 @@ const actions = {
     }
     thread.isResolved.booleanValue = answerInfo.isResolved;
 
-    const postId = answerInfo.postId;
-    axiosDb.patch(`threads/${postId}?updateMask.fieldPaths=answers&updateMask.fieldPaths=isResolved`,
+    axiosDb.patch(`threads/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=answers&updateMask.fieldPaths=isResolved`,
       {
         fields : thread,
       },
@@ -185,10 +184,7 @@ const actions = {
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
       commit('updateIsResolved', answerInfo.isResolved, {root: true});
-      dispatch('post/updateIsResolved', {
-        postId,
-        isResolved: answerInfo.isResolved
-      }, {root: true});
+      dispatch('post/updateIsResolved', answerInfo.isResolved, {root: true});
       // 解決済みにする場合
       if (answerInfo.isResolved) {
         toast("ベストアンサーにしました", "success");

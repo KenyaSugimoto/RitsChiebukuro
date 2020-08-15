@@ -1,5 +1,6 @@
 import axiosQuery from "../../axios/axios-query";
 import axiosDb from "../../axios/axios-db";
+import {toast} from "../../function/toastr.js";
 
 const actions = {
   async getUserInfo({rootGetters, commit}) {
@@ -56,13 +57,13 @@ const actions = {
       commit('updateFavoritePostIds', favoritePostIds, {root: true});
     });
   },
-  updateFavoritePostIds({rootGetters, commit}, favoriteInfo) {
+  updateFavoritePostIds({rootGetters, commit}, isFavorite) {
     let favoritePostIds = rootGetters.favoritePostIds.concat();
 
-    if (favoriteInfo.isFavorite) {
-      favoritePostIds.push(favoriteInfo.postId);
+    if (isFavorite) {
+      favoritePostIds.push(rootGetters.watchingPost.document.fields.postId.stringValue);
     } else {
-      favoritePostIds = favoritePostIds.filter(postId => postId != favoriteInfo.postId);
+      favoritePostIds = favoritePostIds.filter(postId => postId != rootGetters.watchingPost.document.fields.postId.stringValue);
     }
 
     if (favoritePostIds.length == 0) {
@@ -96,6 +97,11 @@ const actions = {
         }
       });
       commit('updateFavoritePostIds', favoritePostIds, {root: true});
+      if (isFavorite) {
+        toast("気になる質問に登録しました", "success");
+      } else {
+        toast("気になる質問から解除しました", "success");
+      }
     })
     .catch((error) => {
         console.log(error.response);

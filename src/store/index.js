@@ -45,6 +45,7 @@ export const initialState = {
   },
   threadInfo: {
     thread: null,
+    isResolved: false,
   },
 };
 
@@ -85,6 +86,7 @@ const getters = {
   // threadInfo
   ... {
     thread: state => state.threadInfo.thread,
+    isResolved: state => state.threadInfo.isResolved,
   },
 };
 
@@ -171,6 +173,9 @@ const mutations = {
   ...{
     updateThread(state, thread) {
       state.threadInfo.thread = thread;
+    },
+    updateIsResolved(state, isResolved) {
+      state.threadInfo.isResolved = isResolved;
     },
   },
 };

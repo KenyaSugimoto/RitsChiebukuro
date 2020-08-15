@@ -50,7 +50,7 @@
     <hr>
 
     <!-- ベストアンサーが選ばれたら回答エリアを消す -->
-    <template v-if='!post.document.fields.isResolved.booleanValue && (thread === null ? true : (typeof(thread.isResolved) === "undefined") ? true : !thread.isResolved.booleanValue)'>
+    <template v-if='!isResolved'>
       <!-- 回答エリア -->
       <div class='post-form'>
         <div>
@@ -131,7 +131,7 @@
       </div>
 
       <!-- ベストアンサーと回答を区切るための<hr> -->
-      <template v-if='!(!post.document.fields.isResolved.booleanValue && (thread === null ? true : (typeof(thread.isResolved) === "undefined") ? true : !thread.isResolved.booleanValue))'>
+      <template v-if='isResolved'>
         <hr>
       </template>
 
@@ -239,6 +239,9 @@ export default {
     favoritePostIds() {
       return this.$store.getters.favoritePostIds;
     },
+    isResolved() {
+      return this.$store.getters.isResolved;
+    }
   },
   methods: {
     deletePost() {
@@ -294,7 +297,7 @@ export default {
               isAnswered: true
             });
           }
-          
+
           this.addNotification("answer");
 
           this.comment.push({ value: '' });

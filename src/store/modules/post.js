@@ -125,52 +125,6 @@ const actions = {
       console.log(error);
     });
   },
-  getIndividualPosts({ rootGetters, commit }) {
-    axiosQuery.post(
-      "/documents:runQuery",
-      {
-        structuredQuery: {
-          select: {
-            fields,
-          },
-          from,
-          orderBy: createdAtDesc,
-          where: {
-            compositeFilter: {
-              op: "AND",
-              filters: [
-                {
-                  fieldFilter: {
-                    field: {
-                      fieldPath: "uid",
-                    },
-                    op: "EQUAL",
-                    value: {
-                      stringValue: rootGetters.uid,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${rootGetters.idToken}`,
-        },
-      }
-    ).then((response) => {
-      if ("document" in response.data[0]) {
-        commit("updateIndividualNewPosts", null, { root: true });
-        commit("updateIndividualNewPosts", response.data, { root: true });
-      } else {
-        commit("updateIndividualNewPosts", null, { root: true });
-      }
-    }).catch((error) => {
-      console.log(error.response);
-    });
-  },
   getSelectedCategoryNewPosts({ rootGetters, commit }, category) {
     if (!category || category == "全て") {
       axiosQuery

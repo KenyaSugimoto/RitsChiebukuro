@@ -2,8 +2,8 @@ import router from "../../router";
 
 const actions = {
   logout({commit}) {
-    localStorage.removeItem('RitsChiebukuro');
     commit('resetState', {}, {root: true});
+    window.localStorage.removeItem('RitsChiebukuro');
     router.push('/login').catch(() => {});
   },
 };

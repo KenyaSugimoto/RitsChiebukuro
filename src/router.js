@@ -59,7 +59,7 @@ export default new Router({
       },
     },
     {
-      path: '/ResetPassword',
+      path: '/resetPassword',
       components: {
         default: ResetPassword,
       }

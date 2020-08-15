@@ -11,6 +11,8 @@ import reset from "./modules/reset";
 import notification from "./modules/notification";
 import thread from "./modules/thread";
 import search from "./modules/search";
+import SecureLS from "secure-ls";
+const ls = new SecureLS({ isCompression: false });
 
 Vue.use(Vuex);
 
@@ -182,7 +184,7 @@ const mutations = {
 
 
 export default new Vuex.Store({
-  state: initialState,
+  state: JSON.parse(JSON.stringify(initialState)),
   getters,
   mutations,
   actions: {},
@@ -200,7 +202,12 @@ export default new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      key: 'RitsChiebukuro'
-    })
+      key: 'RitsChiebukuro',
+      storage: {
+        getItem: key => ls.get(key),
+        setItem: (key, value) => ls.set(key, value),
+        removeItem: key => ls.remove(key),
+      },
+    }),
   ],
 });

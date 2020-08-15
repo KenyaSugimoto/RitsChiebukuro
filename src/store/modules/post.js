@@ -206,7 +206,9 @@ const actions = {
         });
     }
   },
-  async getPostByPostId({ rootGetters, commit }, postId) {
+  async getPostByPostId({ rootGetters, commit, dispatch }, postId) {
+    let message = '';
+
     await axiosQuery.post(
       "/documents:runQuery",
       {
@@ -243,10 +245,16 @@ const actions = {
     ).then((response) => {
       commit("updateWatchingPost", null, { root: true });
       commit("updateWatchingPost", response.data[0], { root: true });
+      dispatch("thread/getThread", {}, {root: true});
+      message = 'OK';
     })
     .catch((error) => {
       console.log(error.response);
+      message = 'getPostByPostId Error';
     });
+
+    console.log(message);
+    return message;
   },
   async deletePost({rootGetters}, postId) {
     await axiosDb.delete(`posts/${postId}`,

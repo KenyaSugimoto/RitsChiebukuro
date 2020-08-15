@@ -284,6 +284,33 @@ export default {
       };
       this.$store.dispatch("notification/addNotificationForQuestioner", notificationData);
     },
+    addNotificationForRespondent(respondentUid) {
+      const notificationId = new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16);
+      const notificationData = {
+        notificationId: {
+          stringValue: notificationId
+        },
+        created_at: {
+          timestampValue: new Date().toISOString()
+        },
+        questionerName: {
+          stringValue: this.post.document.fields.userName.stringValue
+        },
+        postId: {
+          stringValue: this.post.document.fields.postId.stringValue
+        },
+        postTitle: {
+          stringValue: this.$store.getters.watchingPost.document.fields.title.stringValue
+        },
+        respondentUid: {
+          stringValue: respondentUid
+        },
+        type: {
+          stringValue: "respondent"
+        },
+      };
+      this.$store.dispatch("notification/addNotificationForRespondent", notificationData);
+    },
     addAnswer() {
       dialog(this, {
         title: '回答を送信しますか？',
@@ -364,7 +391,16 @@ export default {
         body: `コメント： ${this.comment[index].value}`
       }).then((response) => {
         if (response == 'OK') {
-          this.addNotificationForQuestioner("comment");
+          const isRespondent = this.uid === fields.uid.stringValue;
+          if (isRespondent) {
+            // 質問者に通知
+            this.addNotificationForQuestioner("comment");
+          }else {
+            // 回答者に通知
+            const respondentUid = fields.uid.stringValue;
+            this.addNotificationForRespondent(respondentUid);
+          }
+
 
           const comment = {
             mapValue: {

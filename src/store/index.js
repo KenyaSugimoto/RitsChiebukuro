@@ -44,6 +44,7 @@ export const initialState = {
   notificationInfo: {
     questionerNotifications: null,
     displayNotifications: null,
+    respondentNotifications: null,
   },
   threadInfo: {
     thread: null,
@@ -83,6 +84,7 @@ const getters = {
   // notificationInfo
   ... {
     questionerNotifications: state => state.notificationInfo.questionerNotifications,
+    respondentNotifications: state => state.notificationInfo.respondentNotifications,
     displayNotifications: state => state.notificationInfo.displayNotifications,
   },
   // threadInfo
@@ -166,6 +168,9 @@ const mutations = {
   ... {
     updateQuestionerNotifications(state, questionerNotifications) {
       state.notificationInfo.questionerNotifications = questionerNotifications;
+    },
+    updateRespondentNotifications(state, respondentNotifications) {
+      state.notificationInfo.respondentNotifications = respondentNotifications;
     },
     updateDisplayNotifications(state, displayNotifications) {
       state.notificationInfo.displayNotifications = displayNotifications;

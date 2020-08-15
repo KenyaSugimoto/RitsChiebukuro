@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2>質問</h2>
-    <button @click="addNotification">テスト用ボタン（ここを押すと通知情報が追加されます）</button>
 
     <hr>
 
@@ -256,7 +255,7 @@ export default {
         });
       });
     },
-    addNotification() {
+    addNotification(type) {
       const notificationId = new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16);
       const notificationData = {
         notificationId: {
@@ -278,12 +277,13 @@ export default {
           stringValue: this.post.document.fields.uid.stringValue
         },
         type: {
-          stringValue: "answer"
+          stringValue: type
         },
       };
       this.$store.dispatch("notification/addNotification", notificationData);
     },
     addAnswer() {
+      this.addNotification("answer");
       // 回答が存在しない場合、回答なし --> 回答ありにする
       if (!this.isAnswered) {
         this.$store.dispatch('post/updateIsAnswered', {
@@ -357,6 +357,8 @@ export default {
       this.answer = '';
     },
     addComment(answerId, index) {
+      this.addNotification("comment");
+
       const comment = {
         mapValue: {
           fields: {

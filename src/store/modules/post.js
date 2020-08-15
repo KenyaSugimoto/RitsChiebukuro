@@ -336,11 +336,11 @@ const actions = {
         console.log(error.response);
     });
   },
-  updateIsResolved({rootGetters}, postInfo) {
-    axiosDb.patch(`posts/${postInfo.postId}?updateMask.fieldPaths=isResolved`,
+  updateIsResolved({rootGetters}, isResolved) {
+    axiosDb.patch(`posts/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=isResolved`,
       {
         fields : {
-          isResolved: {booleanValue: postInfo.isResolved},
+          isResolved: {booleanValue: isResolved},
         },
       },
       {

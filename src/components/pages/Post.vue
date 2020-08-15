@@ -408,7 +408,6 @@ export default {
             // ベストアンサーが削除された場合、解決済み --> 未解決にする
             if (isBestAnswer) {
               this.$store.dispatch('thread/updateBestAnswer', {
-                postId: this.postId,
                 answerId: fields.answerId.stringValue,
                 isResolved: false
               });
@@ -438,7 +437,6 @@ export default {
       }).then((response) => {
         if (response == 'OK') {
           this.$store.dispatch('thread/updateBestAnswer', {
-            postId: this.postId,
             answerId: fields.answerId.stringValue,
             isResolved: true
           });

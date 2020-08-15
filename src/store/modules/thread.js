@@ -172,8 +172,7 @@ const actions = {
     }
     thread.isResolved.booleanValue = answerInfo.isResolved;
 
-    const postId = answerInfo.postId;
-    axiosDb.patch(`threads/${postId}?updateMask.fieldPaths=answers&updateMask.fieldPaths=isResolved`,
+    axiosDb.patch(`threads/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=answers&updateMask.fieldPaths=isResolved`,
       {
         fields : thread,
       },
@@ -185,10 +184,7 @@ const actions = {
     ).then((response) => {
       commit('updateThread', response.data.fields, {root: true});
       commit('updateIsResolved', answerInfo.isResolved, {root: true});
-      dispatch('post/updateIsResolved', {
-        postId,
-        isResolved: answerInfo.isResolved
-      }, {root: true});
+      dispatch('post/updateIsResolved', answerInfo.isResolved, {root: true});
       // 解決済みにする場合
       if (answerInfo.isResolved) {
         toast("ベストアンサーにしました", "success");

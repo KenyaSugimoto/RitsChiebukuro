@@ -90,7 +90,7 @@
           </div>
           <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
             <div>
-              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue, answer.mapValue.fields.isBestAnswer.booleanValue, answer.mapValue.fields.answer.stringValue)'>削除</button>
+              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue, true, answer.mapValue.fields.answer.stringValue)'>削除</button>
             </div>
           </template>
 
@@ -157,7 +157,7 @@
 
           <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
             <div>
-              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue, answer.mapValue.fields.isBestAnswer.booleanValue, answer.mapValue.fields.answer.stringValue)'>削除</button>
+              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue, false, answer.mapValue.fields.answer.stringValue)'>削除</button>
             </div>
           </template>
 
@@ -283,63 +283,38 @@ export default {
       this.$store.dispatch("notification/addNotification", notificationData);
     },
     addAnswer() {
-      // 回答が存在しない場合、回答なし --> 回答ありにする
-      if (!this.isAnswered) {
-        this.$store.dispatch('post/updateIsAnswered', {
-          postId: this.postId,
-          isAnswered: true
-        });
-      }
-
-      this.comment.push({ value: '' });
-      this.isDisplayCommentArea.push({ value: false });
-
-      const answer = {
-        mapValue: {
-          fields: {
-            answer: { stringValue: this.answer },
-            answerId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
-            isBestAnswer: { booleanValue: false },
-            uid: { stringValue: this.uid },
-            userName: { stringValue: this.$store.getters.userName },
-            created_at: { timestampValue: new Date().toISOString() },
-            updated_at: { timestampValue: new Date().toISOString() },
-            comments: { arrayValue: { values: [] } },
+      dialog(this, {
+        title: '回答を送信しますか？',
+        body: `回答： ${this.answer}`
+      }).then((response) => {
+        if (response == 'OK') {
+          // 回答が存在しない場合、回答なし --> 回答ありにする
+          if (!this.isAnswered) {
+            this.$store.dispatch('post/updateIsAnswered', {
+              postId: this.postId,
+              isAnswered: true
+            });
           }
-        }
-      }
 
-      if (this.threadExists) {
-        // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
-        this.$store.dispatch('thread/addThread', {
-          postId: this.postId,
-          answer: answer,
-          type: 'answer',
-        }).then((response) => {
-          if (response == 'OK') {
-            this.isAnswered = true;
-          }
-        });
-      } else {
-        // スレッドが存在しない場合、スレッドを作成し、スレッドあり・回答ありに設定
-        this.$store.dispatch('thread/createThread', {
-          postId: this.postId,
-          fields: {
-            answers: {
-              arrayValue: {
-                values: [
-                  answer
-                ]
+          this.comment.push({ value: '' });
+          this.isDisplayCommentArea.push({ value: false });
+
+          const answer = {
+            mapValue: {
+              fields: {
+                answer: { stringValue: this.answer },
+                answerId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
+                isBestAnswer: { booleanValue: false },
+                uid: { stringValue: this.uid },
+                userName: { stringValue: this.$store.getters.userName },
+                created_at: { timestampValue: new Date().toISOString() },
+                updated_at: { timestampValue: new Date().toISOString() },
+                comments: { arrayValue: { values: [] } },
               }
-            },
-            isResolved: { booleanValue: false },
-            created_at: { timestampValue: new Date().toISOString() },
-          },
-        }).then((response) => {
-          this.threadExists = true;
-          if (response == 'OK') {
-            this.isAnswered = true;
-          } else if (response == 'ALREADY_EXISTS') {
+            }
+          }
+
+          if (this.threadExists) {
             // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
             this.$store.dispatch('thread/addThread', {
               postId: this.postId,
@@ -350,34 +325,73 @@ export default {
                 this.isAnswered = true;
               }
             });
+          } else {
+            // スレッドが存在しない場合、スレッドを作成し、スレッドあり・回答ありに設定
+            this.$store.dispatch('thread/createThread', {
+              postId: this.postId,
+              fields: {
+                answers: {
+                  arrayValue: {
+                    values: [
+                      answer
+                    ]
+                  }
+                },
+                isResolved: { booleanValue: false },
+                created_at: { timestampValue: new Date().toISOString() },
+              },
+            }).then((response) => {
+              this.threadExists = true;
+              if (response == 'OK') {
+                this.isAnswered = true;
+              } else if (response == 'ALREADY_EXISTS') {
+                // スレッドが存在する場合、スレッドに回答を追加し、回答ありに設定
+                this.$store.dispatch('thread/addThread', {
+                  postId: this.postId,
+                  answer: answer,
+                  type: 'answer',
+                }).then((response) => {
+                  if (response == 'OK') {
+                    this.isAnswered = true;
+                  }
+                });
+              }
+            });
           }
-        });
-      }
-      this.answer = '';
+          this.answer = '';
+        }
+      });
     },
     addComment(answerId, index) {
-      const comment = {
-        mapValue: {
-          fields: {
-            comment: { stringValue: this.comment[index].value },
-            commentId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
-            uid: { stringValue: this.uid },
-            userName: { stringValue: this.$store.getters.userName },
-            created_at: { timestampValue: new Date().toISOString() },
-            updated_at: { timestampValue: new Date().toISOString() },
-          }
+      dialog(this, {
+        title: 'コメントを送信しますか？',
+        body: `コメント： ${this.comment[index].value}`
+      }).then((response) => {
+        if (response == 'OK') {
+          const comment = {
+            mapValue: {
+              fields: {
+                comment: { stringValue: this.comment[index].value },
+                commentId: { stringValue: new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16) },
+                uid: { stringValue: this.uid },
+                userName: { stringValue: this.$store.getters.userName },
+                created_at: { timestampValue: new Date().toISOString() },
+                updated_at: { timestampValue: new Date().toISOString() },
+              }
+            }
+          };
+
+          this.$store.dispatch('thread/addThread', {
+            postId: this.postId,
+            answerId,
+            comment,
+            type: 'comment',
+          });
+
+          this.comment[index].value = '';
+          // this.isDisplayCommentArea[index].value = false;
         }
-      };
-
-      this.$store.dispatch('thread/addThread', {
-        postId: this.postId,
-        answerId,
-        comment,
-        type: 'comment',
       });
-
-      this.comment[index].value = '';
-      // this.isDisplayCommentArea[index].value = false;
     },
     displayCommentArea(index) {
       this.isDisplayCommentArea[index].value = true;

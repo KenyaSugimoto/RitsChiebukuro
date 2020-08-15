@@ -90,7 +90,7 @@
           </div>
           <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
             <div>
-              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue, true, answer.mapValue.fields.answer.stringValue)'>削除</button>
+              <button @click='deleteAnswer(answer.mapValue.fields, true)'>削除</button>
             </div>
           </template>
 
@@ -109,7 +109,7 @@
               {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
             </div>
             <template v-if='uid == comment.mapValue.fields.uid.stringValue'>
-              <button @click='deleteComment(answer.mapValue.fields.answerId.stringValue, comment.mapValue.fields.commentId.stringValue, comment.mapValue.fields.comment.stringValue)'>削除</button>
+              <button @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)'>削除</button>
             </template>
             <hr>
           </div>
@@ -123,7 +123,7 @@
               </div>
             </div>
 
-            <button @click='addComment(answer.mapValue.fields.answerId.stringValue, index)'>コメントを送信</button>
+            <button @click='addComment(answer.mapValue.fields, index)'>コメントを送信</button>
           </template>
           <template v-else>
             <button @click='displayCommentArea(index)'>コメントする</button>
@@ -151,13 +151,13 @@
           </div>
           <template v-if='!answer.mapValue.fields.isBestAnswer.booleanValue && uid == post.document.fields.uid.stringValue && !thread.isResolved.booleanValue'>
             <div>
-              <button @click='updateBestAnswer(answer.mapValue.fields.answerId.stringValue, answer.mapValue.fields.answer.stringValue)'>ベストアンサーにする</button>
+              <button @click='updateBestAnswer(answer.mapValue.fields)'>ベストアンサーにする</button>
             </div>
           </template>
 
           <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
             <div>
-              <button @click='deleteAnswer(answer.mapValue.fields.answerId.stringValue, false, answer.mapValue.fields.answer.stringValue)'>削除</button>
+              <button @click='deleteAnswer(answer.mapValue.fields, false)'>削除</button>
             </div>
           </template>
 
@@ -176,7 +176,7 @@
               {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
             </div>
             <template v-if='uid == comment.mapValue.fields.uid.stringValue'>
-              <button @click='deleteComment(answer.mapValue.fields.answerId.stringValue, comment.mapValue.fields.commentId.stringValue, comment.mapValue.fields.comment.stringValue)'>削除</button>
+              <button @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)'>削除</button>
             </template>
             <hr>
           </div>
@@ -190,7 +190,7 @@
               </div>
             </div>
 
-            <button @click='addComment(answer.mapValue.fields.answerId.stringValue, index)'>コメントを送信</button>
+            <button @click='addComment(answer.mapValue.fields, index)'>コメントを送信</button>
           </template>
           <template v-else>
             <button @click='displayCommentArea(index)'>コメントする</button>
@@ -362,7 +362,7 @@ export default {
         }
       });
     },
-    addComment(answerId, index) {
+    addComment(fields, index) {
       dialog(this, {
         title: 'コメントを送信しますか？',
         body: `コメント： ${this.comment[index].value}`
@@ -383,7 +383,7 @@ export default {
 
           this.$store.dispatch('thread/addThread', {
             postId: this.postId,
-            answerId,
+            answerId: fields.answerId.stringValue,
             comment,
             type: 'comment',
           });
@@ -396,15 +396,15 @@ export default {
     displayCommentArea(index) {
       this.isDisplayCommentArea[index].value = true;
     },
-    deleteAnswer(answerId, isBestAnswer, answer) {
+    deleteAnswer(fields, isBestAnswer) {
       dialog(this, {
         title: '本当にこの回答を削除しますか？',
-        body: `回答： ${answer}`
+        body: `回答： ${fields.answer.stringValue}`
       }).then((response) => {
         if (response == 'OK') {
           this.$store.dispatch('thread/deleteAnswer', {
             postId: this.postId,
-            answerId,
+            answerId: fields.answerId.stringValue,
           }).then(() => {
             // 全ての回答が削除された場合、回答あり --> 回答なし
             if (this.thread.answers.arrayValue.values.length == 0) {
@@ -418,7 +418,7 @@ export default {
             if (isBestAnswer) {
               this.$store.dispatch('thread/updateBestAnswer', {
                 postId: this.postId,
-                answerId,
+                answerId: fields.answerId.stringValue,
                 isResolved: false
               });
             }
@@ -426,29 +426,29 @@ export default {
         }
       });
     },
-    deleteComment(answerId, commentId, comment) {
+    deleteComment(answerFields, commentFields) {
       dialog(this, {
         title: '本当にこのコメントを削除しますか？',
-        body: `コメント： ${comment}`
+        body: `コメント： ${commentFields.comment.stringValue}`
       }).then((response) => {
         if (response == 'OK') {
           this.$store.dispatch('thread/deleteComment', {
             postId: this.postId,
-            answerId,
-            commentId,
+            answerId: answerFields.answerId.stringValue,
+            commentId: commentFields.commentId.stringValue,
           });
         }
       });
     },
-    updateBestAnswer(answerId, answer) {
+    updateBestAnswer(fields) {
       dialog(this, {
         title: 'この回答をベストアンサーにしますか？',
-        body: `回答： ${answer}`
+        body: `回答： ${fields.answer.stringValue}`
       }).then((response) => {
         if (response == 'OK') {
           this.$store.dispatch('thread/updateBestAnswer', {
             postId: this.postId,
-            answerId,
+            answerId: fields.answerId.stringValue,
             isResolved: true
           });
         }

@@ -443,10 +443,7 @@ export default {
       });
     },
     updateFavorite(isFavorite) {
-      this.$store.dispatch('user/updateFavoritePostIds', {
-        postId: this.postId,
-        isFavorite,
-      });
+      this.$store.dispatch('user/updateFavoritePostIds', isFavorite);
     },
   },
   created() {

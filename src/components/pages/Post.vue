@@ -466,10 +466,7 @@ export default {
     if (!this.$store.getters.watchedPostIds.includes(this.postId) && this.uid != this.post.document.fields.uid.stringValue) {
       let views = Number(this.post.document.fields.views.integerValue);
       views = views + 1;
-      this.$store.dispatch('post/updateViews', {
-        postId: this.postId,
-        views
-      });
+      this.$store.dispatch('post/updateViews', views);
     }
   },
 }

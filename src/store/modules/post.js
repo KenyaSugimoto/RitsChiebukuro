@@ -355,11 +355,11 @@ const actions = {
         console.log(error.response);
     });
   },
-  updateViews({rootGetters, commit}, postInfo) {
-    axiosDb.patch(`posts/${postInfo.postId}?updateMask.fieldPaths=views`,
+  updateViews({rootGetters, commit}, views) {
+    axiosDb.patch(`posts/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=views`,
       {
         fields : {
-          views: {integerValue: `${postInfo.views}`},
+          views: {integerValue: `${views}`},
         },
       },
       {
@@ -368,7 +368,7 @@ const actions = {
         },
       }
     ).then(() => {
-      commit('addWatchedPostId', postInfo.postId, {root: true});
+      commit('addWatchedPostId', rootGetters.watchingPost.document.fields.postId.stringValue, {root: true});
     })
     .catch((error) => {
         console.log(error.response);

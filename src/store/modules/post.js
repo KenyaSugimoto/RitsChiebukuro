@@ -317,11 +317,11 @@ const actions = {
       console.log(error.response);
     });
   },
-  updateIsAnswered({rootGetters}, postInfo) {
-    axiosDb.patch(`posts/${postInfo.postId}?updateMask.fieldPaths=isAnswered`,
+  updateIsAnswered({rootGetters}, isAnswered) {
+    axiosDb.patch(`posts/${rootGetters.watchingPost.document.fields.postId.stringValue}?updateMask.fieldPaths=isAnswered`,
       {
         fields : {
-          isAnswered: {booleanValue: postInfo.isAnswered},
+          isAnswered: {booleanValue: isAnswered},
         },
       },
       {

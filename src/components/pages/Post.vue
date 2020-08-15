@@ -292,10 +292,7 @@ export default {
         if (response == 'OK') {
           // 回答が存在しない場合、回答なし --> 回答ありにする
           if (!this.isAnswered) {
-            this.$store.dispatch('post/updateIsAnswered', {
-              postId: this.postId,
-              isAnswered: true
-            });
+            this.$store.dispatch('post/updateIsAnswered', true);
           }
 
           this.addNotification("answer");
@@ -406,10 +403,7 @@ export default {
             // 全ての回答が削除された場合、回答あり --> 回答なし
             if (this.thread.answers.arrayValue.values.length == 0) {
               this.isAnswered = false;
-              this.$store.dispatch('post/updateIsAnswered', {
-                postId: this.postId,
-                isAnswered: false
-              });
+              this.$store.dispatch('post/updateIsAnswered', false);
             }
             // ベストアンサーが削除された場合、解決済み --> 未解決にする
             if (isBestAnswer) {

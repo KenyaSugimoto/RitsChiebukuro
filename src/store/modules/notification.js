@@ -47,7 +47,7 @@ const actions = {
       });
   },
 
-  addNotification({ rootGetters, dispatch }, notificationData) {
+  addNotificationForQuestioner({ rootGetters, dispatch }, notificationData) {
     // patchの準備
     // 今回の通知情報
     const objectKey = notificationData.notificationId.stringValue;

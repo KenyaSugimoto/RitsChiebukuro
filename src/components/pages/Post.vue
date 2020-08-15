@@ -257,7 +257,7 @@ export default {
         }
       });
     },
-    addNotification(type) {
+    addNotificationForQuestioner(type) {
       const notificationId = new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16);
       const notificationData = {
         notificationId: {
@@ -282,7 +282,7 @@ export default {
           stringValue: type
         },
       };
-      this.$store.dispatch("notification/addNotification", notificationData);
+      this.$store.dispatch("notification/addNotificationForQuestioner", notificationData);
     },
     addAnswer() {
       dialog(this, {
@@ -295,7 +295,7 @@ export default {
             this.$store.dispatch('post/updateIsAnswered', true);
           }
 
-          this.addNotification("answer");
+          this.addNotificationForQuestioner("answer");
 
           this.comment.push({ value: '' });
           this.isDisplayCommentArea.push({ value: false });
@@ -364,7 +364,7 @@ export default {
         body: `コメント： ${this.comment[index].value}`
       }).then((response) => {
         if (response == 'OK') {
-          this.addNotification("comment");
+          this.addNotificationForQuestioner("comment");
 
           const comment = {
             mapValue: {

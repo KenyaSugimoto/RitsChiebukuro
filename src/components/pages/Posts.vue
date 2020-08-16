@@ -30,13 +30,25 @@
 <script>
 export default {
   props: ["posts", "name"],
+  computed: {
+    watchingPost() {
+      return this.$store.getters.watchingPost;
+    }
+  },
   methods: {
     toPost(post) {
-      this.$store.commit("updateWatchingPost", null);
-      this.$store.commit("updateWatchingPost", post);
-      this.$router.push({
-        name: "post",
-        params: { postId: post.document.fields.postId.stringValue },
+      this.$store.dispatch("post/getPostByPostId", post.document.fields.postId.stringValue).then((response) => {
+        if (response == "OK") {
+          const existWatchingPost = "document" in this.watchingPost;
+          if (existWatchingPost) {
+            this.$router.push({
+              name: "post",
+              params: { postId: this.watchingPost.document.fields.postId.stringValue },
+            });
+          } else {
+            this.$router.push({name: "notFound"});
+          }
+        }
       });
     },
   },

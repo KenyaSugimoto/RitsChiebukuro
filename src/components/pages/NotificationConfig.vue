@@ -21,7 +21,6 @@
     <br>
     <button @click="setConfig">保存</button>
 
-      <p> {{notificationConfigValues}} </p>
 
 
   </div>
@@ -31,15 +30,17 @@
 export default {
   data() {
     return {
-      notificationConfigValues: this.nowNotificationConfigValues,
+      notificationConfigValues: this.$store.getters.notificationConfigValues,
     }
   },
 
   methods: {
     setConfig() {
-      const nowConfig = this.notificationConfigValues;
-      this.$store.commit("updateNotificationConfigValues", nowConfig);
-      console.log("nowConfig",nowConfig);
+      const selectedConfig = this.notificationConfigValues;
+      this.$store.commit("updateNotificationConfigValues", selectedConfig);
+      // this.$store.dispatch("user/updateNotificationConfigValues", selectedConfig);
+
+
     },
   }
 }

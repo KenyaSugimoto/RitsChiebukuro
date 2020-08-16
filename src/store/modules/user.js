@@ -12,6 +12,7 @@ const actions = {
             { fieldPath: "grade" },
             { fieldPath: "major" },
             { fieldPath: "favoritePostIds" },
+            { fieldPath: "notificationConfigValues" },
           ]
         },
         from: [
@@ -55,6 +56,20 @@ const actions = {
         }
       });
       commit('updateFavoritePostIds', favoritePostIds, {root: true});
+
+      const existConfigValue = "values" in userInfo.notificationConfigValues.arrayValue;
+      let notificationConfigValues = [];
+      if (existConfigValue) {
+        notificationConfigValues = userInfo.notificationConfigValues.arrayValue.values;
+        notificationConfigValues = notificationConfigValues.map(function(value) {
+          if (value.stringValue) {
+            return value.stringValue;
+          }
+        });
+        commit('updateNotificationConfigValues', notificationConfigValues, {root: true});
+        console.log("notificationConfigValues", notificationConfigValues);
+      }
+
     });
   },
   updateFavoritePostIds({rootGetters, commit}, isFavorite) {
@@ -106,7 +121,58 @@ const actions = {
     .catch((error) => {
         console.log(error.response);
     });
-  }
+  },
+
+  // updateNotificationConfigValues({rootGetters, commit}, selectedConfig) {
+  //   let notificationConfigValues = rootGetters.notificationConfigValues.concat();
+
+  //   // if (selectedConfig) {
+  //   //   notificationConfigValues.push(rootGetters.watchingPost.document.fields.postId.stringValue);
+  //   // } else {
+  //   //   notificationConfigValues = notificationConfigValues.filter(postId => postId != rootGetters.watchingPost.document.fields.postId.stringValue);
+  //   // }
+
+  //   // if (favoritePostIds.length == 0) {
+  //   //   favoritePostIds = [ { 'nullValue': null } ];
+  //   // } else {
+  //   //   favoritePostIds = favoritePostIds.map(function(postId) {
+  //   //     return {stringValue: postId}
+  //   //   });
+  //   // }
+
+  //   axiosDb.patch(`users/${rootGetters.uid}?updateMask.fieldPaths=favoritePostIds`,
+  //     {
+  //       fields : {
+  //         favoritePostIds: {
+  //           arrayValue: {
+  //             values: favoritePostIds
+  //           }
+  //         },
+  //       },
+  //     },
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${rootGetters.idToken}`,
+  //       },
+  //     }
+  //   ).then((response) => {
+  //     favoritePostIds = response.data.fields.favoritePostIds.arrayValue.values.filter(value => value.stringValue);
+  //     favoritePostIds = favoritePostIds.map(function(value) {
+  //       if (value.stringValue) {
+  //         return value.stringValue;
+  //       }
+  //     });
+  //     commit('updateFavoritePostIds', favoritePostIds, {root: true});
+  //     if (isFavorite) {
+  //       toast("気になる質問に登録しました", "success");
+  //     } else {
+  //       toast("気になる質問から解除しました", "success");
+  //     }
+  //   })
+  //   .catch((error) => {
+  //       console.log(error.response);
+  //   });
+  // },
 };
 
 export default {

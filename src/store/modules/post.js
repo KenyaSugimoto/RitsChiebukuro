@@ -335,6 +335,125 @@ const actions = {
     .catch((error) => {
         console.log(error.response);
     });
+  },
+  getIndividualPosts({ rootGetters, commit }) {
+    axiosQuery.post(
+      "/documents:runQuery",
+      {
+        structuredQuery: {
+          select: {
+            fields,
+          },
+          from,
+          orderBy: createdAtDesc,
+          where: {
+            compositeFilter: {
+              op: "AND",
+              filters: [
+                {
+                  fieldFilter: {
+                    field: {
+                      fieldPath: "uid",
+                    },
+                    op: "EQUAL",
+                    value: {
+                      stringValue: rootGetters.uid,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then((response) => {
+      if ("document" in response.data[0]) {
+        commit("updateIndividualNewPosts", null, { root: true });
+        commit("updateIndividualNewPosts", response.data, { root: true });
+      } else {
+        commit("updateIndividualNewPosts", null, { root: true });
+      }
+    }).catch((error) => {
+      console.log(error.response);
+    });
+  },
+  async getFavoritePosts({rootGetters, commit}) {
+    let favoritePostIds = rootGetters.favoritePostIds.concat();
+    if (favoritePostIds.length == 0) {
+      favoritePostIds = [ { 'nullValue': null } ];
+    } else {
+      favoritePostIds = favoritePostIds.map(function(postId) {
+        return {stringValue: postId}
+      });
+    }
+
+    // INに指定できる配列の長さは最大10個のため、favoritePostIdsを10個ずつに分割
+    const split = (array, n) => array.reduce((a, c, i) => i % n == 0 ? [...a, [c]] : [...a.slice(0, -1), [...a[a.length - 1], c]], []);
+    const splitedFavoritePostIds = split(favoritePostIds, 10);
+
+    let favoritePosts = [];
+
+    await Promise.all(
+      splitedFavoritePostIds.map(async favoritePostIds => {
+        await axiosQuery.post('/documents:runQuery',
+          {
+            structuredQuery: {
+              from: [
+                { collectionId: 'posts' }
+              ],
+              where: {
+                compositeFilter: {
+                  op: 'AND',
+                  filters: [
+                    {
+                      fieldFilter: {
+                        field: {
+                          fieldPath: 'postId',
+                        },
+                        op: 'IN',
+                        value: {
+                          arrayValue: {
+                            values: favoritePostIds
+                          }
+                        },
+                      },
+                    },
+                  ],
+                }
+              }
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${rootGetters.idToken}`,
+            },
+          }
+        ).then((response) => {
+          if (typeof(response.data[0].document) !== 'undefined') {
+            for (const data of response.data) {
+              favoritePosts.push(data);
+            }
+          }
+        }).catch((error) => {
+          console.log(error.response);
+        });
+      })
+    );
+
+    if (favoritePosts.length != 0) {
+      let orderedFavoritePosts = favoritePosts.concat();
+      orderedFavoritePosts.sort((a, b) => {
+        return Number(a.document.fields.created_at.timestampValue) < Number(b.document.fields.created_at.timestampValue) ? 1 : -1;
+      });
+      commit('updateFavoritePosts', orderedFavoritePosts, {root: true});
+    } else {
+      commit('updateFavoritePosts', null, {root: true});
+    }
   }
 };
 

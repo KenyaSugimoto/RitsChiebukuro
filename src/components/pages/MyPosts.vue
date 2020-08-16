@@ -2,9 +2,9 @@
   <div>
     <h2>{{userName}}さんの質問</h2>
 
-    <Posts v-bind:posts='newPosts | user(uid) | acceptingAnswer' name='回答受付中の質問'></Posts>
-    <Posts v-bind:posts='newPosts | user(uid) | manyViews'  name='よく見られている質問'></Posts>
-    <Posts v-bind:posts='newPosts | user(uid) | resolved' name='解決済みの質問'></Posts>
+    <Posts v-bind:posts='individualNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+    <Posts v-bind:posts='individualNewPosts | manyViews'  name='よく見られている質問'></Posts>
+    <Posts v-bind:posts='individualNewPosts | resolved' name='解決済みの質問'></Posts>
   </div>
 </template>
 
@@ -15,12 +15,12 @@ export default {
     userName() {
       return this.$store.getters.userName;
     },
-    newPosts() {
-      return this.$store.getters.newPosts;
+    individualNewPosts() {
+      return this.$store.getters.individualNewPosts;
     },
-    uid() {
-      return this.$store.getters.uid;
-    },
+  },
+  created() {
+    this.$store.dispatch('post/getIndividualPosts');
   },
   components: {
     Posts

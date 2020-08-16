@@ -44,17 +44,5 @@ export default {
       }
     }
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      vm.$store.commit('updateBeginResetPassword', true);
-    });
-  },
-  beforeRouteUpdate(to, from, next) {
-    next();
-  },
-  beforeRouteLeave(to, from, next) {
-    this.$store.commit('updateBeginResetPassword', false);
-    next();
-  },
 };
 </script>

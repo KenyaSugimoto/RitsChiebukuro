@@ -30,8 +30,6 @@ export const initialState = {
     refreshToken: null,
     expiryTimeMs: null,
     emailVerified: false,
-    beginActivate: false,
-    beginResetPassword: false,
   },
   postsInfo: {
     newPosts: null,
@@ -40,6 +38,7 @@ export const initialState = {
     watchingPost: null,
     searchResultPosts: null,
     searchKeyWords: null,
+    favoritePosts: null,
   },
   notificationInfo: {
     questionerNotifications: null,
@@ -68,8 +67,6 @@ const getters = {
     refreshToken: state => state.authInfo.refreshToken,
     expiryTimeMs: state => state.authInfo.expiryTimeMs,
     emailVerified: state => state.authInfo.emailVerified,
-    beginActivate: state => state.authInfo.beginActivate,
-    beginResetPassword: state => state.authInfo.beginResetPassword,
   },
   // postsInfo
   ... {
@@ -79,6 +76,7 @@ const getters = {
     watchingPost: state => state.postsInfo.watchingPost,
     searchResultPosts: state => state.postsInfo.searchResultPosts,
     searchKeyWords: state => state.postsInfo.searchKeyWords,
+    favoritePosts: state => state.postsInfo.favoritePosts,
   },
 
   // notificationInfo
@@ -130,12 +128,6 @@ const mutations = {
     updateEmailVerified(state, emailVerified) {
       state.authInfo.emailVerified = emailVerified;
     },
-    updateBeginActivate(state, beginActivate) {
-      state.authInfo.beginActivate = beginActivate;
-    },
-    updateBeginResetPassword(state, beginResetPassword) {
-      state.authInfo.beginResetPassword = beginResetPassword;
-    },
     resetState(state) {
       Object.assign(state, JSON.parse(JSON.stringify(initialState)));
     }
@@ -162,6 +154,9 @@ const mutations = {
     },
     addNewPost(state, newPostData) {
       state.postsInfo.newPosts.unshift(newPostData);
+    },
+    updateFavoritePosts(state, favoritePosts) {
+      state.postsInfo.favoritePosts = favoritePosts;
     }
   },
   // notificationInfo

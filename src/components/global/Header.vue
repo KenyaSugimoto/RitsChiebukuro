@@ -1,11 +1,7 @@
 <template>
   <div>
+    <Search></Search>
     <header>
-      <p>
-        ようこそ<router-link to="/my-page" class="link" exact>
-          {{ userName }} </router-link
-        >さん
-      </p>
       <div class="header-item" @click="getNotification">通知</div>
       <nav>
         <ul class="manu">
@@ -35,8 +31,6 @@
         </ul>
       </nav>
     </header>
-
-    <Search></Search>
   </div>
 </template>
 

@@ -21,7 +21,7 @@
     <br>
     <button @click="setConfig">保存</button>
 
-
+    <p> {{notificationConfigValues}} </p>
 
   </div>
 </template>
@@ -36,20 +36,28 @@ export default {
 
   methods: {
     setConfig() {
-      const selectedConfig = this.notificationConfigValues.map(value => value);
-      const notificationConfigValues = this.$store.getters.notificationConfigValues.map(value => value);
-      console.log("selectedConfig", selectedConfig);
-      console.log("notificationConfigValues", notificationConfigValues);
+      const selectedConfig = this.notificationConfigValues.filter(value => value !== null).map(value => value);
+      // 前の設定と同じ場合はクエリを送信したくない
+      const sortMethod = (a, b) => {
+        if (a > b) return -1;
+        else if (a < b) return 1;
+        else return 0;
+      };
+      const sortedSelectedConfig = selectedConfig.sort(sortMethod);
+      const sortedNotificationConfigValues = this.$store.getters.notificationConfigValues.map(value => value).sort(sortMethod);
+      if (sortedSelectedConfig.length == 0) {
+        sortedSelectedConfig[0] = undefined;
+      }
 
-      const temp1 = selectedConfig.filter(i => notificationConfigValues.indexOf(i) == -1);
-      const temp2 = notificationConfigValues.filter(i => selectedConfig.indexOf(i) == -1);
-      console.log(temp1);
-      console.log(temp2);
+      const isSame = JSON.stringify(sortedSelectedConfig) == JSON.stringify(sortedNotificationConfigValues);
+      console.log(isSame);
 
-      console.log(selectedConfig == notificationConfigValues);
-
-      // this.$store.commit("updateNotificationConfigValues", selectedConfig);
-      // this.$store.dispatch("user/updateNotificationConfigValues");
+      if (isSame) {
+        return;
+      }else {
+        this.$store.commit("updateNotificationConfigValues", selectedConfig);
+        this.$store.dispatch("user/updateNotificationConfigValues");
+      }
 
 
     },

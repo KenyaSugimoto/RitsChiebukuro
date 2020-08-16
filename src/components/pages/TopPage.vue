@@ -3,20 +3,14 @@
     <h2>トップページ</h2>
 
     <hr>
+    <br><br>
 
     <div class="post-form">
-      <h3>投稿フォーム</h3>
+      <h2>質問する</h2>
 
-      <label for="title">*タイトル</label>
-      <input type="text" id="title" v-model="title">
-
+      <v-textarea class='text-area' label='タイトル' outlined auto-grow rows=4 v-model='title'></v-textarea>
       <br><br>
-
-      <div>
-        <label for="content">*質問内容</label>
-        <br>
-        <textarea id="content" cols="30" rows="10" v-model="content"></textarea>
-      </div>
+      <v-textarea class='text-area' label='質問' outlined auto-grow rows=8 v-model='content'></v-textarea>
 
       <label for="categoryData">*質問カテゴリ</label>
       <select id="categoryData" v-model="selectedCategory">
@@ -93,7 +87,8 @@ export default {
 </script>
 
 <style scoped>
-.post-form {
-  background-color: rgb(199, 217, 218);
+.text-area {
+  width: 560px;
+  margin: 0 auto;
 }
 </style>

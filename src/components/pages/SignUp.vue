@@ -1,34 +1,45 @@
 <template>
   <div id="app">
-    <hr>
-
     <h2>ユーザ登録</h2>
+
+    <br>
+
     <router-link to="/login" class="login">ログインはこちらから</router-link>
 
-    <br><br>
-    <br><br>
+    <br><br><br>
 
-    <label for="email">Email：</label>
-    <input type="email" id="email" v-model="email">
+    <v-text-field class='text-field' label='Email' v-model='email' suffix='@ed.ritsumei.ac.jp' :rules="[rules.email]"></v-text-field>
 
-    <br><br>
-    <br><br>
+    <br><br><br>
 
-    <label for="password">パスワード(6文字以上の半角英数字)：</label>
-    <input type="password" id="password" v-model="password">
-
-    <br><br>
-
-    <label for="confirmPassword">パスワード(確認用)：</label>
-    <input type="password" id="confirmPassword" v-model="confirmPassword">
-
-    <br><br>
-    <br><br>
-
-    <label for="userName">ユーザ名（半角英数字のみ）：</label>
-    <input type="id" id="userName" v-model="userName">
+    <v-text-field
+      class='text-field'
+      v-model="password"
+      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+      :rules="[rules.min]"
+      :type="show1 ? 'text' : 'password'"
+      label="パスワード（6文字以上の半角英数字）"
+      counter
+      @click:append="show1 = !show1"
+    ></v-text-field>
 
     <br><br>
+
+    <v-text-field
+      class='text-field'
+      v-model="confirmPassword"
+      :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+      :rules="[rules.min]"
+      :type="show2 ? 'text' : 'password'"
+      label="パスワード(確認用)"
+      counter
+      @click:append="show2 = !show2"
+    ></v-text-field>
+
+    <br><br><br>
+
+    <v-text-field class='text-field' label="ユーザ名（半角英数字のみ）" outlined v-model="userName"></v-text-field>
+
     <br><br>
 
     <div @click='resetMajorAndGrade'>
@@ -62,9 +73,8 @@
     </div>
 
     <br><br>
-    <br><br>
 
-    <button @click="signup">ユーザ登録</button>
+    <v-btn outlined width="160" height="30" color="#B3424A" @click="signUp"><font color='black'><b>登録</b></font></v-btn>
 
   </div>
 </template>
@@ -86,18 +96,25 @@ export default {
       grade: "",
       department: ritsData.department,
       master: ritsData.master,
+      rules: {
+        min: value => value.length >= 6 || '最低6文字必要です',
+        email: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))$/
+          return pattern.test(value) || '不正なEmailアドレスです';
+        },
+      },
+      show1: false,
+      show2: false,
     }
   },
 
   methods: {
-    signup() {
-      const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+    signUp() {
+      const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*$/;
       if (this.email == "" || this.password == "", this.confirmPassword == "", this.userName == "", this.major == "", this.grade == "") {
         toast('登録情報を全て入力してください。', "error");
       } else if (this.password != this.confirmPassword) {
         toast('パスワードが一致しません。', "error");
-        this.password == "";
-        this.confirmPassword = "";
       } else if (this.userName.match(/[^0-9 ^a-z ^A-Z]/g )) {
         toast('ユーザIDが不正です。\n半角英数字で入力してください。', "error");
       } else if (!reg.test(this.email)) {
@@ -105,11 +122,11 @@ export default {
       } else {
         dialog(this, {
           title: 'この入力内容で登録しますか？',
-          body: `Email： <b>${this.email}</b> <br><br><br> ユーザ名： <b>${this.userName}</b> <br><br><br> ${this.degree == 'bachelor' ? '学部' : '研究科'}： <b>${this.major}</b> <br><br><br> 学年： <b>${this.grade}</b>`
+          body: `Email： <b>${this.email}@ed.ritsumei.ac.jp</b> <br><br><br> ユーザ名： <b>${this.userName}</b> <br><br><br> ${this.degree == 'bachelor' ? '学部' : '研究科'}： <b>${this.major}</b> <br><br><br> 学年： <b>${this.grade}</b>`
         }, true).then((response) => {
           if (response == 'OK') {
             this.$store.dispatch('signUp/signUp', {
-              email: this.email,
+              email: `${this.email}@ed.ritsumei.ac.jp`,
               password: this.password,
               userName: this.userName,
               major: this.major,
@@ -136,5 +153,9 @@ export default {
 .login:hover {
   background-color: #b1abab;
   color: red;
+}
+.text-field {
+  width: 280px;
+  margin: 0 auto;
 }
 </style>

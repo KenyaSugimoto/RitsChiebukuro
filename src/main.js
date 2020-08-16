@@ -2,12 +2,17 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-
-
-Vue.config.productionTip = false;
 import VuejsDialog from 'vuejs-dialog';
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
+import Vuetify from 'vuetify'
+import "vuetify/dist/vuetify.min.css";
+import vuetify from './plugins/vuetify';
+import '@babel/polyfill'
+
 Vue.use(VuejsDialog);
+Vue.use(Vuetify)
+
+Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
   const withoutLogin = ["/login", "/signUp", "/activateAccount", "/resetPassword"];  // ログインなしで閲覧できるページ
@@ -77,6 +82,7 @@ store.dispatch('login/autoLogin').then(() => {
   new Vue({
     router,
     store,
-    render: h => h(App),
+    vuetify,
+    render: h => h(App)
   }).$mount("#app");
 });

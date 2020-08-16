@@ -1,12 +1,13 @@
 <template>
-  <div id="app">
-
+  <v-app>
+    <div id="app">
     <template v-if="isAuthenticated">
       <Header></Header>
     </template>
 
     <router-view></router-view>
   </div>
+  </v-app>
 </template>
 
 <script>

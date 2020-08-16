@@ -243,7 +243,6 @@ const actions = {
         },
       }
     ).then((response) => {
-      commit("updateWatchingPost", null, { root: true });
       commit("updateWatchingPost", response.data[0], { root: true });
       dispatch("thread/getThread", {}, {root: true});
       message = 'OK';
@@ -253,7 +252,6 @@ const actions = {
       message = 'getPostByPostId Error';
     });
 
-    console.log(message);
     return message;
   },
   async deletePost({rootGetters}, postId) {

@@ -16,6 +16,7 @@ const NoNotification = () => import("./components/parts/NoNotification");
 const Favorite = () => import("./components/pages/Favorite");
 const MyPosts = () => import("./components/pages/MyPosts");
 const NotificationConfig = () => import("./components/pages/NotificationConfig");
+const NotFoundPost = () => import("./components/pages/NotFoundPost");
 
 //Vue Routerの利用宣言
 Vue.use(Router)
@@ -113,6 +114,13 @@ export default new Router({
       path: "/notificationConfig",
       components: {
         default: NotificationConfig,
+      }
+    },
+    {
+      path: "/notFoundPost",
+      name: "notFound",
+      components: {
+        default: NotFoundPost,
       }
     },
     // 上記全てのURL以外

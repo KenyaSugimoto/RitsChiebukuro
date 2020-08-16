@@ -245,8 +245,7 @@ const actions = {
     ).then((response) => {
       commit("updateWatchingPost", response.data[0], { root: true });
       message = 'OK';
-    })
-    .catch((error) => {
+    }).catch((error) => {
       console.log(error.response);
       message = 'getPostByPostId Error';
     });

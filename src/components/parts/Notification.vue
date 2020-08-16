@@ -32,17 +32,29 @@ export default {
     displayNotifications() {
       return this.$store.getters.displayNotifications;
     },
+    watchingPost() {
+      return this.$store.getters.watchingPost;
+    }
   },
   methods: {
     toPost(notification) {
       this.$store.dispatch("post/getPostByPostId", notification.mapValue.fields.postId.stringValue).then((response) => {
         if (response == "OK") {
-          //通知の削除
-          this.$store.dispatch("notification/deleteNotification", notification).then(() => {
-            this.$router.push({name: "post", params: {postId: notification.mapValue.fields.postId.stringValue}});
-          }).catch((error) => {
-            console.log(error.response);
-          });
+          const existWatchingPost = "document" in this.watchingPost;
+          if (existWatchingPost) {
+            //通知の削除
+            this.$store.dispatch("notification/deleteNotification", notification).then(() => {
+              this.$router.push({name: "post", params: {postId: notification.mapValue.fields.postId.stringValue}});
+            }).catch((error) => {
+              console.log(error.response);
+            });
+          }else {
+            this.$store.dispatch("notification/deleteNotification", notification).then(() => {
+              this.$router.push({name: "notFound"});
+            }).catch((error) => {
+              console.log(error.response);
+            });
+          }
         }
       }).catch((error) => {
         console.log(error.response);

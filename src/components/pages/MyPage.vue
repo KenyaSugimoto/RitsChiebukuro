@@ -7,8 +7,6 @@
     <hr>
     <router-link to='/myPosts'>{{userName}}さんの質問</router-link>
     <hr>
-    <router-link to=''>プロフィールの変更</router-link>
-    <hr>
     <router-link to='/resetPassword'>パスワードの変更</router-link>
     <hr>
     <router-link to='/notificationConfig'>通知の設定</router-link>

@@ -7,14 +7,20 @@
       class="content-box"
     >
       <div @click="toPost(item)" class="notification-link">
-        <p>あなたの『 {{ item.mapValue.fields.postTitle.stringValue }} 』の質問に対して</p>
-          {{item.mapValue.fields.respondentName.stringValue}}さんが
-        <div v-if="item.mapValue.fields.type.stringValue == 'answer'">回答しました</div>
-        <div v-else>コメントしました</div>
-        <p>
-          投稿時刻:
-          {{ item.mapValue.fields.created_at.timestampValue | dateFormat }}
-        </p>
+        <div v-if="item.mapValue.fields.type.stringValue == 'respondent'">
+          <p> {{item.mapValue.fields.questionerName.stringValue}} の『 {{ item.mapValue.fields.postTitle.stringValue }} 』の質問に対して</p>
+          あなたの回答にコメントがつきました。
+        </div>
+        <div v-else>
+          <p>あなたの『 {{ item.mapValue.fields.postTitle.stringValue }} 』の質問に対して</p>
+            {{item.mapValue.fields.respondentName.stringValue}}さんが
+          <div v-if="item.mapValue.fields.type.stringValue == 'answer'">回答しました</div>
+          <div v-else>コメントしました</div>
+          <p>
+            投稿時刻:
+            {{ item.mapValue.fields.created_at.timestampValue | dateFormat }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -29,10 +35,18 @@ export default {
   },
   methods: {
     toPost(notification) {
-      this.$store.dispatch("post/getPostByPostId", notification.mapValue.fields.postId.stringValue);
-      this.$router.push({name: "post", params: {postId: notification.mapValue.fields.postId.stringValue}});
-      //通知の削除
-      this.$store.dispatch("notification/deleteNotification", notification);
+      this.$store.dispatch("post/getPostByPostId", notification.mapValue.fields.postId.stringValue).then((response) => {
+        if (response == "OK") {
+          //通知の削除
+          this.$store.dispatch("notification/deleteNotification", notification).then(() => {
+            this.$router.push({name: "post", params: {postId: notification.mapValue.fields.postId.stringValue}});
+          }).catch((error) => {
+            console.log(error.response);
+          });
+        }
+      }).catch((error) => {
+        console.log(error.response);
+      });
     },
   },
 };

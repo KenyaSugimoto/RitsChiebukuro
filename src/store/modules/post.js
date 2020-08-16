@@ -207,6 +207,8 @@ const actions = {
     }
   },
   async getPostByPostId({ rootGetters, commit }, postId) {
+    let message = '';
+
     await axiosQuery.post(
       "/documents:runQuery",
       {
@@ -241,12 +243,15 @@ const actions = {
         },
       }
     ).then((response) => {
-      commit("updateWatchingPost", null, { root: true });
       commit("updateWatchingPost", response.data[0], { root: true });
+      message = 'OK';
     })
     .catch((error) => {
       console.log(error.response);
+      message = 'getPostByPostId Error';
     });
+
+    return message;
   },
   async deletePost({rootGetters}, postId) {
     await axiosDb.delete(`posts/${postId}`,

@@ -18,6 +18,7 @@ const actions = {
       }
     });
   },
+
   async createThread({rootGetters, commit}, fields) {
     let message = '';
 

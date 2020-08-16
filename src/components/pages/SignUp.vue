@@ -31,10 +31,12 @@
     <br><br>
     <br><br>
 
-    <input type="radio" v-model="degree" value="bachelor" id="bachelor" name="grade">
-    <label for="bachelor">学部生</label>
-    <input type="radio" v-model="degree" value="master" id="master" name="grade">
-    <label for="master">大学院生</label>
+    <div @click='resetMajorAndGrade'>
+      <input type="radio" v-model="degree" value="bachelor" id="bachelor" name="grade">
+      <label for="bachelor">学部生</label>
+      <input type="radio" v-model="degree" value="master" id="master" name="grade">
+      <label for="master">大学院生</label>
+    </div>
 
     <br><br>
 
@@ -48,7 +50,7 @@
         <option v-for="i in 6" v-bind:key="i.id"> {{i}}回生 </option>
       </select>
     </div>
-    <div v-else>研究科
+    <div v-else>研究科：
       <select id="master" v-model="major">
         <option disabled value="">研究科を選択してください。</option>
         <option v-for="(item) in master" v-bind:key="item.id"> {{item}} </option>
@@ -116,7 +118,11 @@ export default {
           }
         });
       }
-    }
+    },
+    resetMajorAndGrade() {
+      this.major = '';
+      this.grade = '';
+    },
   }
 }
 

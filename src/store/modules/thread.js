@@ -10,7 +10,6 @@ const actions = {
         },
       }
     ).then((response) => {
-      commit('updateThread', null, {root: true});
       commit('updateThread', response.data.fields, {root: true});
     }).catch((error) => {
       if (error.response.data.error.status == 'NOT_FOUND') {

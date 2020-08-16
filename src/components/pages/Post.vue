@@ -247,7 +247,7 @@ export default {
     deletePost() {
       dialog(this, {
         title: '本当にこの質問を削除しますか？',
-        body: `タイトル： ${this.post.document.fields.title.stringValue} <br><br><br> 質問内容： ${this.post.document.fields.content.stringValue}`
+        body: `タイトル： ${this.post.document.fields.title.stringValue}`
       }).then((response) => {
         if (response == 'OK') {
           this.$store.dispatch('post/deletePost', this.postId).then(() => {

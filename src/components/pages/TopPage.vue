@@ -70,7 +70,7 @@ export default {
         dialog(this, {
           title: '質問を投稿しますか？',
           body: `タイトル： ${this.title} <br><br><br> 質問内容： ${this.content}`
-        }).then((response) => {
+        }, true).then((response) => {
           if (response == 'OK') {
             this.$store.dispatch("post/createPost", {
               title: this.title,

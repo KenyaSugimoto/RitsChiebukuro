@@ -13,8 +13,9 @@ const PostCompleted = () => import("./components/pages/PostCompleted");
 const SearchResult = () => import("./components/pages/SearchResult")
 const Notification = () => import("./components/parts/Notification");
 const NoNotification = () => import("./components/parts/NoNotification");
-const Favorite = () => import("./components/pages/Favorite")
-const MyPosts = () => import("./components/pages/MyPosts")
+const Favorite = () => import("./components/pages/Favorite");
+const MyPosts = () => import("./components/pages/MyPosts");
+const NotificationConfig = () => import("./components/pages/NotificationConfig");
 
 //Vue Routerの利用宣言
 Vue.use(Router)
@@ -107,6 +108,12 @@ export default new Router({
       components: {
         default: MyPosts,
       },
+    },
+    {
+      path: "/notificationConfig",
+      components: {
+        default: NotificationConfig,
+      }
     },
     // 上記全てのURL以外
     {

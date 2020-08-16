@@ -11,7 +11,7 @@
     <hr>
     <router-link to='/resetPassword'>パスワードの変更</router-link>
     <hr>
-    <router-link to=''>通知の設定</router-link>
+    <router-link to='/notificationConfig'>通知の設定</router-link>
     <hr>
     <span class='logout' @click='logout'>ログアウト</span>
     <hr>

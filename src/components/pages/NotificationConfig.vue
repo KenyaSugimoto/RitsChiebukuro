@@ -36,9 +36,20 @@ export default {
 
   methods: {
     setConfig() {
-      const selectedConfig = this.notificationConfigValues;
-      this.$store.commit("updateNotificationConfigValues", selectedConfig);
-      // this.$store.dispatch("user/updateNotificationConfigValues", selectedConfig);
+      const selectedConfig = this.notificationConfigValues.map(value => value);
+      const notificationConfigValues = this.$store.getters.notificationConfigValues.map(value => value);
+      console.log("selectedConfig", selectedConfig);
+      console.log("notificationConfigValues", notificationConfigValues);
+
+      const temp1 = selectedConfig.filter(i => notificationConfigValues.indexOf(i) == -1);
+      const temp2 = notificationConfigValues.filter(i => selectedConfig.indexOf(i) == -1);
+      console.log(temp1);
+      console.log(temp2);
+
+      console.log(selectedConfig == notificationConfigValues);
+
+      // this.$store.commit("updateNotificationConfigValues", selectedConfig);
+      // this.$store.dispatch("user/updateNotificationConfigValues");
 
 
     },

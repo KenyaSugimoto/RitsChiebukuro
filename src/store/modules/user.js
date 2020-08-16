@@ -67,7 +67,6 @@ const actions = {
           }
         });
         commit('updateNotificationConfigValues', notificationConfigValues, {root: true});
-        console.log("notificationConfigValues", notificationConfigValues);
       }
 
     });
@@ -123,8 +122,9 @@ const actions = {
     });
   },
 
-  // updateNotificationConfigValues({rootGetters, commit}, selectedConfig) {
-  //   let notificationConfigValues = rootGetters.notificationConfigValues.concat();
+  updateNotificationConfigValues({rootGetters}) {
+    let selectedConfig = rootGetters.notificationConfigValues.concat();
+    console.log("selectedConfig", selectedConfig);
 
   //   // if (selectedConfig) {
   //   //   notificationConfigValues.push(rootGetters.watchingPost.document.fields.postId.stringValue);
@@ -172,7 +172,7 @@ const actions = {
   //   .catch((error) => {
   //       console.log(error.response);
   //   });
-  // },
+  },
 };
 
 export default {

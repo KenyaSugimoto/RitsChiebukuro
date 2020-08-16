@@ -32,7 +32,6 @@ export default {
   props: ["posts", "name"],
   methods: {
     toPost(post) {
-      console.log("post", post);
       this.$store.commit("updateWatchingPost", null);
       this.$store.commit("updateWatchingPost", post);
       this.$router.push({

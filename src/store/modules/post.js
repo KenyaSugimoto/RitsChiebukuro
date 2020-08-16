@@ -206,7 +206,7 @@ const actions = {
         });
     }
   },
-  async getPostByPostId({ rootGetters, commit, dispatch }, postId) {
+  async getPostByPostId({ rootGetters, commit }, postId) {
     let message = '';
 
     await axiosQuery.post(
@@ -244,7 +244,6 @@ const actions = {
       }
     ).then((response) => {
       commit("updateWatchingPost", response.data[0], { root: true });
-      dispatch("thread/getThread", {}, {root: true});
       message = 'OK';
     })
     .catch((error) => {

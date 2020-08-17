@@ -9,11 +9,22 @@ const actions = {
     ).then((response) => {
       const data = response.data.fields.notifications.arrayValue.values[0].mapValue.fields;
 
+      // 通知する通知情報のみを取得
+      const configValues = rootGetters.notificationConfigValues;
+
+      let notificationTypeList = [];
+      if (configValues.includes("forQuestioner")) notificationTypeList.push("answer", "comment");
+      if (configValues.includes("forRespondent")) notificationTypeList.push("respondent");
+
       let list = [];
       Object.keys(data).forEach(key => {
         list.push(data[key]);
       });
-      const sortedList = list.sort((a, b) => {
+      const filteredNotifications = list.filter(item => notificationTypeList.includes(item.mapValue.fields.type.stringValue));
+
+
+      // // 通知を時系列順にソート
+      const sortedList = filteredNotifications.sort((a, b) => {
         if (a.mapValue.fields.created_at.timestampValue > b.mapValue.fields.created_at.timestampValue) {
           return -1;
         }else if (a.mapValue.fields.created_at.timestampValue < b.mapValue.fields.created_at.timestampValue) {
@@ -25,6 +36,12 @@ const actions = {
 
       commit("updateDisplayNotifications", null, { root: true });
       commit("updateDisplayNotifications", sortedList, { root: true });
+
+      const displayNotifications = rootGetters.displayNotifications;
+      if (displayNotifications.length == 0) {
+        // （前の設定時に既にきてた）通知は存在するけど、その通知を消す前に設定変えて表示できない通知がある場合
+        router.push({ name: "noNotification" }).catch(() => {});
+      }
 
     }).catch(() => {
       console.log("通知はありません");

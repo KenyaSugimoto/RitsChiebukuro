@@ -34,7 +34,10 @@ export default {
     },
     watchingPost() {
       return this.$store.getters.watchingPost;
-    }
+    },
+    notificationConfigValues() {
+      return this.$store.getters.notificationConfigValues;
+    },
   },
   methods: {
     toPost(notification) {

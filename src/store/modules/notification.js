@@ -230,7 +230,6 @@ const actions = {
       });
   },
   async addBestAnswerNotification({rootGetters}, bestAnswerData) {
-    console.log(bestAnswerData);
     const notificationId = new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16);
     const watchingPost = rootGetters.watchingPost.document.fields;
     const bestAnswerUserUid = bestAnswerData.uid.stringValue;

@@ -20,13 +20,11 @@
 
     <br>
     <button @click="setConfig">保存</button>
-
-    <p> {{notificationConfigValues}} </p>
-
   </div>
 </template>
 
 <script>
+import {toast} from "../../function/toastr";
 export default {
   data() {
     return {
@@ -37,7 +35,6 @@ export default {
   methods: {
     setConfig() {
       const selectedConfig = this.notificationConfigValues.filter(value => value !== null).map(value => value);
-      // 前の設定と同じ場合はクエリを送信したくない
       const sortMethod = (a, b) => {
         if (a > b) return -1;
         else if (a < b) return 1;
@@ -45,21 +42,22 @@ export default {
       };
       const sortedSelectedConfig = selectedConfig.sort(sortMethod);
       const sortedNotificationConfigValues = this.$store.getters.notificationConfigValues.map(value => value).sort(sortMethod);
+
       if (sortedSelectedConfig.length == 0) {
         sortedSelectedConfig[0] = undefined;
+      } else if (sortedSelectedConfig.length != 1 && sortedSelectedConfig.slice(-1)[0] == undefined) {
+        sortedSelectedConfig.pop();
       }
 
+      // 前の設定と同じ場合はクエリを送信しない
       const isSame = JSON.stringify(sortedSelectedConfig) == JSON.stringify(sortedNotificationConfigValues);
-      console.log(isSame);
-
       if (isSame) {
+        toast("同じ通知設定です", "error");
         return;
       }else {
         this.$store.commit("updateNotificationConfigValues", selectedConfig);
         this.$store.dispatch("user/updateNotificationConfigValues");
       }
-
-
     },
   }
 }

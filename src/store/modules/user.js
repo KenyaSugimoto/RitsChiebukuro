@@ -124,54 +124,39 @@ const actions = {
 
   updateNotificationConfigValues({rootGetters}) {
     let selectedConfig = rootGetters.notificationConfigValues.concat();
-    console.log("selectedConfig", selectedConfig);
 
-  //   // if (selectedConfig) {
-  //   //   notificationConfigValues.push(rootGetters.watchingPost.document.fields.postId.stringValue);
-  //   // } else {
-  //   //   notificationConfigValues = notificationConfigValues.filter(postId => postId != rootGetters.watchingPost.document.fields.postId.stringValue);
-  //   // }
+    const isUndefined = selectedConfig[0] == undefined;
+    let notificationConfigValues = [];
+    if (isUndefined) {
+      notificationConfigValues = [{"nullValue": null}];
+    }else {
+      notificationConfigValues = selectedConfig.map(value => {
+        return {"stringValue": value};
+      });
+    }
 
-  //   // if (favoritePostIds.length == 0) {
-  //   //   favoritePostIds = [ { 'nullValue': null } ];
-  //   // } else {
-  //   //   favoritePostIds = favoritePostIds.map(function(postId) {
-  //   //     return {stringValue: postId}
-  //   //   });
-  //   // }
+    axiosDb.patch(`users/${rootGetters.uid}?updateMask.fieldPaths=notificationConfigValues`,
+      {
+        fields : {
+          "notificationConfigValues": {
+            arrayValue: {
+              values: notificationConfigValues
+            }
+          },
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${rootGetters.idToken}`,
+        },
+      }
+    ).then((response) => {
+      console.log("response.data", response.data);
+      toast("通知設定を変更しました", "success");
 
-  //   axiosDb.patch(`users/${rootGetters.uid}?updateMask.fieldPaths=favoritePostIds`,
-  //     {
-  //       fields : {
-  //         favoritePostIds: {
-  //           arrayValue: {
-  //             values: favoritePostIds
-  //           }
-  //         },
-  //       },
-  //     },
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${rootGetters.idToken}`,
-  //       },
-  //     }
-  //   ).then((response) => {
-  //     favoritePostIds = response.data.fields.favoritePostIds.arrayValue.values.filter(value => value.stringValue);
-  //     favoritePostIds = favoritePostIds.map(function(value) {
-  //       if (value.stringValue) {
-  //         return value.stringValue;
-  //       }
-  //     });
-  //     commit('updateFavoritePostIds', favoritePostIds, {root: true});
-  //     if (isFavorite) {
-  //       toast("気になる質問に登録しました", "success");
-  //     } else {
-  //       toast("気になる質問から解除しました", "success");
-  //     }
-  //   })
-  //   .catch((error) => {
-  //       console.log(error.response);
-  //   });
+    }).catch((error) => {
+        console.log(error.response);
+    });
   },
 };
 

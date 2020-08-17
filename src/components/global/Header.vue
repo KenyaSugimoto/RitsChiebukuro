@@ -70,7 +70,7 @@ export default {
   font-size: 22px;
   font-weight: bolder;
   color: #000;
-  border-bottom: solid 6px #b3ffa0;
+  /* border-bottom: solid 6px #b3ffa0; */
 }
 router-link {
   margin-right: 10px;

@@ -22,7 +22,6 @@ const actions = {
       });
       const filteredNotifications = list.filter(item => notificationTypeList.includes(item.mapValue.fields.type.stringValue));
 
-
       // // 通知を時系列順にソート
       const sortedList = filteredNotifications.sort((a, b) => {
         if (a.mapValue.fields.created_at.timestampValue > b.mapValue.fields.created_at.timestampValue) {

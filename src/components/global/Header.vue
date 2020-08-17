@@ -38,15 +38,20 @@
 import Search from "./../parts/Search";
 export default {
   computed: {
-    userName() {
-      return this.$store.getters.userName;
+    displayNotifications() {
+      return this.$store.getters.displayNotifications;
     },
   },
   methods: {
     getNotification() {
-      this.$store.dispatch("notification/getNotifications");
-
-      this.$router.push("/notification").catch(() => {});
+      this.$store.dispatch("notification/getNotifications").then(() => {
+        const existNotifications = this.displayNotifications != null;
+        if (existNotifications) {
+          this.$router.push("/notification").catch(() => {});
+        }else {
+          this.$router.push("/noNotification").catch(() => {});
+        }
+      });
     },
   },
   components: {

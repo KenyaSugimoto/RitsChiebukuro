@@ -1,8 +1,40 @@
 <template>
   <div>
+      <v-toolbar
+        color="white"
+        dark
+      >
+        <img src="../../assets/title.jpg" class="img"/>
+
+        <v-spacer></v-spacer>
+
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn text @click="getNotification" color="black">
+            通知
+          </v-btn>
+
+          <v-divider vertical></v-divider>
+
+          <v-btn text color="black">
+            質問する
+          </v-btn>
+
+          <v-divider vertical></v-divider>
+
+          <v-btn text @click="toMypage" color="black">
+            マイページ
+            <!-- <router-link to="/my-page">マイページ</router-link> -->
+          </v-btn>
+
+          <v-divider vertical></v-divider>
+        </v-toolbar-items>
+
+        <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
+      </v-toolbar>
+
     <Search></Search>
     <header>
-      <div class="header-item" @click="getNotification">通知</div>
+      <!-- <div class="header-item" @click="getNotification">通知</div> -->
       <nav>
         <ul class="manu">
           <li>
@@ -48,6 +80,9 @@ export default {
 
       this.$router.push("/notification").catch(() => {});
     },
+    toMypage() {
+      this.$router.push("/my-page").catch(() => {});
+    }
   },
   components: {
     Search,
@@ -90,5 +125,9 @@ router-link {
 .header-item:hover {
   background-color: #b1abab;
   color: red;
+}
+img {
+  width: 140px;
+  height: 30px;
 }
 </style>

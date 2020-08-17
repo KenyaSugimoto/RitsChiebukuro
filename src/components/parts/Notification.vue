@@ -4,12 +4,16 @@
     <div
       v-for="item in displayNotifications"
       :key="item.mapValue.fields.notificationId.stringValue"
-      class="content-box"
-    >
+      class="content-box">
+
       <div @click="toPost(item)" class="notification-link">
         <div v-if="item.mapValue.fields.type.stringValue == 'respondent'">
           <p> {{item.mapValue.fields.questionerName.stringValue}} の『 {{ item.mapValue.fields.postTitle.stringValue }} 』の質問に対して</p>
           あなたの回答にコメントがつきました。
+        </div>
+        <div v-else-if="item.mapValue.fields.type.stringValue == 'bestAnswer'">
+          <p> {{item.mapValue.fields.questionerName.stringValue}} さんの質問
+            『{{item.mapValue.fields.postTitle.stringValue}}』に対するあなたの回答がベストアンサーに選ばれました！</p>
         </div>
         <div v-else>
           <p>あなたの『 {{ item.mapValue.fields.postTitle.stringValue }} 』の質問に対して</p>

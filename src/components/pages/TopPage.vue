@@ -23,9 +23,24 @@
       <button @click="createPost">投稿</button>
     </div>
 
-    <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
-    <Posts v-bind:posts='newPosts | manyViews' name='よく見られている質問'></Posts>
-    <Posts v-bind:posts='newPosts | resolved' name='解決済みの質問'></Posts>
+    <v-container>
+      <v-row>
+        <v-col>
+          <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+        </v-col>
+        <v-col>
+          <Posts v-bind:posts='newPosts | manyViews' name='よく見られている質問'></Posts>
+        </v-col>
+        <v-col>
+          <Posts v-bind:posts='newPosts | resolved' name='解決済みの質問'></Posts>
+        </v-col>
+      </v-row>
+    </v-container>
+    <!-- <div class='posts-area'>
+      <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+      <Posts v-bind:posts='newPosts | manyViews' name='よく見られている質問'></Posts>
+      <Posts v-bind:posts='newPosts | resolved' name='解決済みの質問'></Posts>
+    </div> -->
 
   </div>
 </template>
@@ -90,5 +105,8 @@ export default {
 .text-area {
   width: 560px;
   margin: 0 auto;
+}
+.posts-area {
+  display: flex;
 }
 </style>

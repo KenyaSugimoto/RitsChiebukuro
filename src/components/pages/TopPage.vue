@@ -12,11 +12,8 @@
       <br><br>
       <v-textarea class='text-area' label='質問' outlined auto-grow rows=8 v-model='content'></v-textarea>
 
-      <label for="categoryData">*質問カテゴリ</label>
-      <select id="categoryData" v-model="selectedCategory">
-        <option disabled value="">カテゴリを選択してください。</option>
-        <option v-for="(item) in categoryData" v-bind:key="item.id"> {{item}} </option>
-      </select>
+      <v-select :items="categoryData" label="質問カテゴリ" solo class="select-box" v-model="selectedCategory"></v-select>
+
 
       <br><br>
 
@@ -103,5 +100,9 @@ export default {
 }
 .posts-area {
   display: flex;
+}
+.select-box {
+  width: 50%;
+  margin: 0 auto;
 }
 </style>

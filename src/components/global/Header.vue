@@ -1,17 +1,12 @@
 <template>
   <div>
-      <v-toolbar
-        color="white"
-        dark
-      >
+      <v-toolbar color="white" dark>
         <img src="../../assets/title.jpg" class="img"/>
 
         <v-spacer></v-spacer>
 
         <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn text @click="getNotification" color="black">
-            通知
-          </v-btn>
+          <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
 
           <v-divider vertical></v-divider>
 
@@ -101,7 +96,6 @@ export default {
   font-size: 22px;
   font-weight: bolder;
   color: #000;
-  border-bottom: solid 6px #b3ffa0;
 }
 router-link {
   margin-right: 10px;

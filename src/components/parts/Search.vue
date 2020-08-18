@@ -1,7 +1,10 @@
 <template>
   <div>
-    <input type='text' id='keywords' v-model='keywords'>
-    <button @click='search'>検索</button>
+    <v-text-field label="キーワード検索" single-line solo class="search" v-model='keywords'>
+      <template v-slot:append-outer>
+        <v-btn color="primary" @click='search'>検索</v-btn>
+      </template>
+    </v-text-field>
   </div>
 </template>
 

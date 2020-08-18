@@ -3,9 +3,21 @@
     <br>
     <template v-if='searchResultPosts != null'>
       <h2>「{{searchKeyWords}}」 の検索結果</h2>
-      <Posts v-bind:posts='searchResultPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
-      <Posts v-bind:posts='searchResultPosts | manyViews' name='よく見られている質問'></Posts>
-      <Posts v-bind:posts='searchResultPosts | resolved' name='解決済みの質問'></Posts>
+
+      <v-container>
+        <v-row>
+          <v-col>
+            <Posts v-bind:posts='searchResultPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+          </v-col>
+          <v-col>
+            <Posts v-bind:posts='searchResultPosts | manyViews' name='よく見られている質問'></Posts>
+          </v-col>
+          <v-col>
+            <Posts v-bind:posts='searchResultPosts | resolved' name='解決済みの質問'></Posts>
+          </v-col>
+        </v-row>
+      </v-container>
+
     </template>
     <template v-else>
       <h2>「{{searchKeyWords}}」 の検索結果はありません</h2>

@@ -1,10 +1,12 @@
 <template>
   <div>
-    <v-text-field label="キーワードで探す" Filled class="search" v-model='keywords'>
-      <template v-slot:append-outer>
-        <v-btn color="primary" @click='search'>検索</v-btn>
-      </template>
-    </v-text-field>
+    <v-container>
+      <v-text-field label="キーワードで探す" outlined class="search" v-model='keywords'>
+        <template v-slot:append-outer>
+          <img src="../../assets/search-icon.svg" class="search-button" @click='search'>
+        </template>
+      </v-text-field>
+    </v-container>
   </div>
 </template>
 
@@ -26,8 +28,9 @@ export default {
 </script>
 
 <style scoped>
-.search {
-  width: 70%;
-  padding-left: 30%;
+.search-button {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
 }
 </style>

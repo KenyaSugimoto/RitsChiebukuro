@@ -23,18 +23,14 @@
 
           <v-btn text @click="toMypage" color="black">
             マイページ
-            <!-- <router-link to="/my-page">マイページ</router-link> -->
           </v-btn>
 
           <v-divider vertical></v-divider>
         </v-toolbar-items>
-
-        <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
       </v-toolbar>
 
     <Search></Search>
     <header>
-      <!-- <div class="header-item" @click="getNotification">通知</div> -->
       <nav>
         <ul class="manu">
           <li>

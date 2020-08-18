@@ -10,7 +10,7 @@
       >
         <v-card
           class="card"
-          width="300"
+          width="100%"
           @click="toPost(post)"
         >
           <v-card-text>

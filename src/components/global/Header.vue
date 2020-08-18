@@ -11,7 +11,7 @@
 
           <v-divider vertical></v-divider>
 
-          <v-btn text color="black">
+          <v-btn text @click="toPostQuestion" color="black">
             質問する
           </v-btn>
 
@@ -49,7 +49,10 @@ export default {
     },
     toHome() {
       this.$router.push("/").catch(() => {});
-    }
+    },
+    toPostQuestion() {
+      this.$router.push("/postQuestion").catch(() => {});
+    },
   },
   components: {
     Search,

@@ -20,7 +20,7 @@
       {{post.document.fields.title.stringValue}}
     </div>
 
-    <div>
+    <div class="content">
       {{post.document.fields.content.stringValue}}
     </div>
 
@@ -504,5 +504,8 @@ export default {
   width: 200px;
   height: 30px;
   color: #B3424A;
+}
+.content {
+  white-space: pre;
 }
 </style>

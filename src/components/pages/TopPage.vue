@@ -36,11 +36,6 @@
         </v-col>
       </v-row>
     </v-container>
-    <!-- <div class='posts-area'>
-      <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
-      <Posts v-bind:posts='newPosts | manyViews' name='よく見られている質問'></Posts>
-      <Posts v-bind:posts='newPosts | resolved' name='解決済みの質問'></Posts>
-    </div> -->
 
   </div>
 </template>

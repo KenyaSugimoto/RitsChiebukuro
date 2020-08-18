@@ -3,23 +3,11 @@
     <div>
       <h2>{{ name }}</h2>
 
-    <!-- <hr /> -->
-
     <template v-if='posts !== null && typeof(posts[0]) !== "undefined"'>
       <div
         v-for="post in posts"
         :key="post.document.fields.postId.stringValue"
       >
-      <!-- <div
-        v-for="post in posts"
-        :key="post.document.fields.postId.stringValue"
-        class="content-box"
-      > -->
-        <!-- <div>
-          <div @click="toPost(post)" class="answer-link title">
-            {{ post.document.fields.title.stringValue }}
-          </div>
-        </div> -->
         <v-card
           class="card"
           width="300"
@@ -41,7 +29,6 @@
       <h3>{{name}}はありません</h3>
     </template>
 
-    <!-- <hr> -->
     <br><br>
     </div>
   </div>

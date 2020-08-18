@@ -1,7 +1,7 @@
 <template>
   <div>
-    <br><br>
     <hr>
+    <br><br>
 
     <h2>パスワード再発行ページ</h2>
     <h3>アカウントのメールアドレスを入力して、パスワードを変更するを押してください。</h3>
@@ -9,13 +9,12 @@
 
     <br><br>
 
-    <label for='email'>Email：</label>
-    <input type='email' id='email' v-model='email'>
+    <v-container>
+      <v-text-field v-model='email' label="メールアドレス" filled></v-text-field>
+      <v-btn outlined color="#B3424A" @click="sendPasswordResetEmail" width="30%" height="50px"><font color='black'><b>パスワードを変更する</b></font></v-btn>
+    </v-container>
 
-    <br><br>
-    <br><br>
 
-    <button @click='sendPasswordResetEmail'>パスワードを変更する</button>
 
   </div>
 </template>

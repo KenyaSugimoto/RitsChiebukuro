@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-text-field label="キーワード検索" single-line solo class="search" v-model='keywords'>
+    <v-text-field label="キーワードで探す" Filled class="search" v-model='keywords'>
       <template v-slot:append-outer>
         <v-btn color="primary" @click='search'>検索</v-btn>
       </template>
@@ -24,3 +24,10 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.search {
+  width: 70%;
+  padding-left: 30%;
+}
+</style>

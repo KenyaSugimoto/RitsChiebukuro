@@ -11,7 +11,6 @@
       <br><br>
       <v-btn width="280" height="40" color="#B3424A" @click="createPost"><font color='white'><b>質問する</b></font></v-btn>
 
-
     </div>
 </template>
 

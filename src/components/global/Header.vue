@@ -32,15 +32,11 @@
         </v-toolbar-items>
       </v-toolbar>
 
-      <br><br>
-      <Search></Search>
-      <br>
     </header>
   </div>
 </template>
 
 <script>
-import Search from "./../parts/Search";
 export default {
   computed: {
     displayNotifications() {
@@ -73,9 +69,7 @@ export default {
       this.$router.push("/postQuestion").catch(() => {});
     },
   },
-  components: {
-    Search,
-  },
+
 };
 </script>
 

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Search></Search>
     <h2>トップページ</h2>
 
     <hr>
@@ -22,6 +23,7 @@
 
 <script>
 import Posts from './Posts';
+import Search from "./../parts/Search";
 
 export default {
   computed: {
@@ -34,8 +36,17 @@ export default {
   },
 
   components: {
-    Posts
+    Posts,
+    Search
   }
 };
 </script>
 
+<style scoped>
+img {
+  width: 210px;
+  height: 58px;
+  cursor: pointer;
+}
+
+</style>

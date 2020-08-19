@@ -12,7 +12,6 @@ const actions = {
             { fieldPath: "grade" },
             { fieldPath: "major" },
             { fieldPath: "favoritePostIds" },
-            { fieldPath: "notificationConfigValues" },
           ]
         },
         from: [
@@ -56,19 +55,6 @@ const actions = {
         }
       });
       commit('updateFavoritePostIds', favoritePostIds, {root: true});
-
-      const existConfigValue = "values" in userInfo.notificationConfigValues.arrayValue;
-      let notificationConfigValues = [];
-      if (existConfigValue) {
-        notificationConfigValues = userInfo.notificationConfigValues.arrayValue.values;
-        notificationConfigValues = notificationConfigValues.map(function(value) {
-          if (value.stringValue) {
-            return value.stringValue;
-          }
-        });
-        commit('updateNotificationConfigValues', notificationConfigValues, {root: true});
-      }
-
     });
   },
   updateFavoritePostIds({rootGetters, commit}, isFavorite) {
@@ -120,43 +106,7 @@ const actions = {
     .catch((error) => {
         console.log(error.response);
     });
-  },
-
-  updateNotificationConfigValues({rootGetters}) {
-    let selectedConfig = rootGetters.notificationConfigValues.concat();
-
-    const isUndefined = selectedConfig[0] == undefined;
-    let notificationConfigValues = [];
-    if (isUndefined) {
-      notificationConfigValues = [{"nullValue": null}];
-    }else {
-      notificationConfigValues = selectedConfig.map(value => {
-        return {"stringValue": value};
-      });
-    }
-
-    axiosDb.patch(`users/${rootGetters.uid}?updateMask.fieldPaths=notificationConfigValues`,
-      {
-        fields : {
-          "notificationConfigValues": {
-            arrayValue: {
-              values: notificationConfigValues
-            }
-          },
-        },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${rootGetters.idToken}`,
-        },
-      }
-    ).then(() => {
-      toast("通知設定を変更しました", "success");
-
-    }).catch((error) => {
-        console.log(error.response);
-    });
-  },
+  }
 };
 
 export default {

@@ -24,7 +24,6 @@ export const initialState = {
     grade: null,
     watchedPostIds: [],
     favoritePostIds: [],
-    notificationConfigValues: null,
   },
   authInfo: {
     idToken: null,
@@ -61,7 +60,6 @@ const getters = {
     grade: state => state.userInfo.grade,
     watchedPostIds: state => state.userInfo.watchedPostIds,
     favoritePostIds: state => state.userInfo.favoritePostIds,
-    notificationConfigValues: state => state.userInfo.notificationConfigValues,
   },
   // authInfo
   ... {
@@ -114,9 +112,6 @@ const mutations = {
     },
     updateFavoritePostIds(state, favoritePostIds) {
       state.userInfo.favoritePostIds = favoritePostIds;
-    },
-    updateNotificationConfigValues(state, notificationConfigValues) {
-      state.userInfo.notificationConfigValues = notificationConfigValues;
     }
   },
   // authInfo

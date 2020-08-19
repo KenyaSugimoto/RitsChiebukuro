@@ -11,7 +11,7 @@
 
           <v-divider vertical></v-divider>
 
-          <v-btn text color="black">
+          <v-btn text @click="toPostQuestion" color="black">
             質問する
           </v-btn>
 
@@ -34,27 +34,25 @@
 import Search from "./../parts/Search";
 export default {
   computed: {
-    displayNotifications() {
-      return this.$store.getters.displayNotifications;
+    userName() {
+      return this.$store.getters.userName;
     },
   },
   methods: {
     getNotification() {
-      this.$store.dispatch("notification/getNotifications").then(() => {
-        const existNotifications = this.displayNotifications != null;
-        if (existNotifications) {
-          this.$router.push("/notification").catch(() => {});
-        }else {
-          this.$router.push("/noNotification").catch(() => {});
-        }
-      });
+      this.$store.dispatch("notification/getNotifications");
+
+      this.$router.push("/notification").catch(() => {});
     },
     toMypage() {
       this.$router.push("/my-page").catch(() => {});
     },
     toHome() {
       this.$router.push("/").catch(() => {});
-    }
+    },
+    toPostQuestion() {
+      this.$router.push("/postQuestion").catch(() => {});
+    },
   },
   components: {
     Search,

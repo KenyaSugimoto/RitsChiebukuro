@@ -34,7 +34,4 @@ export default {
   height: 40px;
 }
 
-.search {
-  background-color: white;
-}
 </style>

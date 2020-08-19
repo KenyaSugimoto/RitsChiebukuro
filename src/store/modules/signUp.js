@@ -62,14 +62,6 @@ const actions = {
           created_at: {
             timestampValue: new Date().toISOString()
           },
-          notificationConfigValues: {
-            arrayValue: {
-              values: [
-                {stringValue: "forQuestioner"},
-                {stringValue: "forRespondent"}
-              ]
-            }
-          }
         }
       },
       {

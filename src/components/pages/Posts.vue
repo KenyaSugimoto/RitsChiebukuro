@@ -10,11 +10,20 @@
         :key="post.document.fields.postId.stringValue"
         class="content-box"
       >
-        <div>
-          <div @click="toPost(post)" class="answer-link title">
-            {{ post.document.fields.title.stringValue }}
-          </div>
-        </div>
+        <v-card
+          class="card"
+          width="100%"
+          @click="toPost(post)"
+        >
+          <v-card-text>
+            <div class="title">
+              {{ post.document.fields.title.stringValue }}
+            </div>
+            <div>
+              {{ post.document.fields.created_at.timestampValue | dateFormat }}
+            </div>
+          </v-card-text>
+        </v-card>
       </div>
     </template>
 

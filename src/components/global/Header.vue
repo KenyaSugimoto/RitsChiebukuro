@@ -1,35 +1,33 @@
 <template>
   <div>
-    <Search></Search>
     <header>
-      <div class="header-item" @click="getNotification">通知</div>
-      <nav>
-        <ul class="manu">
-          <li>
-            <router-link to="/" class="link" active-class="link--active" exact
-              >Home</router-link
-            >
-          </li>
-          <li>
-            <router-link
-              to="/my-page"
-              class="link"
-              active-class="link--active"
-              exact
-              >マイページ</router-link
-            >
-          </li>
-          <li>
-            <router-link
-              to="/category"
-              class="link"
-              active-class="link--active"
-              exact
-              >カテゴリ一覧</router-link
-            >
-          </li>
-        </ul>
-      </nav>
+      <v-toolbar color="white" dark>
+        <img src="../../assets/title.jpg" class="img" @click="toHome">
+
+        <v-spacer></v-spacer>
+
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
+
+          <v-divider vertical></v-divider>
+
+          <v-btn text @click="toPostQuestion" color="black">
+            質問する
+          </v-btn>
+
+          <v-divider vertical></v-divider>
+
+          <v-btn text @click="toMypage" color="black">
+            マイページ
+          </v-btn>
+
+          <v-divider vertical></v-divider>
+        </v-toolbar-items>
+      </v-toolbar>
+
+      <br><br>
+      <Search></Search>
+      <br>
     </header>
   </div>
 </template>
@@ -53,6 +51,15 @@ export default {
         }
       });
     },
+    toMypage() {
+      this.$router.push("/my-page").catch(() => {});
+    },
+    toHome() {
+      this.$router.push("/").catch(() => {});
+    },
+    toPostQuestion() {
+      this.$router.push("/postQuestion").catch(() => {});
+    },
   },
   components: {
     Search,
@@ -75,7 +82,6 @@ export default {
   font-size: 22px;
   font-weight: bolder;
   color: #000;
-  /* border-bottom: solid 6px #b3ffa0; */
 }
 router-link {
   margin-right: 10px;
@@ -96,4 +102,10 @@ router-link {
   background-color: #b1abab;
   color: red;
 }
+img {
+  width: 170px;
+  height: 40px;
+  cursor: pointer;
+}
+
 </style>

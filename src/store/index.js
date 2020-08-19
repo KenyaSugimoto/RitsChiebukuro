@@ -117,7 +117,7 @@ const mutations = {
     },
     updateNotificationConfigValues(state, notificationConfigValues) {
       state.userInfo.notificationConfigValues = notificationConfigValues;
-    }
+    },
   },
   // authInfo
   ... {

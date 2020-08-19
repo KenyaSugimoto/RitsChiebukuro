@@ -2,10 +2,7 @@
   <div>
     <h2>カテゴリ一覧ページ</h2>
 
-    <select id="categoryData" v-model="selectedCategory">
-      <option disabled value="">カテゴリを選択してください。</option>
-      <option v-for="(item) in categoryData" v-bind:key="item.id"> {{item}} </option>
-    </select>
+    <v-select :items="categoryData" label="カテゴリを選択してください" solo class="select-box" v-model="selectedCategory"></v-select>
 
     <h2 v-if="selectedCategory">カテゴリ：{{selectedCategory}}</h2>
     <h2 v-else> 全てのカテゴリ</h2>
@@ -57,3 +54,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.select-box {
+  width: 40%;
+  margin: 0 auto;
+}
+</style>

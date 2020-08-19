@@ -1,5 +1,6 @@
 <template>
   <div>
+    <header>
       <v-toolbar color="white" dark>
         <img src="../../assets/title.jpg" class="img" @click="toHome">
 
@@ -24,36 +25,7 @@
         </v-toolbar-items>
       </v-toolbar>
 
-    <Search></Search>
-    <header>
-      <div class="header-item" @click="getNotification">通知</div>
-      <nav>
-        <ul class="manu">
-          <li>
-            <router-link to="/" class="link" active-class="link--active" exact
-              >Home</router-link
-            >
-          </li>
-          <li>
-            <router-link
-              to="/my-page"
-              class="link"
-              active-class="link--active"
-              exact
-              >マイページ</router-link
-            >
-          </li>
-          <li>
-            <router-link
-              to="/category"
-              class="link"
-              active-class="link--active"
-              exact
-              >カテゴリ一覧</router-link
-            >
-          </li>
-        </ul>
-      </nav>
+      <Search></Search>
     </header>
   </div>
 </template>

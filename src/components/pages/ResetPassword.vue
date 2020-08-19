@@ -14,8 +14,6 @@
       <v-btn outlined color="#B3424A" @click="sendPasswordResetEmail" width="30%" height="50px"><font color='black'><b>パスワードを変更する</b></font></v-btn>
     </v-container>
 
-
-
   </div>
 </template>
 

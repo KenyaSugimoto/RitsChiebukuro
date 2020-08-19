@@ -1,11 +1,13 @@
 <template>
   <div>
     <v-container>
-      <v-text-field label="キーワードで探す" outlined class="search" v-model='keywords'>
-        <template v-slot:append-outer>
-          <img src="../../assets/search-icon.svg" class="search-button" @click='search'>
-        </template>
-      </v-text-field>
+      <v-row>
+        <v-text-field label="キーワードで探す" outlined class="search" v-model='keywords'>
+          <template v-slot:append-outer>
+            <v-btn icon @click='search'><v-icon x-large>mdi-magnify</v-icon></v-btn>
+          </template>
+        </v-text-field>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -27,11 +29,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.search-button {
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-}
-
-</style>

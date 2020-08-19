@@ -1,5 +1,29 @@
 <template>
   <div>
+      <v-toolbar color="white" dark>
+        <img src="../../assets/title.jpg" class="img"/>
+
+        <v-spacer></v-spacer>
+
+        <v-toolbar-items class="hidden-sm-and-down">
+          <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
+
+          <v-divider vertical></v-divider>
+
+          <v-btn text color="black">
+            質問する
+          </v-btn>
+
+          <v-divider vertical></v-divider>
+
+          <v-btn text @click="toMypage" color="black">
+            マイページ
+          </v-btn>
+
+          <v-divider vertical></v-divider>
+        </v-toolbar-items>
+      </v-toolbar>
+
     <Search></Search>
     <header>
       <div class="header-item" @click="getNotification">通知</div>
@@ -75,7 +99,6 @@ export default {
   font-size: 22px;
   font-weight: bolder;
   color: #000;
-  /* border-bottom: solid 6px #b3ffa0; */
 }
 router-link {
   margin-right: 10px;

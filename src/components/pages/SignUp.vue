@@ -51,25 +51,15 @@
 
     <br><br>
 
-    <div v-if="degree == 'bachelor'">学部：
-      <select id="department" v-model="major">
-        <option disabled value="">学部を選択してください。</option>
-        <option v-for="(item) in department" v-bind:key="item.id"> {{item}} </option>
-      </select>
-      <select id="grade" v-model="grade">
-        <option disabled value="">学年を選択してください。</option>
-        <option v-for="i in 6" v-bind:key="i.id"> {{i}}回生 </option>
-      </select>
+
+
+    <div v-if="degree == 'bachelor'">
+      <v-select :items="department" label="学部を選択してください。" solo class="select-box" v-model="major"></v-select>
+      <v-select :items="bachelorGrade" label="学年を選択してください。" solo class="select-box" v-model="grade"></v-select>
     </div>
-    <div v-else>研究科：
-      <select id="master" v-model="major">
-        <option disabled value="">研究科を選択してください。</option>
-        <option v-for="(item) in master" v-bind:key="item.id"> {{item}} </option>
-      </select>
-      <select id="grade" v-model="grade">
-        <option disabled value="">学年を選択してください。</option>
-        <option v-for="i in 4" v-bind:key="i.id"> M{{i}} </option>
-      </select>
+    <div v-else>
+      <v-select :items="master" label="研究科を選択してください。" solo class="select-box" v-model="major"></v-select>
+      <v-select :items="masterGrade" label="学年を選択してください。" solo class="select-box" v-model="grade"></v-select>
     </div>
 
     <br><br>
@@ -105,6 +95,8 @@ export default {
       },
       show1: false,
       show2: false,
+      bachelorGrade: ritsData.bachelorGrade,
+      masterGrade: ritsData.masterGrade,
     }
   },
 
@@ -156,6 +148,10 @@ export default {
 }
 .text-field {
   width: 280px;
+  margin: 0 auto;
+}
+.select-box {
+  width: 30%;
   margin: 0 auto;
 }
 </style>

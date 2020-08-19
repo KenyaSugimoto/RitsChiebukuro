@@ -2,7 +2,7 @@
   <div>
     <h2>{{ name }}</h2>
 
-    <hr />
+    <hr>
 
     <template v-if='posts !== null && typeof(posts[0]) !== "undefined"'>
       <div

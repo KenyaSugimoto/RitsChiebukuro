@@ -385,7 +385,6 @@ export default {
             this.addNotificationForRespondent(respondentUid);
           }
 
-
           const comment = {
             mapValue: {
               fields: {
@@ -462,6 +461,9 @@ export default {
             answerId: fields.answerId.stringValue,
             isResolved: true
           });
+
+          // ベストアンサーの通知
+          this.$store.dispatch("notification/addBestAnswerNotification", fields);
         }
       });
     },

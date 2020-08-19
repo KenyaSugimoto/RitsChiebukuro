@@ -150,8 +150,7 @@ const actions = {
           Authorization: `Bearer ${rootGetters.idToken}`,
         },
       }
-    ).then((response) => {
-      console.log("response.data", response.data);
+    ).then(() => {
       toast("通知設定を変更しました", "success");
 
     }).catch((error) => {

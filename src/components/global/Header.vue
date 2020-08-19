@@ -7,7 +7,15 @@
         <v-spacer></v-spacer>
 
         <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
+          <v-badge
+            :content="notifications"
+            :value="notifications"
+            color="red"
+            overlap
+          >
+            <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
+          </v-badge>
+
 
           <v-divider vertical></v-divider>
 
@@ -39,17 +47,22 @@ export default {
     displayNotifications() {
       return this.$store.getters.displayNotifications;
     },
+    notifications() {
+      if (this.displayNotifications !== null) {
+        return this.displayNotifications.length;
+      }else {
+        return 0;
+      }
+    },
   },
   methods: {
     getNotification() {
-      this.$store.dispatch("notification/getNotifications").then(() => {
-        const existNotifications = this.displayNotifications != null;
-        if (existNotifications) {
-          this.$router.push("/notification").catch(() => {});
-        }else {
-          this.$router.push("/noNotification").catch(() => {});
-        }
-      });
+      const existNotifications = this.displayNotifications != null;
+      if (existNotifications) {
+        this.$router.push("/notification").catch(() => {});
+      }else {
+        this.$router.push("/noNotification").catch(() => {});
+      }
     },
     toMypage() {
       this.$router.push("/my-page").catch(() => {});

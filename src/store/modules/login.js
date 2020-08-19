@@ -37,6 +37,8 @@ const actions = {
         }
       }
     });
+    console.log("ログイン入ります");
+    dispatch("notification/getNotifications", {}, {root: true});
   },
   autoLogin({rootGetters, dispatch}) {
     const idToken = rootGetters.idToken;

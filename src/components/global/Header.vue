@@ -7,29 +7,28 @@
         <v-spacer></v-spacer>
 
         <v-toolbar-items class="hidden-sm-and-down">
-          <v-badge
-            :content="notifications"
-            :value="notifications"
-            color="red"
-            overlap
-          >
-            <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
-          </v-badge>
+          <v-container>
+            <v-row>
+              <v-badge
+                :content="notifications"
+                :value="notifications"
+                color="red"
+                overlap
+              >
+                <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
+              </v-badge>
+              <v-divider class="mx-4" vertical></v-divider>
+              <v-btn text @click="toPostQuestion" color="black">
+                質問する
+              </v-btn>
+              <v-divider class="mx-4" vertical></v-divider>
+              <v-btn text @click="toMypage" color="black">
+                マイページ
+              </v-btn>
+              <v-divider class="mx-4" vertical></v-divider>
 
-
-          <v-divider vertical></v-divider>
-
-          <v-btn text @click="toPostQuestion" color="black">
-            質問する
-          </v-btn>
-
-          <v-divider vertical></v-divider>
-
-          <v-btn text @click="toMypage" color="black">
-            マイページ
-          </v-btn>
-
-          <v-divider vertical></v-divider>
+            </v-row>
+          </v-container>
         </v-toolbar-items>
       </v-toolbar>
 
@@ -81,43 +80,9 @@ export default {
 </script>
 
 <style scoped>
-.link {
-  font-size: 20px;
-}
-.manu li {
-  width: 150px;
-  height: 30px;
-  background: #aed3b3;
-  border-bottom: solid 6px #b3ffa0;
-  border-radius: 9px;
-}
-.link--active {
-  font-size: 22px;
-  font-weight: bolder;
-  color: #000;
-}
-router-link {
-  margin-right: 10px;
-}
-.manu {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-}
-.manu li :hover {
-  background: #b1abab;
-}
-.header-item {
-  padding: 10px;
-  cursor: pointer;
-}
-.header-item:hover {
-  background-color: #b1abab;
-  color: red;
-}
 img {
-  width: 170px;
-  height: 40px;
+  width: 210px;
+  height: 58px;
   cursor: pointer;
 }
 

@@ -237,7 +237,7 @@ const actions = {
         stringValue: notificationId
       },
       created_at: {
-        timestampValue: bestAnswerData.created_at.timestampValue
+        timestampValue: new Date().toISOString()
       },
       postId: {
         stringValue: watchingPost.postId.stringValue

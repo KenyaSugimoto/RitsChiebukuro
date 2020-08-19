@@ -32,7 +32,6 @@ export default {
   watch: {
     '$route': function (to, from) {
       if (to.path !== from.path) {
-        console.log("入ります");
         this.$store.dispatch("notification/getNotifications");
       }
     }

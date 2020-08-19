@@ -1,7 +1,12 @@
 <template>
   <div>
-    <input type='text' id='keywords' v-model='keywords'>
-    <button @click='search'>検索</button>
+    <v-container>
+      <v-text-field label="キーワードで探す" outlined class="search" v-model='keywords'>
+        <template v-slot:append-outer>
+          <img src="../../assets/search-icon.svg" class="search-button" @click='search'>
+        </template>
+      </v-text-field>
+    </v-container>
   </div>
 </template>
 
@@ -21,3 +26,11 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.search-button {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+</style>

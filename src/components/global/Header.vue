@@ -1,7 +1,7 @@
 <template>
   <div>
       <v-toolbar color="white" dark>
-        <img src="../../assets/title.jpg" class="img"/>
+        <img src="../../assets/title.jpg" class="img" @click="toHome">
 
         <v-spacer></v-spacer>
 
@@ -77,6 +77,12 @@ export default {
         }
       });
     },
+    toMypage() {
+      this.$router.push("/my-page").catch(() => {});
+    },
+    toHome() {
+      this.$router.push("/").catch(() => {});
+    }
   },
   components: {
     Search,
@@ -119,4 +125,10 @@ router-link {
   background-color: #b1abab;
   color: red;
 }
+img {
+  width: 170px;
+  height: 40px;
+  cursor: pointer;
+}
+
 </style>

@@ -25,7 +25,9 @@
         </v-toolbar-items>
       </v-toolbar>
 
+      <br><br>
       <Search></Search>
+      <br>
     </header>
   </div>
 </template>

@@ -80,10 +80,9 @@
             {{answer.mapValue.fields.created_at.timestampValue | dateFormat}}
           </div>
 
-          <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
-            <br>
-            <v-btn class='btn' outlined @click='deleteAnswer(answer.mapValue.fields, true)'><b>回答を削除</b></v-btn>
-          </template>
+          <v-btn v-if='uid == answer.mapValue.fields.uid.stringValue' @click='deleteAnswer(answer.mapValue.fields, true)' icon class="mx-auto">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
 
           <br><br><br>
 
@@ -99,10 +98,10 @@
             <div>
               {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
             </div>
-            <template v-if='uid == comment.mapValue.fields.uid.stringValue'>
-              <br>
-              <v-btn class='btn' outlined @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)'><b>コメントを削除</b></v-btn>
-            </template>
+
+            <v-btn v-if='uid == comment.mapValue.fields.uid.stringValue' @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)' icon class="mx-auto">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
             <br><br>
           </div>
 
@@ -141,10 +140,10 @@
             <v-btn class='btn' outlined @click='updateBestAnswer(answer.mapValue.fields)'><b>ベストアンサーにする</b></v-btn>
           </template>
 
-          <template v-if='uid == answer.mapValue.fields.uid.stringValue'>
-            <br><br>
-            <v-btn class='btn' outlined @click='deleteAnswer(answer.mapValue.fields, false)'><b>回答を削除</b></v-btn>
-          </template>
+          <br>
+          <v-btn v-if='uid == answer.mapValue.fields.uid.stringValue' @click='deleteAnswer(answer.mapValue.fields, false)' icon class="mx-auto">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
 
           <br><br><br>
 
@@ -160,9 +159,11 @@
             <div>
               {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
             </div>
-            <template v-if='uid == comment.mapValue.fields.uid.stringValue'>
-              <v-btn class='btn' outlined @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)'><b>コメントを削除</b></v-btn>
-            </template>
+
+            <v-btn v-if='uid == comment.mapValue.fields.uid.stringValue' @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)' icon class="mx-auto">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+
             <br><br>
           </div>
 

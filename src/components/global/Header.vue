@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer app v-model="drawer" temporary right>
+    <v-navigation-drawer app v-model="drawer" temporary right hide-overlay width=300px>
       <Notification></Notification>
     </v-navigation-drawer>
     <header>

@@ -19,8 +19,6 @@
                 overlap
               >
                 <v-btn text v-on:mouseover="switchOn" @click="getNotification" color="black"> 通知 </v-btn>
-                <!-- <v-btn text v-on:mouseover="switchOn" v-on:mouseleave="switchOff" @click="getNotification" color="black"> 通知 </v-btn> -->
-                <!-- <v-btn text @click="getNotification" color="black"> 通知 </v-btn> -->
               </v-badge>
               <v-divider class="mx-4" vertical></v-divider>
               <v-btn text @click="toPostQuestion" color="black">
@@ -81,9 +79,6 @@ export default {
     },
     switchOn() {
       this.drawer = true;
-    },
-    switchOff() {
-      this.drawer = false;
     },
   },
   components: {

@@ -1,5 +1,8 @@
 <template>
   <div>
+    <v-navigation-drawer app v-model="drawer" absolute right>
+      <Notification></Notification>
+    </v-navigation-drawer>
     <header>
       <v-toolbar color="white" dark>
         <img src="../../assets/title.jpg" class="img" @click="toHome">
@@ -15,7 +18,9 @@
                 color="red"
                 overlap
               >
-                <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
+                <v-btn text v-on:mouseover="switchOn" @click="getNotification" color="black"> 通知 </v-btn>
+                <!-- <v-btn text v-on:mouseover="switchOn" v-on:mouseleave="switchOff" @click="getNotification" color="black"> 通知 </v-btn> -->
+                <!-- <v-btn text @click="getNotification" color="black"> 通知 </v-btn> -->
               </v-badge>
               <v-divider class="mx-4" vertical></v-divider>
               <v-btn text @click="toPostQuestion" color="black">
@@ -37,7 +42,13 @@
 </template>
 
 <script>
+import Notification from "../parts/Notification";
 export default {
+  data() {
+    return {
+      drawer: false,
+    }
+  },
   computed: {
     displayNotifications() {
       return this.$store.getters.displayNotifications;
@@ -68,7 +79,16 @@ export default {
     toPostQuestion() {
       this.$router.push("/postQuestion").catch(() => {});
     },
+    switchOn() {
+      this.drawer = true;
+    },
+    switchOff() {
+      this.drawer = false;
+    },
   },
+  components: {
+    Notification,
+  }
 
 };
 </script>

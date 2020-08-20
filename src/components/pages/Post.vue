@@ -5,45 +5,42 @@
     <br>
 
     <!-- 質問 -->
-    <div>
-      投稿者：
-      <router-link to='/my-page'>
-        {{post.document.fields.userName.stringValue}}さん
-      </router-link>
-    </div>
+    <v-container>
+      <v-card>
+        <v-btn v-if='uid == post.document.fields.uid.stringValue' @click='deletePost' icon class="mx-auto">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+        <v-row>
+          <p class="mx-auto">投稿者：{{post.document.fields.userName.stringValue}}さん</p>
+        </v-row>
+        <v-row>
+          <p class="mx-auto">{{post.document.fields.category.stringValue}}</p>
+        </v-row>
 
-    <div>
-      {{post.document.fields.category.stringValue}}
-    </div>
+        <v-card-title class="title">
+          <p class="mx-auto">{{post.document.fields.title.stringValue}}</p>
+        </v-card-title>
 
-    <div class="title">
-      {{post.document.fields.title.stringValue}}
-    </div>
+        <v-row>
+          <div class="content mx-auto">{{post.document.fields.content.stringValue}}</div>
+        </v-row>
 
-    <div class="content">
-      {{post.document.fields.content.stringValue}}
-    </div>
+        <v-row>
+          <v-col>
+            {{post.document.fields.created_at.timestampValue | dateFormat}}
+          </v-col>
+          <v-col>
+            閲覧数：{{post.document.fields.views.integerValue}}
+              <v-btn v-if='!favoritePostIds.includes(post.document.fields.postId.stringValue)' icon @click='updateFavorite(true)'><v-icon>mdi-star</v-icon></v-btn>
+              <v-btn v-else icon color='#FFE240' @click='updateFavorite(false)'><v-icon>mdi-star</v-icon></v-btn>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-container>
 
-    <div>
-      投稿時間：{{post.document.fields.created_at.timestampValue | dateFormat}}
-    </div>
-
-    <div>
-      閲覧数：{{post.document.fields.views.integerValue}}
-    </div>
-
-    <template v-if='!favoritePostIds.includes(post.document.fields.postId.stringValue)'>
-      <v-btn icon @click='updateFavorite(true)'><v-icon>mdi-star</v-icon></v-btn>
-    </template>
-    <template v-else>
-      <v-btn icon color='#FFE240' @click='updateFavorite(false)'><v-icon>mdi-star</v-icon></v-btn>
-    </template>
-
-    <br>
-
-    <template v-if='uid == post.document.fields.uid.stringValue'>
+    <!-- <template v-if='uid == post.document.fields.uid.stringValue'>
       <v-btn class='btn' outlined @click='deletePost'><b>質問を削除</b></v-btn>
-    </template>
+    </template> -->
 
     <br><br>
 

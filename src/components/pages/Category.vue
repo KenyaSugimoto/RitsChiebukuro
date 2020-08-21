@@ -1,18 +1,23 @@
 <template>
   <div>
-    <h2>カテゴリ一覧ページ</h2>
-
+    <br><br>
     <v-select :items="categoryData" label="カテゴリを選択してください" solo class="select-box" v-model="selectedCategory"></v-select>
 
     <h2 v-if="selectedCategory">カテゴリ：{{selectedCategory}}</h2>
     <h2 v-else> 全てのカテゴリ</h2>
-
-    <hr>
-    <br>
-
-    <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
-    <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問'></Posts>
-    <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
+    <v-container>
+      <v-row>
+        <v-col>
+          <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+        </v-col>
+        <v-col>
+          <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問'></Posts>
+        </v-col>
+        <v-col>
+          <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

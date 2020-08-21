@@ -37,7 +37,6 @@ const actions = {
         }
       }
     });
-    console.log("ログイン入ります");
     dispatch("notification/getNotifications", {}, {root: true});
   },
   autoLogin({rootGetters, dispatch}) {

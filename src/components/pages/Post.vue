@@ -16,11 +16,11 @@
       {{post.document.fields.category.stringValue}}
     </div>
 
-    <div>
+    <div class="title">
       {{post.document.fields.title.stringValue}}
     </div>
 
-    <div>
+    <div class="content">
       {{post.document.fields.content.stringValue}}
     </div>
 
@@ -76,7 +76,7 @@
           <div>
             {{answer.mapValue.fields.userName.stringValue}}さん
           </div>
-          <div>
+          <div class="content">
             {{answer.mapValue.fields.answer.stringValue}}
           </div>
           <div>
@@ -96,7 +96,7 @@
             <div>
               {{comment.mapValue.fields.userName.stringValue}}さん
             </div>
-            <div>
+            <div class="content">
               {{comment.mapValue.fields.comment.stringValue}}
             </div>
             <div>
@@ -131,7 +131,7 @@
           <div>
             {{answer.mapValue.fields.userName.stringValue}}さん
           </div>
-          <div>
+          <div class="content">
             {{answer.mapValue.fields.answer.stringValue}}
           </div>
           <div>
@@ -157,7 +157,7 @@
             <div>
               {{comment.mapValue.fields.userName.stringValue}}さん
             </div>
-            <div>
+            <div class="content">
               {{comment.mapValue.fields.comment.stringValue}}
             </div>
             <div>
@@ -385,7 +385,6 @@ export default {
             this.addNotificationForRespondent(respondentUid);
           }
 
-
           const comment = {
             mapValue: {
               fields: {
@@ -462,6 +461,9 @@ export default {
             answerId: fields.answerId.stringValue,
             isResolved: true
           });
+
+          // ベストアンサーの通知
+          this.$store.dispatch("notification/addBestAnswerNotification", fields);
         }
       });
     },
@@ -504,5 +506,11 @@ export default {
   width: 200px;
   height: 30px;
   color: #B3424A;
+}
+.title{
+  font-weight: bolder;
+}
+.content {
+  white-space: pre;
 }
 </style>

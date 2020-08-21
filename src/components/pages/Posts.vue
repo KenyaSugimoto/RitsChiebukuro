@@ -1,16 +1,18 @@
 <template>
-  <div class="posts-area">
-    <div>
-      <h2>{{ name }}</h2>
+  <div>
+    <h2>{{ name }}</h2>
+
+    <hr />
 
     <template v-if='posts !== null && typeof(posts[0]) !== "undefined"'>
       <div
         v-for="post in posts"
         :key="post.document.fields.postId.stringValue"
+        class="content-box"
       >
         <v-card
           class="card"
-          width="300"
+          width="100%"
           @click="toPost(post)"
         >
           <v-card-text>
@@ -29,8 +31,8 @@
       <h3>{{name}}はありません</h3>
     </template>
 
+    <hr>
     <br><br>
-    </div>
   </div>
 </template>
 
@@ -88,11 +90,5 @@ div .title {
 .answer-link:hover {
   background-color: #b1abab;
   color: red;
-}
-.card {
-  margin: 10px;
-}
-.title {
-  font: bold;
 }
 </style>

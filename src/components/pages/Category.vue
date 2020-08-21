@@ -2,10 +2,7 @@
   <div>
     <h2>カテゴリ一覧ページ</h2>
 
-    <select id="categoryData" v-model="selectedCategory">
-      <option disabled value="">カテゴリを選択してください。</option>
-      <option v-for="(item) in categoryData" v-bind:key="item.id"> {{item}} </option>
-    </select>
+    <v-select :items="categoryData" label="カテゴリを選択してください" solo class="select-box" v-model="selectedCategory"></v-select>
 
     <h2 v-if="selectedCategory">カテゴリ：{{selectedCategory}}</h2>
     <h2 v-else> 全てのカテゴリ</h2>
@@ -13,19 +10,9 @@
     <hr>
     <br>
 
-    <v-container>
-      <v-row>
-        <v-col>
-          <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
-        </v-col>
-        <v-col>
-          <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問'></Posts>
-        </v-col>
-        <v-col>
-          <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
-        </v-col>
-      </v-row>
-    </v-container>
+    <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+    <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問'></Posts>
+    <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
   </div>
 </template>
 
@@ -67,3 +54,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.select-box {
+  width: 40%;
+  margin: 0 auto;
+}
+</style>

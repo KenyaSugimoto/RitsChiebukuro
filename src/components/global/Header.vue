@@ -1,21 +1,17 @@
 <template>
   <div>
-      <v-toolbar
-        color="white"
-        dark
-      >
-        <img src="../../assets/title.jpg" class="img"/>
+    <header>
+      <v-toolbar color="white" dark>
+        <img src="../../assets/title.jpg" class="img" @click="toHome">
 
         <v-spacer></v-spacer>
 
         <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn text @click="getNotification" color="black">
-            通知
-          </v-btn>
+          <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
 
           <v-divider vertical></v-divider>
 
-          <v-btn text color="black">
+          <v-btn text @click="toPostQuestion" color="black">
             質問する
           </v-btn>
 
@@ -29,35 +25,9 @@
         </v-toolbar-items>
       </v-toolbar>
 
-    <Search></Search>
-    <header>
-      <nav>
-        <ul class="manu">
-          <li>
-            <router-link to="/" class="link" active-class="link--active" exact
-              >Home</router-link
-            >
-          </li>
-          <li>
-            <router-link
-              to="/my-page"
-              class="link"
-              active-class="link--active"
-              exact
-              >マイページ</router-link
-            >
-          </li>
-          <li>
-            <router-link
-              to="/category"
-              class="link"
-              active-class="link--active"
-              exact
-              >カテゴリ一覧</router-link
-            >
-          </li>
-        </ul>
-      </nav>
+      <br><br>
+      <Search></Search>
+      <br>
     </header>
   </div>
 </template>
@@ -66,19 +36,30 @@
 import Search from "./../parts/Search";
 export default {
   computed: {
-    userName() {
-      return this.$store.getters.userName;
+    displayNotifications() {
+      return this.$store.getters.displayNotifications;
     },
   },
   methods: {
     getNotification() {
-      this.$store.dispatch("notification/getNotifications");
-
-      this.$router.push("/notification").catch(() => {});
+      this.$store.dispatch("notification/getNotifications").then(() => {
+        const existNotifications = this.displayNotifications != null;
+        if (existNotifications) {
+          this.$router.push("/notification").catch(() => {});
+        }else {
+          this.$router.push("/noNotification").catch(() => {});
+        }
+      });
     },
     toMypage() {
       this.$router.push("/my-page").catch(() => {});
-    }
+    },
+    toHome() {
+      this.$router.push("/").catch(() => {});
+    },
+    toPostQuestion() {
+      this.$router.push("/postQuestion").catch(() => {});
+    },
   },
   components: {
     Search,
@@ -101,7 +82,6 @@ export default {
   font-size: 22px;
   font-weight: bolder;
   color: #000;
-  border-bottom: solid 6px #b3ffa0;
 }
 router-link {
   margin-right: 10px;
@@ -123,7 +103,9 @@ router-link {
   color: red;
 }
 img {
-  width: 140px;
-  height: 30px;
+  width: 170px;
+  height: 40px;
+  cursor: pointer;
 }
+
 </style>

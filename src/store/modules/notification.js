@@ -9,11 +9,21 @@ const actions = {
     ).then((response) => {
       const data = response.data.fields.notifications.arrayValue.values[0].mapValue.fields;
 
+      // 通知する通知情報のみを取得
+      const configValues = rootGetters.notificationConfigValues;
+
+      let notificationTypeList = ["bestAnswer"];
+      if (configValues.includes("forQuestioner")) notificationTypeList.push("answer", "comment");
+      if (configValues.includes("forRespondent")) notificationTypeList.push("respondent");
+
       let list = [];
       Object.keys(data).forEach(key => {
         list.push(data[key]);
       });
-      const sortedList = list.sort((a, b) => {
+      const filteredNotifications = list.filter(item => notificationTypeList.includes(item.mapValue.fields.type.stringValue));
+
+      // // 通知を時系列順にソート
+      const sortedList = filteredNotifications.sort((a, b) => {
         if (a.mapValue.fields.created_at.timestampValue > b.mapValue.fields.created_at.timestampValue) {
           return -1;
         }else if (a.mapValue.fields.created_at.timestampValue < b.mapValue.fields.created_at.timestampValue) {
@@ -25,6 +35,12 @@ const actions = {
 
       commit("updateDisplayNotifications", null, { root: true });
       commit("updateDisplayNotifications", sortedList, { root: true });
+
+      const displayNotifications = rootGetters.displayNotifications;
+      if (displayNotifications.length == 0) {
+        // （前の設定時に既にきてた）通知は存在するけど、その通知を消す前に設定変えて表示できない通知がある場合
+        router.push({ name: "noNotification" }).catch(() => {});
+      }
 
     }).catch(() => {
       console.log("通知はありません");
@@ -58,7 +74,6 @@ const actions = {
         },
       },
     };
-
     dispatch("notification/getQuestionerNotifications", notificationData.questionerUid.stringValue, {root: true})
     .then(() => {
       const updatedNotificationsData = newNotificationData;
@@ -93,9 +108,10 @@ const actions = {
     const notificationsLength = rootGetters.displayNotifications.length;
     const type = selectedNotification.mapValue.fields.type.stringValue;
     let uid = "";
-    if (type === "respondent") {
+    if (type === "respondent" || type === "bestAnswer") {
       uid = selectedNotification.mapValue.fields.respondentUid.stringValue;
-    }else {
+    }
+    else {
       uid = selectedNotification.mapValue.fields.questionerUid.stringValue;
     }
 
@@ -211,6 +227,76 @@ const actions = {
         commit("updateRespondentNotifications", null, { root: true });
         console.log("まだドキュメントが登録されていません（でした）");
       });
+  },
+  async addBestAnswerNotification({rootGetters}, bestAnswerData) {
+    const notificationId = new Date().getTime().toString(16) + Math.floor(1000 * Math.random()).toString(16);
+    const watchingPost = rootGetters.watchingPost.document.fields;
+    const bestAnswerUserUid = bestAnswerData.uid.stringValue;
+    const notificationData = {
+      notificationId: {
+        stringValue: notificationId
+      },
+      created_at: {
+        timestampValue: bestAnswerData.created_at.timestampValue
+      },
+      postId: {
+        stringValue: watchingPost.postId.stringValue
+      },
+      postTitle: {
+        stringValue: watchingPost.title.stringValue
+      },
+      questionerName: {
+        stringValue: watchingPost.userName.stringValue
+      },
+      type: {
+        stringValue: "bestAnswer"
+      },
+      respondentUid: {
+        stringValue: bestAnswerData.uid.stringValue
+      },
+    };
+
+    const newNotificationData = {
+      [notificationId]: {
+        mapValue: {
+          fields: notificationData,
+        },
+      },
+    };
+
+    // 通知先（ベストアンサーのユーザ）の通知情報をget
+    await axiosDb.get(
+      `/notifications/${bestAnswerUserUid}`,
+      {
+        headers: { Authorization: `Bearer ${rootGetters.idToken}` },
+      }).then((response) => {
+        const data = response.data.fields.notifications.arrayValue.values[0].mapValue.fields;
+        const updatedNotificationsData = newNotificationData;
+        Object.assign(updatedNotificationsData, JSON.parse(JSON.stringify(data)));
+
+        axiosDb.patch(
+          `notifications/${bestAnswerUserUid}?updateMask.fieldPaths=notifications`,
+          {
+            fields: {
+              notifications: {
+                arrayValue: {
+                  values: [
+                    {
+                      mapValue: {
+                        fields: updatedNotificationsData,
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          {headers: {Authorization: `Bearer ${rootGetters.idToken}`}}
+        );
+      }).catch(() => {
+        console.log("まだドキュメントが登録されていません（でした）");
+      });
+
   },
 };
 

@@ -64,20 +64,16 @@
                             <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
                           </v-badge>
                         </v-col>
-                        <!-- <v-divider class="mx-4" vertical></v-divider> -->
                         <v-col cols="4">
                           <v-btn text @click="toPostQuestion" color="black">
                             質問する
                           </v-btn>
                         </v-col>
-                        <!-- <v-divider class="mx-4" vertical></v-divider> -->
                         <v-col cols="4">
                           <v-btn text @click="toMypage" color="black">
                             マイページ
                           </v-btn>
                         </v-col>
-                        <!-- <v-divider class="mx-4" vertical></v-divider> -->
-
                       </v-row>
                     </v-container>
                   </v-list-item>
@@ -115,9 +111,6 @@ export default {
     xs() {
       return this.$vuetify.breakpoint.xs;
     },
-  },
-  created() {
-    console.log(this.$vuetify.breakpoint);
   },
   methods: {
     getNotification() {

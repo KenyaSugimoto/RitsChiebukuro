@@ -20,7 +20,7 @@
 
     </template>
     <template v-else>
-      <h2>「{{searchKeyWords}}」 の検索結果はありません</h2>
+      <h3>「{{searchKeyWords}}」 の検索結果はありません</h3>
       <router-link to="/">Homeへ戻る</router-link>
     </template>
   </div>

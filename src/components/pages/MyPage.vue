@@ -3,9 +3,9 @@
     <br>
     <h2>{{userName}}さんのマイページ</h2>
 
-    <v-container>
+    <v-container fulid>
       <v-row>
-        <v-col>
+        <v-col cols="12" sm="12" md="6" lg="6">
           <v-card class="mx-auto" max-width="100%" outlined @click="toFavorite">
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">気になる質問</v-list-item-title>
@@ -13,7 +13,7 @@
             </v-list-item-content>
           </v-card>
         </v-col>
-        <v-col>
+        <v-col cols="12" sm="12" md="6" lg="6">
           <v-card class="mx-auto" max-width="100%" outlined @click="toMyPosts">
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">{{userName}}さんの質問</v-list-item-title>
@@ -23,7 +23,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
+        <v-col cols="12" sm="12" md="6" lg="6">
           <v-card class="mx-auto" max-width="100%" outlined @click="toResetPassword">
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">パスワードの変更</v-list-item-title>
@@ -31,7 +31,7 @@
             </v-list-item-content>
           </v-card>
         </v-col>
-        <v-col>
+        <v-col cols="12" sm="12" md="6" lg="6">
           <v-card class="mx-auto" max-width="100%" outlined @click="toNotificationConfig">
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">通知の設定</v-list-item-title>
@@ -41,7 +41,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
+        <v-col cols="12" sm="12" md="6" lg="6">
           <v-card class="mx-auto" max-width="100%" outlined @click="toCategory">
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">カテゴリ一覧</v-list-item-title>
@@ -49,7 +49,7 @@
             </v-list-item-content>
           </v-card>
         </v-col>
-        <v-col>
+        <v-col cols="12" sm="12" md="6" lg="6">
           <v-card class="mx-auto" max-width="100%" outlined @click="logout">
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">ログアウト</v-list-item-title>

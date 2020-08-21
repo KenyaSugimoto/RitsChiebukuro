@@ -1,15 +1,14 @@
 <template>
-  <div>
+  <div v-if="!xs">
     <v-navigation-drawer app v-model="drawer" temporary right hide-overlay width=300px color="#e2e6e9">
       <Notification></Notification>
     </v-navigation-drawer>
     <header>
-      <v-toolbar color="white" dark>
-        <img src="../../assets/title.jpg" class="img" @click="toHome">
+      <v-toolbar color="white" dark flat>
+        <img src="../../assets/title.jpg" @click="toHome">
 
         <v-spacer></v-spacer>
-
-        <v-toolbar-items class="hidden-sm-and-down">
+        <v-toolbar-items>
           <v-container>
             <v-row>
               <v-badge
@@ -34,8 +33,62 @@
           </v-container>
         </v-toolbar-items>
       </v-toolbar>
-
     </header>
+    <br><br>
+  </div>
+  <div v-else>
+    <v-toolbar>
+        <img src="../../assets/title.jpg" class="img-xs" @click="toHome">
+        <v-container>
+          <v-row justify="end">
+            <v-menu
+              v-model="menu"
+              offset-y
+              value="false"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn right v-bind="attrs" v-on="on"><v-icon>mdi-menu</v-icon></v-btn>
+              </template>
+              <v-card>
+                <v-list>
+                  <v-list-item>
+                    <v-container fulid>
+                      <v-row justify="start">
+                        <v-col cols="3">
+                          <v-badge
+                            :content="notifications"
+                            :value="notifications"
+                            color="red"
+                            overlap
+                          >
+                            <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
+                          </v-badge>
+                        </v-col>
+                        <!-- <v-divider class="mx-4" vertical></v-divider> -->
+                        <v-col cols="4">
+                          <v-btn text @click="toPostQuestion" color="black">
+                            質問する
+                          </v-btn>
+                        </v-col>
+                        <!-- <v-divider class="mx-4" vertical></v-divider> -->
+                        <v-col cols="4">
+                          <v-btn text @click="toMypage" color="black">
+                            マイページ
+                          </v-btn>
+                        </v-col>
+                        <!-- <v-divider class="mx-4" vertical></v-divider> -->
+
+                      </v-row>
+                    </v-container>
+                  </v-list-item>
+                </v-list>
+              </v-card>
+            </v-menu>
+          </v-row>
+        </v-container>
+      </v-toolbar>
+    <br>
+
   </div>
 </template>
 
@@ -45,6 +98,7 @@ export default {
   data() {
     return {
       drawer: false,
+      menu: false,
     }
   },
   computed: {
@@ -58,6 +112,12 @@ export default {
         return 0;
       }
     },
+    xs() {
+      return this.$vuetify.breakpoint.xs;
+    },
+  },
+  created() {
+    console.log(this.$vuetify.breakpoint);
   },
   methods: {
     getNotification() {
@@ -94,5 +154,4 @@ img {
   height: 58px;
   cursor: pointer;
 }
-
 </style>

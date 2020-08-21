@@ -36,15 +36,9 @@ const actions = {
       commit("updateDisplayNotifications", null, { root: true });
       commit("updateDisplayNotifications", sortedList, { root: true });
 
-      // const displayNotifications = rootGetters.displayNotifications;
-      // if (displayNotifications.length == 0) {
-      //   // （前の設定時に既にきてた）通知は存在するけど、その通知を消す前に設定変えて表示できない通知がある場合
-      //   router.push({ name: "noNotification" }).catch(() => {});
-      // }
-
     }).catch(() => {
+      commit("updateDisplayNotifications", null, { root: true });
       console.log("通知はありません");
-      // router.push({ name: "noNotification" }).catch(() => {});
     });
   },
 

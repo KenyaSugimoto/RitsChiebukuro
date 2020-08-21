@@ -1,14 +1,13 @@
 <template>
   <div>
-    <v-container>
+    <v-container fluid>
       <div class="search-area">
-        <br><br><br>
         <v-tabs v-model="tab" color="basil">
           <v-tab>キーワードで探す</v-tab>
           <v-tab>ジャンル別で探す</v-tab>
         </v-tabs>
 
-        <v-container v-if="tab === 0">
+        <v-container v-if="tab === 0" fluid>
           <v-row>
             <v-text-field label="キーワードで探す" outlined class="search" v-model='keywords'>
               <template v-slot:append-outer>
@@ -17,7 +16,7 @@
             </v-text-field>
           </v-row>
         </v-container>
-        <v-container v-if="tab === 1">
+        <v-container v-if="tab === 1" fluid>
           <v-row>
             <v-select :items="categoryData" label="カテゴリを選択してください" solo class="select-box" v-model="selectedCategory"></v-select>
           </v-row>
@@ -28,28 +27,28 @@
         </v-container>
       </div>
 
-      <v-container v-if="tab === 0">
+      <v-container v-if="tab === 0" fluid>
         <v-row>
-          <v-col>
+          <v-col cols="12" sm="12" md="6" lg="4">
             <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
           </v-col>
-          <v-col>
+          <v-col cols="12" sm="12" md="6" lg="4">
             <Posts v-bind:posts='newPosts | manyViews' name='よく見られている質問'></Posts>
           </v-col>
-          <v-col>
+          <v-col cols="12" sm="12" md="6" lg="4">
             <Posts v-bind:posts='newPosts | resolved' name='解決済みの質問'></Posts>
           </v-col>
         </v-row>
       </v-container>
-      <v-container v-if="tab === 1">
+      <v-container v-if="tab === 1" fluid>
         <v-row>
-          <v-col>
+          <v-col cols="12" sm="12" md="6" lg="4">
             <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
           </v-col>
-          <v-col>
+          <v-col cols="12" sm="12" md="6" lg="4">
             <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問'></Posts>
           </v-col>
-          <v-col>
+          <v-col cols="12" sm="12" md="6" lg="4">
             <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
           </v-col>
         </v-row>
@@ -64,7 +63,6 @@ import Posts from './Posts';
 import categoryFromJson from "../../assets/categoryData.json";
 
 export default {
-
   data() {
     return {
       keywords: '',
@@ -115,8 +113,8 @@ img {
   height: 58px;
   cursor: pointer;
 }
-.search-area {
+/* .search-area {
   height: 20rem;
-}
+} */
 
 </style>

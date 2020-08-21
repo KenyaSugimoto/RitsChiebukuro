@@ -1,20 +1,27 @@
 <template>
   <div>
     <h2>通知設定</h2>
-    <p>内容を編集して「保存」ボタンを押してください。</p>
+    <hr><br>
+    <p>通知する内容を選択してください。</p>
 
-    <!-- <v-container >
-      <v-checkbox v-model="notificationConfigValues" label="あなたの質問に対する回答やコメントについて通知" value="forQuestioner"></v-checkbox>
-      <v-checkbox v-model="notificationConfigValues" label="あなたが回答した質問のコメントについて通知" value="forRespondent"></v-checkbox>
-    </v-container> -->
-    <v-container class="mx-auto">
-      <v-switch v-model="notificationConfigValues" label="あなたの質問に対する回答やコメントについて通知" value="forQuestioner"></v-switch>
-      <v-switch v-model="notificationConfigValues" label="あなたが回答した質問のコメントについて通知" value="forRespondent"></v-switch>
+    <v-container fulid>
+      <v-row justify="center">
+        <v-col cols="10" xl="3" lg="4" md="5" sm="5">
+          <v-switch v-model="notificationConfigValues" label="あなたの質問に対する回答やコメント" value="forQuestioner"></v-switch>
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col cols="10" xl="3" lg="4" md="5" sm="5">
+          <v-switch v-model="notificationConfigValues" label="あなたが回答した質問のコメント" value="forRespondent"></v-switch>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn outlined color="#B3424A" @click="setConfig" width="20%" height="50px"><font color='black'><b>保存</b></font></v-btn>
+        </v-col>
+      </v-row>
     </v-container>
 
-    <v-container>
-      <v-btn outlined color="#B3424A" @click="setConfig" width="20%" height="50px"><font color='black'><b>保存</b></font></v-btn>
-    </v-container>
 
   </div>
 </template>
@@ -25,6 +32,7 @@ export default {
   data() {
     return {
       notificationConfigValues: this.$store.getters.notificationConfigValues,
+      data: this.$vuetify.breakpoint,
     }
   },
 

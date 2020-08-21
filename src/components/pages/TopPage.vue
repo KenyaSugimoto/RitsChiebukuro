@@ -2,7 +2,6 @@
   <div>
     <v-container fluid>
       <div class="search-area">
-        <br><br><br>
         <v-tabs v-model="tab" color="basil">
           <v-tab>キーワードで探す</v-tab>
           <v-tab>ジャンル別で探す</v-tab>
@@ -114,8 +113,8 @@ img {
   height: 58px;
   cursor: pointer;
 }
-.search-area {
+/* .search-area {
   height: 20rem;
-}
+} */
 
 </style>

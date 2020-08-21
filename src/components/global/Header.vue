@@ -109,9 +109,6 @@ export default {
       return this.$vuetify.breakpoint.xs;
     },
   },
-  created() {
-    console.log(this.$vuetify.breakpoint);
-  },
   methods: {
     getNotification() {
       const existNotifications = this.displayNotifications != null;

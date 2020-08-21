@@ -43,9 +43,6 @@ export default {
       return this.$vuetify.breakpoint.xs;
     }
   },
-  created() {
-    console.log(this.$vuetify.breakpoint);
-  },
   methods: {
     sendPasswordResetEmail() {
       const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;

@@ -1,19 +1,34 @@
 <template>
   <div>
     <v-container>
-      <v-tabs v-model="tab" color="basil">
-        <v-tab>キーワードで探す</v-tab>
-        <v-tab>ジャンル別で探す</v-tab>
-      </v-tabs>
+      <div class="search-area">
+        <br><br><br>
+        <v-tabs v-model="tab" color="basil">
+          <v-tab>キーワードで探す</v-tab>
+          <v-tab>ジャンル別で探す</v-tab>
+        </v-tabs>
+
+        <v-container v-if="tab === 0">
+          <v-row>
+            <v-text-field label="キーワードで探す" outlined class="search" v-model='keywords'>
+              <template v-slot:append-outer>
+                <v-btn icon @click='search'><v-icon x-large>mdi-magnify</v-icon></v-btn>
+              </template>
+            </v-text-field>
+          </v-row>
+        </v-container>
+        <v-container v-if="tab === 1">
+          <v-row>
+            <v-select :items="categoryData" label="カテゴリを選択してください" solo class="select-box" v-model="selectedCategory"></v-select>
+          </v-row>
+          <v-row justify="center">
+            <h2 v-if="selectedCategory">カテゴリ：{{selectedCategory}}</h2>
+            <h2 v-else> 全てのカテゴリ</h2>
+          </v-row>
+        </v-container>
+      </div>
 
       <v-container v-if="tab === 0">
-        <v-row>
-          <v-text-field label="キーワードで探す" outlined class="search" v-model='keywords'>
-            <template v-slot:append-outer>
-              <v-btn icon @click='search'><v-icon x-large>mdi-magnify</v-icon></v-btn>
-            </template>
-          </v-text-field>
-        </v-row>
         <v-row>
           <v-col>
             <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
@@ -26,27 +41,17 @@
           </v-col>
         </v-row>
       </v-container>
-
       <v-container v-if="tab === 1">
         <v-row>
-          <v-select :items="categoryData" label="カテゴリを選択してください" solo class="select-box" v-model="selectedCategory"></v-select>
-        </v-row>
-        <v-row justify="center">
-          <h2 v-if="selectedCategory">カテゴリ：{{selectedCategory}}</h2>
-          <h2 v-else> 全てのカテゴリ</h2>
-          <v-container>
-            <v-row>
-              <v-col>
-                <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
-              </v-col>
-              <v-col>
-                <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問'></Posts>
-              </v-col>
-              <v-col>
-                <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
-              </v-col>
-            </v-row>
-          </v-container>
+          <v-col>
+            <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+          </v-col>
+          <v-col>
+            <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問'></Posts>
+          </v-col>
+          <v-col>
+            <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
+          </v-col>
         </v-row>
       </v-container>
     </v-container>
@@ -109,6 +114,9 @@ img {
   width: 210px;
   height: 58px;
   cursor: pointer;
+}
+.search-area {
+  height: 20rem;
 }
 
 </style>

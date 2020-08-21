@@ -1,48 +1,33 @@
 <template>
   <div>
-    <div v-if="existNotification">
-      <h2>通知</h2>
-      <div
-        v-for="item in displayNotifications"
-        :key="item.mapValue.fields.notificationId.stringValue"
-        class="content-box">
+    <h2>通知</h2>
+    <v-container>
+      <div v-for="item in displayNotifications" :key="item.mapValue.fields.notificationId.stringValue" class="content-box" outlined>
+        <v-card class="card" width="100%" @click="toPost(item)">
+            <div v-if="item.mapValue.fields.type.stringValue == 'respondent'">
+              {{item.mapValue.fields.questionerName.stringValue}} の『 {{ item.mapValue.fields.postTitle.stringValue }} 』の質問に対して
+              あなたの回答にコメントがつきました。
+            </div>
+            <div v-else-if="item.mapValue.fields.type.stringValue == 'bestAnswer'">
+              <p>{{item.mapValue.fields.questionerName.stringValue}} さんの質問</p>
+              <p>『{{item.mapValue.fields.postTitle.stringValue}}』に対するあなたの回答がベストアンサーに選ばれました！</p>
+            </div>
+            <div v-else>
+              <p> あなたの『 {{ item.mapValue.fields.postTitle.stringValue }} 』の質問に対して</p>
+              <p v-if="item.mapValue.fields.type.stringValue == 'answer'">{{item.mapValue.fields.respondentName.stringValue}}さんが回答しました</p>
+              <p v-else>{{item.mapValue.fields.respondentName.stringValue}}さんがコメントしました</p>
+            </div>
+            <p>{{ item.mapValue.fields.created_at.timestampValue | dateFormat }}</p>
 
-        <div @click="toPost(item)" class="notification-link">
-          <div v-if="item.mapValue.fields.type.stringValue == 'respondent'">
-            <p> {{item.mapValue.fields.questionerName.stringValue}} の『 {{ item.mapValue.fields.postTitle.stringValue }} 』の質問に対して</p>
-            あなたの回答にコメントがつきました。
-          </div>
-          <div v-else-if="item.mapValue.fields.type.stringValue == 'bestAnswer'">
-            <p> {{item.mapValue.fields.questionerName.stringValue}} さんの質問
-              『{{item.mapValue.fields.postTitle.stringValue}}』に対するあなたの回答がベストアンサーに選ばれました！</p>
-          </div>
-          <div v-else>
-            <p>あなたの『 {{ item.mapValue.fields.postTitle.stringValue }} 』の質問に対して</p>
-              {{item.mapValue.fields.respondentName.stringValue}}さんが
-            <div v-if="item.mapValue.fields.type.stringValue == 'answer'">回答しました</div>
-            <div v-else>コメントしました</div>
-            <p>
-              投稿時刻:
-              {{ item.mapValue.fields.created_at.timestampValue | dateFormat }}
-            </p>
-          </div>
-        </div>
+
+        </v-card>
       </div>
-    </div>
-
-    <div v-else>
-      <h2>通知はありません</h2>
-    </div>
+    </v-container>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      existNotification: true,
-    }
-  },
   computed: {
     displayNotifications() {
       return this.$store.getters.displayNotifications;
@@ -53,9 +38,6 @@ export default {
     notificationConfigValues() {
       return this.$store.getters.notificationConfigValues;
     },
-    notificationFlag() {
-      return this.existNotification;
-    }
   },
   methods: {
     toPost(notification) {
@@ -89,12 +71,14 @@ export default {
 .content-box {
   background-color: rgb(206, 220, 221);
 }
-.notification-link {
+.notification-link, card {
   padding: 10px;
   cursor: pointer;
 }
-.notification-link:hover {
-  background-color: #b1abab;
-  color: red;
+.card {
+  background-color: rgb(204, 191, 216);
+}
+.card:hover {
+  background-color: #eec3c3;
 }
 </style>

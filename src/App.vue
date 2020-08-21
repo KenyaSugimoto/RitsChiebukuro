@@ -29,6 +29,13 @@ export default {
       localStorage.removeItem('RitsChiebukuro');
     }
   },
+  watch: {
+    '$route': function (to, from) {
+      if (to.path !== from.path) {
+        this.$store.dispatch("notification/getNotifications");
+      }
+    }
+  }
 }
 </script>
 

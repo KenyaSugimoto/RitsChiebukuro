@@ -1,37 +1,34 @@
 <template>
   <div v-if="!xs">
-    <v-navigation-drawer app v-model="drawer" temporary right hide-overlay width=300px color="#e2e6e9">
+    <v-navigation-drawer app v-model="drawer" temporary right width=600px color="#e2e6e9">
       <Notification></Notification>
     </v-navigation-drawer>
     <header>
       <v-toolbar color="white" dark flat>
-        <img src="../../assets/title.jpg" @click="toHome">
+        <v-container>
+            <img src="../../assets/title.jpg" @click="toHome">
 
-        <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-container>
-            <v-row>
-              <v-badge
-                :content="notifications"
-                :value="notifications"
-                color="red"
-                overlap
-              >
-                <v-btn text v-on:mouseover="switchOn" @click="getNotification" color="black"> 通知 </v-btn>
-              </v-badge>
-              <v-divider class="mx-4" vertical></v-divider>
-              <v-btn text @click="toPostQuestion" color="black">
-                質問する
-              </v-btn>
-              <v-divider class="mx-4" vertical></v-divider>
-              <v-btn text @click="toMypage" color="black">
-                マイページ
-              </v-btn>
-              <v-divider class="mx-4" vertical></v-divider>
-
+            <v-row justify="center">
+              <v-col>
+                <v-btn text @click="toMypage" color="black">マイページ</v-btn>
+              </v-col>
+              <v-col>
+                <v-btn text @click="toPostQuestion" color="black">質問する</v-btn>
+              </v-col>
+              <v-col>
+                <v-badge
+                  :content="notifications"
+                  :value="notifications"
+                  color="red"
+                  overlap
+                >
+                  <v-btn text @click="switchOn" color="black"> 通知 </v-btn>
+                </v-badge>
+              </v-col>
             </v-row>
-          </v-container>
         </v-toolbar-items>
+      </v-container>
       </v-toolbar>
     </header>
     <br><br>

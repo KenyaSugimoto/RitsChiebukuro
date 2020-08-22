@@ -3,6 +3,7 @@
     <h2>{{userName}}さんの質問</h2>
 
     <v-container>
+      <hr><br>
       <v-row>
         <v-col cols="12" sm="12" md="6" lg="4">
           <Posts v-bind:posts='individualNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>

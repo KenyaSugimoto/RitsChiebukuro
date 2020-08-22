@@ -31,7 +31,8 @@
       </v-container>
       </v-toolbar>
     </header>
-    <br><br>
+    <br><hr><br>
+
   </div>
   <div v-else>
     <v-toolbar>
@@ -80,8 +81,7 @@
           </v-row>
         </v-container>
       </v-toolbar>
-    <br>
-
+    <br><hr><br>
   </div>
 </template>
 

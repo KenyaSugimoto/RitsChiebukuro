@@ -1,6 +1,8 @@
 <template>
   <div class="post-form">
+    <v-container>
       <h2>気軽に質問してみよう！</h2>
+      <hr><br>
 
       <v-textarea class='text-area' label='タイトル' outlined auto-grow rows=4 v-model='title'></v-textarea>
       <br>
@@ -10,6 +12,7 @@
 
       <br><br>
       <v-btn width="280" height="40" color="#B3424A" @click="createPost"><font color='white'><b>質問する</b></font></v-btn>
+    </v-container>
 
     </div>
 </template>

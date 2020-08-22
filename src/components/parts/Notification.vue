@@ -5,6 +5,7 @@
 
       <h2>通知</h2>
       <v-container>
+        <hr><br>
         <div v-for="item in displayNotifications" :key="item.mapValue.fields.notificationId.stringValue" class="content-box" outlined>
           <v-card class="card" width="100%" @click="toPost(item)">
               <div v-if="item.mapValue.fields.type.stringValue == 'respondent'">

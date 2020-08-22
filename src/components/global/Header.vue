@@ -1,86 +1,81 @@
 <template>
   <div v-if="!xs">
     <v-navigation-drawer app v-model="drawer" temporary right width=600px color="#e2e6e9">
+      <br><br><br><br><br>
+
       <Notification></Notification>
     </v-navigation-drawer>
     <header>
       <v-toolbar color="white" dark flat>
         <v-container>
-            <img src="../../assets/title.jpg" @click="toHome">
-
-        <v-toolbar-items>
+          <img src="../../assets/title.jpg" @click="toHome">
+          <v-toolbar-items>
             <v-row justify="center">
-              <v-col>
-                <v-btn text @click="toMypage" color="black">マイページ</v-btn>
+              <v-col cols="3">
+                <v-btn text @click="toMypage" color="black"><v-icon x-large>mdi-account</v-icon>マイページ</v-btn>
               </v-col>
-              <v-col>
-                <v-btn text @click="toPostQuestion" color="black">質問する</v-btn>
+              <v-col cols="3">
+                <v-btn text @click="toPostQuestion" color="black"><v-icon large>mdi-help</v-icon>質問する</v-btn>
               </v-col>
-              <v-col>
+              <v-col cols="3">
                 <v-badge
                   :content="notifications"
                   :value="notifications"
                   color="red"
                   overlap
                 >
-                  <v-btn text @click="switchOn" color="black"> 通知 </v-btn>
+                  <v-btn text @click="switchOn" color="black"><v-icon large>mdi-bell-ring</v-icon> 通知 </v-btn>
                 </v-badge>
               </v-col>
             </v-row>
-        </v-toolbar-items>
-      </v-container>
+          </v-toolbar-items>
+        </v-container>
       </v-toolbar>
     </header>
     <br><hr><br>
 
   </div>
   <div v-else>
-    <v-toolbar>
+    <v-toolbar flat>
+      <v-container>
         <img src="../../assets/title.jpg" class="img-xs" @click="toHome">
-        <v-container>
-          <v-row justify="end">
-            <v-menu
-              v-model="menu"
-              offset-y
-              value="false"
-            >
+
+        <v-row justify="end">
+          <v-col cols="3">
+            <v-menu v-model="menu" offset-x value="false">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn right v-bind="attrs" v-on="on"><v-icon>mdi-menu</v-icon></v-btn>
               </template>
-              <v-card>
-                <v-list>
-                  <v-list-item>
-                    <v-container fulid>
-                      <v-row justify="start">
-                        <v-col cols="3">
-                          <v-badge
-                            :content="notifications"
-                            :value="notifications"
-                            color="red"
-                            overlap
-                          >
-                            <v-btn text @click="getNotification" color="black"> 通知 </v-btn>
-                          </v-badge>
-                        </v-col>
-                        <v-col cols="4">
-                          <v-btn text @click="toPostQuestion" color="black">
-                            質問する
-                          </v-btn>
-                        </v-col>
-                        <v-col cols="4">
-                          <v-btn text @click="toMypage" color="black">
-                            マイページ
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-list-item>
-                </v-list>
+              <v-card width="400px">
+                <v-row justify="center">
+                  <v-col cols="12">
+                    <v-btn text @click="toMypage" color="black"><v-icon>mdi-account</v-icon>マイページ</v-btn>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-badge
+                      :content="notifications"
+                      :value="notifications"
+                      color="red"
+                      overlap
+                    >
+                      <v-btn text @click="getNotification" color="black"><v-icon>mdi-bell-ring</v-icon> 通知 </v-btn>
+                    </v-badge>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-btn text @click="toPostQuestion" color="black"><v-icon>mdi-help</v-icon>質問する</v-btn>
+                  </v-col>
+                </v-row>
+
               </v-card>
             </v-menu>
-          </v-row>
-        </v-container>
-      </v-toolbar>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-toolbar>
     <br><hr><br>
   </div>
 </template>

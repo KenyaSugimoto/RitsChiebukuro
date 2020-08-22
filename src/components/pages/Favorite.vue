@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>{{userName}}さんの気になる質問</h2>
     <v-container>
       <Posts v-bind:posts='favoritePosts' name="気になる質問"></Posts>
     </v-container>

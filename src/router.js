@@ -9,7 +9,6 @@ const SignUp = () => import("./components/pages/SignUp");
 const ActivateAccount = () => import("./components/pages/ActivateAccount");
 const ResetPassword = () => import("./components/pages/ResetPassword");
 const Post = () => import("./components/pages/Post");
-const PostCompleted = () => import("./components/pages/PostCompleted");
 const SearchResult = () => import("./components/pages/SearchResult")
 const Notification = () => import("./components/parts/Notification");
 const NoNotification = () => import("./components/parts/NoNotification");
@@ -72,12 +71,6 @@ export default new Router({
       name: 'post',
       component: Post,
       props: true,
-    },
-    {
-      path: "/postCompleted",
-      components: {
-        default: PostCompleted,
-      },
     },
     {
       path: "/searchResult",

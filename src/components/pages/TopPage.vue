@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container fluid>
+    <v-container>
       <div class="search-area">
         <v-tabs v-model="tab" color="basil">
           <v-tab>キーワードで探す</v-tab>

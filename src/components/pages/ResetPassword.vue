@@ -1,12 +1,12 @@
 <template>
   <div>
-    <hr>
-    <br><br>
 
     <v-container fulid>
       <v-row justify="center">
         <v-col><h2>パスワード再発行ページ</h2></v-col>
       </v-row>
+        <hr>
+
       <v-row justify="center">
         <v-col cols="10" sm="11"><h3>アカウントのメールアドレスを入力して、「パスワードを変更する」を押してください。</h3></v-col>
       </v-row>

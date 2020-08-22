@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h2>通知設定</h2>
-    <hr><br>
+    <h2>通知の設定</h2>
     <p>通知する内容を選択してください。</p>
 
     <v-container fulid>
+      <hr><br>
       <v-row justify="center">
         <v-col cols="10" xl="3" lg="4" md="5" sm="5">
           <v-switch v-model="notificationConfigValues" label="あなたの質問に対する回答やコメント" value="forQuestioner"></v-switch>
@@ -15,6 +15,7 @@
           <v-switch v-model="notificationConfigValues" label="あなたが回答した質問のコメント" value="forRespondent"></v-switch>
         </v-col>
       </v-row>
+      <br>
       <v-row>
         <v-col>
           <v-btn outlined color="#B3424A" @click="setConfig" width="20%" height="50px"><font color='black'><b>保存</b></font></v-btn>

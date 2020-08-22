@@ -5,7 +5,6 @@
 
     <v-container fulid>
     <hr>
-
       <v-row>
         <v-col cols="12">
           <v-card class="mx-auto" max-width="100%" outlined @click="toMyPosts">

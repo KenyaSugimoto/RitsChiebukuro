@@ -8,25 +8,31 @@
       <v-row>
         <v-col cols="12">
           <v-card class="mx-auto" max-width="100%" outlined @click="toMyPosts">
+            <br>
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">{{userName}}さんの質問</v-list-item-title>
             </v-list-item-content>
+            <br>
           </v-card>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" sm="12" md="6" lg="6">
           <v-card class="mx-auto" max-width="100%" outlined @click="toFavorite">
+            <br>
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">気になる質問</v-list-item-title>
             </v-list-item-content>
+            <br>
           </v-card>
         </v-col>
         <v-col cols="12" sm="12" md="6" lg="6">
           <v-card class="mx-auto" max-width="100%" outlined @click="toResetPassword">
+            <br>
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">パスワードの変更</v-list-item-title>
             </v-list-item-content>
+            <br>
           </v-card>
         </v-col>
 
@@ -34,16 +40,20 @@
       <v-row>
         <v-col cols="12" sm="12" md="6" lg="6">
           <v-card class="mx-auto" max-width="100%" outlined @click="toNotificationConfig">
+            <br>
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">通知の設定</v-list-item-title>
             </v-list-item-content>
+            <br>
           </v-card>
         </v-col>
         <v-col cols="12" sm="12" md="6" lg="6">
           <v-card class="mx-auto" max-width="100%" outlined @click="logout">
+            <br>
             <v-list-item-content>
               <v-list-item-title class="headline mb-1">ログアウト</v-list-item-title>
             </v-list-item-content>
+            <br>
           </v-card>
         </v-col>
       </v-row>

@@ -1,38 +1,50 @@
 <template>
   <div>
-    <h2>{{ name }}</h2>
+    <h2>{{ name }}<v-icon x-large>mdi-comment-question</v-icon></h2>
 
-    <hr>
-
-    <template v-if='posts !== null && typeof(posts[0]) !== "undefined"'>
-      <div
-        v-for="post in posts"
-        :key="post.document.fields.postId.stringValue"
-        class="content-box"
-      >
-        <v-card
-          class="card"
-          width="100%"
-          @click="toPost(post)"
-        >
-          <v-card-text>
-            <div class="title">
-              {{ post.document.fields.title.stringValue }}
+    <v-container fluid>
+      <v-row justify="center">
+        <v-col cols="12">
+          <hr>
+          <template v-if='posts !== null && typeof(posts[0]) !== "undefined"'>
+            <div
+              v-for="post in posts"
+              :key="post.document.fields.postId.stringValue"
+              class="content-box"
+            >
+              <v-row justify="center">
+                <v-col cols="11">
+                  <v-card @click="toPost(post)">
+                    <v-card-text>
+                      <v-row>
+                        <v-col>
+                          <br>
+                          <div class="title">{{ post.document.fields.title.stringValue }}</div>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col>
+                          <br>
+                          <div>{{ post.document.fields.created_at.timestampValue | dateFormat }}</div>
+                        </v-col>
+                      </v-row>
+                      <br>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+              </v-row>
             </div>
-            <div>
-              {{ post.document.fields.created_at.timestampValue | dateFormat }}
-            </div>
-          </v-card-text>
-        </v-card>
-      </div>
-    </template>
+          </template>
 
-    <template v-else>
-      <h3>{{name}}はありません</h3>
-    </template>
+          <template v-else>
+            <h3>{{name}}はありません</h3>
+          </template>
 
-    <hr>
-    <br><br>
+          <hr>
+          <br><br>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -78,17 +90,6 @@ div .title {
   color: rgb(231, 9, 9);
 }
 .content-box {
-  background-color: rgb(251, 242, 209);
   border-radius: 9px;
-  width: 70%;
-  margin: 20px auto;
-}
-.answer-link {
-  padding: 10px;
-  cursor: pointer;
-}
-.answer-link:hover {
-  background-color: #b1abab;
-  color: red;
 }
 </style>

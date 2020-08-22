@@ -2,57 +2,59 @@
   <div>
     <v-container>
       <div class="search-area">
-        <v-tabs v-model="tab" color="basil">
-          <v-tab>キーワードで探す</v-tab>
-          <v-tab>ジャンル別で探す</v-tab>
-        </v-tabs>
+        <v-row justify="center">
+          <v-col cols="11">
+            <v-tabs v-model="tab" color="basil">
+              <v-tab>キーワードで探す</v-tab>
+              <v-tab>ジャンル別で探す</v-tab>
+            </v-tabs>
+          </v-col>
+        </v-row>
 
-        <v-container v-if="tab === 0" fluid>
-          <v-row>
+        <v-row v-if="tab === 0" justify="center">
+          <v-col cols="11">
             <v-text-field label="キーワードで探す" outlined class="search" v-model='keywords'>
               <template v-slot:append-outer>
                 <v-btn icon @click='search'><v-icon x-large>mdi-magnify</v-icon></v-btn>
               </template>
             </v-text-field>
-          </v-row>
-        </v-container>
-        <v-container v-if="tab === 1" fluid>
-          <v-row>
-            <v-select :items="categoryData" label="カテゴリを選択してください" solo class="select-box" v-model="selectedCategory"></v-select>
-          </v-row>
-          <v-row justify="center">
+          </v-col>
+        </v-row>
+        <v-row v-else justify="center">
+          <v-col cols="11">
+            <v-select :items="categoryData" label="カテゴリを選択してください" outlined class="select-box" v-model="selectedCategory"></v-select>
+          </v-col>
+          <v-col cols="11" sm="7" md="5" lg="4">
             <h2 v-if="selectedCategory">カテゴリ：{{selectedCategory}}</h2>
             <h2 v-else> 全てのカテゴリ</h2>
-          </v-row>
-        </v-container>
+            <hr><br>
+          </v-col>
+        </v-row>
       </div>
 
-      <v-container v-if="tab === 0" fluid>
-        <v-row>
-          <v-col cols="12" sm="12" md="6" lg="4">
-            <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
-          </v-col>
-          <v-col cols="12" sm="12" md="6" lg="4">
-            <Posts v-bind:posts='newPosts | manyViews' name='よく見られている質問'></Posts>
-          </v-col>
-          <v-col cols="12" sm="12" md="6" lg="4">
-            <Posts v-bind:posts='newPosts | resolved' name='解決済みの質問'></Posts>
-          </v-col>
-        </v-row>
-      </v-container>
-      <v-container v-if="tab === 1" fluid>
-        <v-row>
-          <v-col cols="12" sm="12" md="6" lg="4">
-            <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
-          </v-col>
-          <v-col cols="12" sm="12" md="6" lg="4">
-            <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問'></Posts>
-          </v-col>
-          <v-col cols="12" sm="12" md="6" lg="4">
-            <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
-          </v-col>
-        </v-row>
-      </v-container>
+      <v-row v-if="tab === 0" justify="center">
+        <v-col cols="12" sm="12" md="6" lg="4">
+          <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+        </v-col>
+        <v-col cols="12" sm="12" md="6" lg="4">
+          <Posts v-bind:posts='newPosts | manyViews' name='よく見られている質問'></Posts>
+        </v-col>
+        <v-col cols="12" sm="12" md="6" lg="4">
+          <Posts v-bind:posts='newPosts | resolved' name='解決済みの質問'></Posts>
+        </v-col>
+      </v-row>
+
+      <v-row v-else justify="center">
+        <v-col cols="12" sm="12" md="6" lg="4">
+          <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+        </v-col>
+        <v-col cols="12" sm="12" md="6" lg="4">
+          <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問'></Posts>
+        </v-col>
+        <v-col cols="12" sm="12" md="6" lg="4">
+          <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
+        </v-col>
+      </v-row>
     </v-container>
 
   </div>

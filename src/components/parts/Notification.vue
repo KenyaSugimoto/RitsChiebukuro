@@ -1,7 +1,6 @@
 <template>
   <div>
     <div v-if="existNotifications">
-      <br><br><br><br><br>
 
       <h2>通知</h2>
       <v-container>

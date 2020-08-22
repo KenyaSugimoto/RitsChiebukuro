@@ -39,17 +39,17 @@
     <v-toolbar flat>
       <v-container>
         <img src="../../assets/title.jpg" class="img-xs" @click="toHome">
-
         <v-row justify="end">
           <v-col cols="3">
-            <v-menu v-model="menu" offset-x value="false">
+            <v-menu v-model="menu" offset-x  value="false">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn right v-bind="attrs" v-on="on"><v-icon>mdi-menu</v-icon></v-btn>
+                <v-btn v-bind="attrs" v-on="on"><v-icon>mdi-menu</v-icon></v-btn>
               </template>
               <v-card width="400px">
                 <v-row justify="center">
                   <v-col cols="12">
                     <v-btn text @click="toMypage" color="black"><v-icon>mdi-account</v-icon>マイページ</v-btn>
+                    <br><hr>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -62,6 +62,7 @@
                     >
                       <v-btn text @click="getNotification" color="black"><v-icon>mdi-bell-ring</v-icon> 通知 </v-btn>
                     </v-badge>
+                    <hr>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -69,14 +70,13 @@
                     <v-btn text @click="toPostQuestion" color="black"><v-icon>mdi-help</v-icon>質問する</v-btn>
                   </v-col>
                 </v-row>
-
               </v-card>
             </v-menu>
           </v-col>
         </v-row>
       </v-container>
     </v-toolbar>
-    <br><hr><br>
+    <br><br><hr><br>
   </div>
 </template>
 

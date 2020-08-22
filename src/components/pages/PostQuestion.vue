@@ -1,17 +1,37 @@
 <template>
   <div class="post-form">
     <v-container>
-      <h2>気軽に質問してみよう！</h2>
-      <hr><br>
+      <v-row>
+        <v-col>
+          <h2>気軽に質問してみよう！</h2>
+          <hr>
+        </v-col>
+      </v-row>
 
-      <v-textarea class='text-area' label='タイトル' outlined auto-grow rows=4 v-model='title'></v-textarea>
-      <br>
-      <v-select :items="categoryData" label="ジャンルを選ぶ" solo class="select-box" v-model="selectedCategory"></v-select>
-      <br>
-      <v-textarea class='text-area' label='質問' outlined auto-grow rows=8 v-model='content'></v-textarea>
+      <v-row>
+        <v-col>
+          <v-textarea class='text-area' label='タイトル' outlined auto-grow rows=4 v-model='title'></v-textarea>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-select :items="categoryData" label="ジャンルを選ぶ" solo class="select-box" v-model="selectedCategory"></v-select>
+        </v-col>
+      </v-row>
 
+      <v-row>
+        <v-col>
+          <v-textarea class='text-area' label='質問' outlined auto-grow rows=8 v-model='content'></v-textarea>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>
+          <v-btn width="280" height="40" color="#B3424A" @click="createPost"><font color='white'><b>質問する</b></font></v-btn>
+        </v-col>
+      </v-row>
       <br><br>
-      <v-btn width="280" height="40" color="#B3424A" @click="createPost"><font color='white'><b>質問する</b></font></v-btn>
+
     </v-container>
 
     </div>

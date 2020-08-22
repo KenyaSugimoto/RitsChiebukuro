@@ -1,189 +1,219 @@
 <template>
   <div>
-    <br>
-    <hr>
-    <br>
-
     <!-- 質問 -->
     <v-container>
-      <v-card>
-        <v-btn v-if='uid == post.document.fields.uid.stringValue' @click='deletePost' icon class="mx-auto">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-        <v-row>
-          <p class="mx-auto">投稿者：{{post.document.fields.userName.stringValue}}さん</p>
-        </v-row>
-        <v-row>
-          <p class="mx-auto">{{post.document.fields.category.stringValue}}</p>
-        </v-row>
+      <br><hr><br>
+      <!-- 質問詳細 -->
+      <v-row justify="center">
+        <v-col cols="11">
+          <v-card>
+            <!-- 質問者の名前 -->
+            <v-row justify="start">
+              <v-col cols="12" sm="3" md="3" lg="3">
+                <br>
+                <div><b>{{post.document.fields.userName.stringValue}}</b>さん</div>
+              </v-col>
+            </v-row>
 
-        <v-card-title class="title">
-          <p class="mx-auto">{{post.document.fields.title.stringValue}}</p>
-        </v-card-title>
+            <!-- 質問タイトル -->
+            <v-row justify="center">
+              <v-col cols="12" sm="4" md="4" lg="10">
+                <div class="title"><b>{{post.document.fields.title.stringValue}}</b></div>
+              </v-col>
+            </v-row>
 
-        <v-row>
-          <div class="content mx-auto">{{post.document.fields.content.stringValue}}</div>
-        </v-row>
+            <!-- 質問カテゴリ -->
+            <v-row>
+              <v-col cols="12" sm="3" md="3" lg="3">
+                <p>{{post.document.fields.category.stringValue}}</p>
+              </v-col>
+            </v-row>
 
-        <v-row>
-          <v-col>
-            {{post.document.fields.created_at.timestampValue | dateFormat}}
-          </v-col>
-          <v-col>
-            閲覧数：{{post.document.fields.views.integerValue}}
-              <v-btn v-if='!favoritePostIds.includes(post.document.fields.postId.stringValue)' icon @click='updateFavorite(true)'><v-icon>mdi-star</v-icon></v-btn>
-              <v-btn v-else icon color='#FFE240' @click='updateFavorite(false)'><v-icon>mdi-star</v-icon></v-btn>
-          </v-col>
-        </v-row>
-      </v-card>
+            <!-- 質問内容 -->
+            <v-row justify="center">
+              <v-col cols="11" sm="11" md="10" lg="10">
+                <p class="content">{{post.document.fields.content.stringValue}}</p>
+              </v-col>
+            </v-row>
+
+            <v-row justify="space-around">
+              <v-col cols="11" md="10"><br><hr><br></v-col>
+              <v-col cols="10" sm="10" md="5" lg="5">
+                <!-- ＊＊＊アイコンいれる＊＊＊ -->
+                {{post.document.fields.created_at.timestampValue | dateFormat}}
+              </v-col>
+              <v-col cols="10" sm="10" md="5" lg="5">
+                閲覧数：{{post.document.fields.views.integerValue}}
+              </v-col>
+            </v-row>
+            <v-row justify="center">
+              <!-- 気になるボタン -->
+              <v-col cols="3" sm="2" md="2" lg="2">
+                <v-btn v-if='!favoritePostIds.includes(post.document.fields.postId.stringValue)' icon @click='updateFavorite(true)'><v-icon>mdi-star</v-icon></v-btn>
+                <v-btn v-else icon color='#FFE240' @click='updateFavorite(false)'><v-icon>mdi-star</v-icon></v-btn>
+              </v-col>
+              <!-- 削除ボタン -->
+              <v-col cols="3" sm="2" md="2" lg="2">
+                <v-btn v-if='uid == post.document.fields.uid.stringValue' @click='deletePost' icon class="mx-auto">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+                <br><br>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <br><br>
+
+      <!-- 回答エリア（ベストアンサーが選ばれたら回答エリアを消す） -->
+      <v-row justify="center">
+        <v-col>
+          <template v-if='!isResolved'>
+            <!-- 回答エリア -->
+            <template v-if='isDisplayAnswerArea'>
+              <v-textarea class='text-area' label='回答' outlined auto-grow rows=8 v-model='answer'></v-textarea>
+              <v-btn class='btn' outlined @click='addAnswer'><b>回答を送信</b></v-btn>
+            </template>
+            <template v-else>
+              <v-btn class='btn' outlined @click='displayAnswerArea'><b>回答する</b></v-btn>
+            </template>
+            <br>
+          </template>
+        </v-col>
+      </v-row>
+
+      <br><br>
+
+      <!-- 回答コメントエリア（回答がある場合） -->
+      <v-row>
+        <v-col>
+          <template v-if='this.isAnswered'>
+            <h3>回答{{thread.answers.arrayValue.values.length}}件</h3>
+
+            <hr>
+
+            <!-- ベストアンサー -->
+            <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue + "best"'>
+              <template v-if='answer.mapValue.fields.isBestAnswer.booleanValue'>
+                <h3>ベストアンサーに選ばれた回答</h3>
+                <div>
+                  {{answer.mapValue.fields.userName.stringValue}}さん
+                </div>
+                <div class="content">
+                  {{answer.mapValue.fields.answer.stringValue}}
+                </div>
+                <div>
+                  {{answer.mapValue.fields.created_at.timestampValue | dateFormat}}
+                </div>
+
+                <v-btn v-if='uid == answer.mapValue.fields.uid.stringValue' @click='deleteAnswer(answer.mapValue.fields, true)' icon class="mx-auto">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+
+                <br><br><br>
+
+                <!-- コメントエリア -->
+                <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue + "best"'>
+                  <h3>コメント</h3>
+                  <div>
+                    {{comment.mapValue.fields.userName.stringValue}}さん
+                  </div>
+                  <div class="content">
+                    {{comment.mapValue.fields.comment.stringValue}}
+                  </div>
+                  <div>
+                    {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
+                  </div>
+
+                  <v-btn v-if='uid == comment.mapValue.fields.uid.stringValue' @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)' icon class="mx-auto">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                  <br><br>
+                </div>
+
+                <template v-if='isDisplayCommentArea[index].value'>
+                  <v-textarea class='text-area' label='コメント' outlined auto-grow rows=4 v-model='comment[index].value'></v-textarea>
+                  <v-btn class='btn' outlined @click='addComment(answer.mapValue.fields, index)'><b>コメントを送信</b></v-btn>
+                </template>
+                <template v-else>
+                  <v-btn class='btn' outlined @click='displayCommentArea(index)'><b>コメントする</b></v-btn>
+                </template>
+              </template>
+            </div>
+
+            <!-- ベストアンサーと回答を区切るための<hr> -->
+            <template v-if='isResolved'>
+              <hr>
+            </template>
+
+            <!-- 回答 -->
+            <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue'>
+              <template v-if='!answer.mapValue.fields.isBestAnswer.booleanValue'>
+                <h3>回答</h3>
+                <div>
+                  {{answer.mapValue.fields.userName.stringValue}}さん
+                </div>
+                <div class="content">
+                  {{answer.mapValue.fields.answer.stringValue}}
+                </div>
+                <div>
+                  {{answer.mapValue.fields.created_at.timestampValue | dateFormat}}
+                </div>
+
+                <br>
+
+                <template v-if='!answer.mapValue.fields.isBestAnswer.booleanValue && uid == post.document.fields.uid.stringValue && !thread.isResolved.booleanValue'>
+                  <v-btn class='btn' outlined @click='updateBestAnswer(answer.mapValue.fields)'><b>ベストアンサーにする</b></v-btn>
+                </template>
+
+                <br>
+                <v-btn v-if='uid == answer.mapValue.fields.uid.stringValue' @click='deleteAnswer(answer.mapValue.fields, false)' icon class="mx-auto">
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+
+                <br><br><br>
+
+                <!-- コメントエリア -->
+                <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue'>
+                  <h3>コメント</h3>
+                  <div>
+                    {{comment.mapValue.fields.userName.stringValue}}さん
+                  </div>
+                  <div class="content">
+                    {{comment.mapValue.fields.comment.stringValue}}
+                  </div>
+                  <div>
+                    {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
+                  </div>
+
+                  <v-btn v-if='uid == comment.mapValue.fields.uid.stringValue' @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)' icon class="mx-auto">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+
+                  <br><br>
+                </div>
+
+                <template v-if='isDisplayCommentArea[index].value'>
+                  <v-textarea class='text-area' label='コメント' outlined auto-grow rows=4 v-model='comment[index].value'></v-textarea>
+                  <v-btn class='btn' outlined @click='addComment(answer.mapValue.fields, index)'><b>コメントを送信</b></v-btn>
+                </template>
+                <template v-else>
+                  <v-btn class='btn' outlined @click='displayCommentArea(index)'><b>コメントする</b></v-btn>
+                </template>
+
+                <hr>
+              </template>
+            </div>
+          </template>
+          <template v-else>
+            <h3>まだ回答がありません</h3>
+          </template>
+        </v-col>
+      </v-row>
     </v-container>
 
-    <!-- <template v-if='uid == post.document.fields.uid.stringValue'>
-      <v-btn class='btn' outlined @click='deletePost'><b>質問を削除</b></v-btn>
-    </template> -->
-
     <br><br>
-
-    <!-- ベストアンサーが選ばれたら回答エリアを消す -->
-    <template v-if='!isResolved'>
-      <!-- 回答エリア -->
-      <template v-if='isDisplayAnswerArea'>
-        <v-textarea class='text-area' label='回答' outlined auto-grow rows=8 v-model='answer'></v-textarea>
-        <v-btn class='btn' outlined @click='addAnswer'><b>回答を送信</b></v-btn>
-      </template>
-      <template v-else>
-        <v-btn class='btn' outlined @click='displayAnswerArea'><b>回答する</b></v-btn>
-      </template>
-      <br>
-    </template>
-
-    <br><br>
-    <br><br>
-
-    <!-- 回答がある場合 -->
-    <template v-if='this.isAnswered'>
-      <h3>回答{{thread.answers.arrayValue.values.length}}件</h3>
-
-      <hr>
-
-      <!-- ベストアンサー -->
-      <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue + "best"'>
-        <template v-if='answer.mapValue.fields.isBestAnswer.booleanValue'>
-          <h3>ベストアンサーに選ばれた回答</h3>
-          <div>
-            {{answer.mapValue.fields.userName.stringValue}}さん
-          </div>
-          <div class="content">
-            {{answer.mapValue.fields.answer.stringValue}}
-          </div>
-          <div>
-            {{answer.mapValue.fields.created_at.timestampValue | dateFormat}}
-          </div>
-
-          <v-btn v-if='uid == answer.mapValue.fields.uid.stringValue' @click='deleteAnswer(answer.mapValue.fields, true)' icon class="mx-auto">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-
-          <br><br><br>
-
-          <!-- コメントエリア -->
-          <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue + "best"'>
-            <h3>コメント</h3>
-            <div>
-              {{comment.mapValue.fields.userName.stringValue}}さん
-            </div>
-            <div class="content">
-              {{comment.mapValue.fields.comment.stringValue}}
-            </div>
-            <div>
-              {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
-            </div>
-
-            <v-btn v-if='uid == comment.mapValue.fields.uid.stringValue' @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)' icon class="mx-auto">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-            <br><br>
-          </div>
-
-          <template v-if='isDisplayCommentArea[index].value'>
-            <v-textarea class='text-area' label='コメント' outlined auto-grow rows=4 v-model='comment[index].value'></v-textarea>
-            <v-btn class='btn' outlined @click='addComment(answer.mapValue.fields, index)'><b>コメントを送信</b></v-btn>
-          </template>
-          <template v-else>
-            <v-btn class='btn' outlined @click='displayCommentArea(index)'><b>コメントする</b></v-btn>
-          </template>
-        </template>
-      </div>
-
-      <!-- ベストアンサーと回答を区切るための<hr> -->
-      <template v-if='isResolved'>
-        <hr>
-      </template>
-
-      <!-- 回答 -->
-      <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue'>
-        <template v-if='!answer.mapValue.fields.isBestAnswer.booleanValue'>
-          <h3>回答</h3>
-          <div>
-            {{answer.mapValue.fields.userName.stringValue}}さん
-          </div>
-          <div class="content">
-            {{answer.mapValue.fields.answer.stringValue}}
-          </div>
-          <div>
-            {{answer.mapValue.fields.created_at.timestampValue | dateFormat}}
-          </div>
-
-          <br>
-
-          <template v-if='!answer.mapValue.fields.isBestAnswer.booleanValue && uid == post.document.fields.uid.stringValue && !thread.isResolved.booleanValue'>
-            <v-btn class='btn' outlined @click='updateBestAnswer(answer.mapValue.fields)'><b>ベストアンサーにする</b></v-btn>
-          </template>
-
-          <br>
-          <v-btn v-if='uid == answer.mapValue.fields.uid.stringValue' @click='deleteAnswer(answer.mapValue.fields, false)' icon class="mx-auto">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-
-          <br><br><br>
-
-          <!-- コメントエリア -->
-          <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue'>
-            <h3>コメント</h3>
-            <div>
-              {{comment.mapValue.fields.userName.stringValue}}さん
-            </div>
-            <div class="content">
-              {{comment.mapValue.fields.comment.stringValue}}
-            </div>
-            <div>
-              {{comment.mapValue.fields.created_at.timestampValue | dateFormat}}
-            </div>
-
-            <v-btn v-if='uid == comment.mapValue.fields.uid.stringValue' @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)' icon class="mx-auto">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-
-            <br><br>
-          </div>
-
-          <template v-if='isDisplayCommentArea[index].value'>
-            <v-textarea class='text-area' label='コメント' outlined auto-grow rows=4 v-model='comment[index].value'></v-textarea>
-            <v-btn class='btn' outlined @click='addComment(answer.mapValue.fields, index)'><b>コメントを送信</b></v-btn>
-          </template>
-          <template v-else>
-            <v-btn class='btn' outlined @click='displayCommentArea(index)'><b>コメントする</b></v-btn>
-          </template>
-
-          <hr>
-        </template>
-      </div>
-    </template>
-
-    <template v-else>
-      <h3>まだ回答がありません</h3>
-    </template>
-
   </div>
 </template>
 
@@ -204,8 +234,10 @@ export default {
       isAnswered: false,
       threadExists: false,
       isDisplayAnswerArea: false,
+      data: this.$vuetify.breakpoint,
     }
   },
+
   props: ['postId'],
   computed: {
     post() {
@@ -497,7 +529,7 @@ export default {
 
 <style scoped>
 .text-area {
-  width: 560px;
+  width: 75%;
   margin: 0 auto;
 }
 .btn {
@@ -505,10 +537,12 @@ export default {
   height: 30px;
   color: #B3424A;
 }
-.title{
-  font-weight: bolder;
-}
 .content {
-  white-space: pre;
+  white-space: pre-wrap;
+  text-align:left;
+  /* word-break: keep-all; */
+}
+.title {
+  text-align:left;
 }
 </style>

@@ -79,11 +79,21 @@
           <template v-if='!isResolved'>
             <!-- 回答エリア -->
             <template v-if='isDisplayAnswerArea'>
-              <v-textarea class='text-area' label='回答' outlined auto-grow rows=8 v-model='answer'></v-textarea>
-              <v-btn class='btn' outlined @click='addAnswer'><b>回答を送信</b></v-btn>
+              <v-row justify="center">
+                <v-col cols="12">
+                  <v-textarea class='text-area' label='回答' outlined auto-grow rows=8 v-model='answer'></v-textarea>
+                </v-col>
+                <v-col lg="6" md="9" sm="9">
+                  <v-btn class='btn' outlined @click='addAnswer'><b>回答を送信</b></v-btn>
+                </v-col>
+              </v-row>
             </template>
             <template v-else>
-              <v-btn class='btn' outlined @click='displayAnswerArea'><b>回答する</b></v-btn>
+              <v-row justify="center">
+                <v-col lg="6" md="9" sm="9">
+                  <v-btn class='btn' outlined @click='displayAnswerArea'><b>回答する</b></v-btn>
+                </v-col>
+              </v-row>
             </template>
             <br>
           </template>

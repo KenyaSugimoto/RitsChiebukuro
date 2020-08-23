@@ -62,11 +62,10 @@
             <v-row justify="center">
               <v-col cols="10" sm="5" md="5" lg="5">
                 <!-- *** アイコンいれる -->
-                <div v-bind:class="{left: !xs}">閲覧数：{{post.document.fields.views.integerValue}}</div>
+                <div v-bind:class="{left: !xs}"><v-icon>mdi-eye-outline</v-icon>閲覧数：{{post.document.fields.views.integerValue}}</div>
               </v-col>
               <v-col cols="10" sm="6" md="5" lg="5">
-                <!-- ＊＊＊アイコンいれる＊＊＊ -->
-                <div v-bind:class="{time: !xs}">{{post.document.fields.created_at.timestampValue | dateFormat}}</div>
+                <div v-bind:class="{time: !xs}"><v-icon>mdi-clock-time-ten-outline</v-icon>{{post.document.fields.created_at.timestampValue | dateFormat}}</div>
                 <br>
               </v-col>
             </v-row>
@@ -140,7 +139,7 @@
                 <!-- 時刻 -->
                 <v-row justify="center" v-bind:class="{time: !xs}">
                   <v-col cols="11" sm="11" md="10" lg="10">
-                    <div>{{answer.mapValue.fields.created_at.timestampValue | dateFormat}}</div>
+                    <div><v-icon>mdi-clock-time-ten-outline</v-icon>{{answer.mapValue.fields.created_at.timestampValue | dateFormat}}</div>
                   </v-col>
                 </v-row>
 
@@ -187,7 +186,7 @@
                               <!-- 時刻 -->
                               <v-row justify="center" v-bind:class="{time: !xs}">
                                 <v-col cols="11" sm="11" md="10" lg="10">
-                                  <div>{{comment.mapValue.fields.created_at.timestampValue | dateFormat}}</div>
+                                  <div><v-icon>mdi-clock-time-ten-outline</v-icon>{{comment.mapValue.fields.created_at.timestampValue | dateFormat}}</div>
                                 </v-col>
                               </v-row>
 
@@ -257,7 +256,7 @@
                 <!-- 時刻 -->
                 <v-row justify="center" v-bind:class="{time: !xs}">
                   <v-col cols="11" sm="11" md="10" lg="10">
-                    <div>{{answer.mapValue.fields.created_at.timestampValue | dateFormat}}</div>
+                    <div><v-icon>mdi-clock-time-ten-outline</v-icon>{{answer.mapValue.fields.created_at.timestampValue | dateFormat}}</div>
                   </v-col>
                 </v-row>
 
@@ -314,7 +313,7 @@
                               <!-- 時刻 -->
                               <v-row justify="center" v-bind:class="{time: !xs}">
                                 <v-col cols="11" sm="11" md="10" lg="10">
-                                  <div>{{comment.mapValue.fields.created_at.timestampValue | dateFormat}}</div>
+                                  <div><v-icon>mdi-clock-time-ten-outline</v-icon>{{comment.mapValue.fields.created_at.timestampValue | dateFormat}}</div>
                                 </v-col>
                               </v-row>
 

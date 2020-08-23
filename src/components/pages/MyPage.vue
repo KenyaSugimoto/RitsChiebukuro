@@ -10,7 +10,7 @@
           <v-card class="mx-auto" max-width="100%" outlined @click="toMyPosts">
             <br>
             <v-list-item-content>
-              <v-list-item-title class="headline mb-1"><v-icon x-large color="#9a0002">mdi-account-question</v-icon>{{userName}}さんの質問</v-list-item-title>
+              <v-list-item-title class="headline mb-1"><v-icon x-large color="#9a0002">mdi-tooltip-account</v-icon>{{userName}}さんの質問</v-list-item-title>
             </v-list-item-content>
             <br>
           </v-card>

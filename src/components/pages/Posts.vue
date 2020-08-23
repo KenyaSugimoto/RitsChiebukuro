@@ -13,23 +13,27 @@
             >
               <v-row justify="center">
                 <v-col cols="11">
-                  <v-card @click="toPost(post)">
-                    <v-card-text>
-                      <v-row>
-                        <v-col>
+                  <v-hover>
+                    <template v-slot="{ hover }">
+                      <v-card @click="toPost(post)" :elevation="hover ? 10 : 4">
+                        <v-card-text>
+                          <v-row>
+                            <v-col>
+                              <br>
+                              <div class="title">{{ post.document.fields.title.stringValue }}</div>
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <v-col>
+                              <br>
+                              <div>{{ post.document.fields.created_at.timestampValue | dateFormat }}</div>
+                            </v-col>
+                          </v-row>
                           <br>
-                          <div class="title">{{ post.document.fields.title.stringValue }}</div>
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col>
-                          <br>
-                          <div>{{ post.document.fields.created_at.timestampValue | dateFormat }}</div>
-                        </v-col>
-                      </v-row>
-                      <br>
-                    </v-card-text>
-                  </v-card>
+                        </v-card-text>
+                      </v-card>
+                    </template>
+                  </v-hover>
                 </v-col>
               </v-row>
             </div>

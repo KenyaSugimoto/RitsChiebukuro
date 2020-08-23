@@ -12,10 +12,10 @@
           <v-toolbar-items>
             <v-row justify="center">
               <v-col cols="3">
-                <v-btn text @click="toMypage" color="black"><v-icon x-large>mdi-account</v-icon>マイページ</v-btn>
+                <v-btn text @click="toMypage" color="black"><v-icon large>mdi-account</v-icon>マイページ</v-btn>
               </v-col>
               <v-col cols="3">
-                <v-btn text @click="toPostQuestion" color="black"><v-icon large>mdi-help</v-icon>質問する</v-btn>
+                <v-btn text @click="toPostQuestion" color="black"><v-icon medium>mdi-help</v-icon>質問する</v-btn>
               </v-col>
               <v-col cols="3">
                 <v-badge
@@ -24,7 +24,7 @@
                   color="red"
                   overlap
                 >
-                  <v-btn text @click="switchOn" color="black"><v-icon large>mdi-bell-ring</v-icon> 通知 </v-btn>
+                  <v-btn text @click="switchOn" color="black"><v-icon medium left>mdi-bell-ring</v-icon> 通知 </v-btn>
                 </v-badge>
               </v-col>
             </v-row>

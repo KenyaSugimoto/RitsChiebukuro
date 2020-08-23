@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h2>{{ name }}<v-icon x-large>mdi-comment-question</v-icon></h2>
-
+    <h2>{{ name }}<v-icon x-large> {{iconName}} </v-icon></h2>
     <v-container fluid>
       <v-row justify="center">
         <v-col cols="12">
@@ -50,7 +49,8 @@
 
 <script>
 export default {
-  props: ["posts", "name"],
+  props: ["posts", "name", "iconName"],
+
   computed: {
     watchingPost() {
       return this.$store.getters.watchingPost;

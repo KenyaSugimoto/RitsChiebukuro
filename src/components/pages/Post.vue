@@ -263,7 +263,7 @@
                 <!-- ベストアンサーボタン -->
                 <v-row v-if='!answer.mapValue.fields.isBestAnswer.booleanValue && uid == post.document.fields.uid.stringValue && !thread.isResolved.booleanValue'>
                   <v-col>
-                    <v-btn class='btn' outlined @click='updateBestAnswer(answer.mapValue.fields)'><b>この回答をベストアンサーにする</b></v-btn>
+                    <v-btn class='btn' outlined min-width="300px" @click='updateBestAnswer(answer.mapValue.fields)'><b>この回答をベストアンサーにする</b></v-btn>
                   </v-col>
                 </v-row>
 

@@ -4,15 +4,12 @@
 
     <v-container>
       <hr><br>
-      <v-row>
-        <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='individualNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+      <v-row justify="center">
+        <v-col cols="12" sm="12" md="6" lg="5">
+          <Posts v-bind:posts='individualNewPosts | acceptingAnswer' name='回答受付中の質問' iconName="mdi-comment-question"></Posts>
         </v-col>
-        <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='individualNewPosts | manyViews' name='よく見られている質問'></Posts>
-        </v-col>
-        <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='individualNewPosts | resolved' name='解決済みの質問'></Posts>
+        <v-col cols="12" sm="12" md="6" lg="5">
+          <Posts v-bind:posts='individualNewPosts | resolved' name='解決済みの質問' iconName="mdi-frequently-asked-questions"></Posts>
         </v-col>
       </v-row>
     </v-container>

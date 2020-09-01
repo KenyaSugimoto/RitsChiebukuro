@@ -46,13 +46,13 @@
 
       <v-row v-else justify="center">
         <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問'></Posts>
+          <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問' iconName="mdi-comment-question"></Posts>
         </v-col>
         <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問'></Posts>
+          <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問' iconName="mdi-account-group"></Posts>
         </v-col>
         <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問'></Posts>
+          <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問' iconName="mdi-frequently-asked-questions"></Posts>
         </v-col>
       </v-row>
     </v-container>

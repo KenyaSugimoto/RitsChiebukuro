@@ -33,36 +33,42 @@
       </div>
 
       <v-row v-if="tab === 0" justify="center">
-        <v-tabs
-          fixed-tabs
-          background-color="indigo"
-          dark
-        >
-          <v-tab>回答受付中の質問<v-icon x-large>mdi-comment-question</v-icon></v-tab>
-          <v-tab>よく見られている質問<v-icon x-large>mdi-account-group</v-icon></v-tab>
-          <v-tab>解決済みの質問<v-icon x-large>mdi-frequently-asked-questions</v-icon></v-tab>
-        </v-tabs>
-
-        <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問' iconName="mdi-comment-question"></Posts>
+        <v-col cols="11">
+          <v-tabs
+            background-color="#9a0002"
+            dark
+            v-model="tab2"
+            grow
+          >
+            <v-tab>回答受付中の質問<v-icon x-large>mdi-comment-question</v-icon></v-tab>
+            <v-tab>よく見られている質問<v-icon x-large>mdi-account-group</v-icon></v-tab>
+            <v-tab>解決済みの質問<v-icon x-large>mdi-frequently-asked-questions</v-icon></v-tab>
+          </v-tabs>
         </v-col>
-        <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='newPosts | manyViews' name='よく見られている質問' iconName="mdi-account-group"></Posts>
-        </v-col>
-        <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='newPosts | resolved' name='解決済みの質問' iconName="mdi-frequently-asked-questions"></Posts>
+        <v-col cols="12" sm="12" md="9" lg="9" >
+          <div v-if="tab2===0"><Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問' iconName="mdi-comment-question"></Posts></div>
+          <div v-if="tab2===1"><Posts v-bind:posts='newPosts | manyViews' name='よく見られている質問' iconName="mdi-account-group"></Posts></div>
+          <div v-if="tab2===2"><Posts v-bind:posts='newPosts | resolved' name='解決済みの質問' iconName="mdi-frequently-asked-questions"></Posts></div>
         </v-col>
       </v-row>
 
       <v-row v-else justify="center">
-        <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問' iconName="mdi-comment-question"></Posts>
+        <v-col cols="11">
+          <v-tabs
+            background-color="#9a0002"
+            dark
+            v-model="tab2"
+            grow
+          >
+            <v-tab>回答受付中の質問<v-icon x-large>mdi-comment-question</v-icon></v-tab>
+            <v-tab>よく見られている質問<v-icon x-large>mdi-account-group</v-icon></v-tab>
+            <v-tab>解決済みの質問<v-icon x-large>mdi-frequently-asked-questions</v-icon></v-tab>
+          </v-tabs>
         </v-col>
-        <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問' iconName="mdi-account-group"></Posts>
-        </v-col>
-        <v-col cols="12" sm="12" md="6" lg="4">
-          <Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問' iconName="mdi-frequently-asked-questions"></Posts>
+        <v-col cols="12" sm="12" md="9" lg="9" >
+          <div v-if="tab2===0"><Posts v-bind:posts='selectedCategoryNewPosts | acceptingAnswer' name='回答受付中の質問' iconName="mdi-comment-question"></Posts></div>
+          <div v-if="tab2===1"><Posts v-bind:posts='selectedCategoryNewPosts | manyViews' name='よく見られている質問' iconName="mdi-account-group"></Posts></div>
+          <div v-if="tab2===2"><Posts v-bind:posts='selectedCategoryNewPosts | resolved' name='解決済みの質問' iconName="mdi-frequently-asked-questions"></Posts></div>
         </v-col>
       </v-row>
     </v-container>
@@ -81,6 +87,7 @@ export default {
       categoryData: categoryFromJson.categoryData,
       selectedCategory: "",
       tab: null,
+      tab2: null,
     }
   },
   computed: {

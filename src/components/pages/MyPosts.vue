@@ -11,6 +11,7 @@
             dark
             v-model="tab"
             grow
+            show-arrows
           >
             <v-tab>回答受付中の質問<v-icon x-large>mdi-comment-question</v-icon></v-tab>
             <v-tab>よく見られている質問<v-icon x-large>mdi-account-group</v-icon></v-tab>

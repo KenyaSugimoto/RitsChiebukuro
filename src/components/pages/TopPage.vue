@@ -33,6 +33,16 @@
       </div>
 
       <v-row v-if="tab === 0" justify="center">
+        <v-tabs
+          fixed-tabs
+          background-color="indigo"
+          dark
+        >
+          <v-tab>回答受付中の質問<v-icon x-large>mdi-comment-question</v-icon></v-tab>
+          <v-tab>よく見られている質問<v-icon x-large>mdi-account-group</v-icon></v-tab>
+          <v-tab>解決済みの質問<v-icon x-large>mdi-frequently-asked-questions</v-icon></v-tab>
+        </v-tabs>
+
         <v-col cols="12" sm="12" md="6" lg="4">
           <Posts v-bind:posts='newPosts | acceptingAnswer' name='回答受付中の質問' iconName="mdi-comment-question"></Posts>
         </v-col>

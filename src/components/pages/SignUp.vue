@@ -51,8 +51,6 @@
 
     <br><br>
 
-
-
     <div v-if="degree == 'bachelor'">
       <v-select :items="department" label="学部を選択してください。" solo class="select-box" v-model="major"></v-select>
       <v-select :items="bachelorGrade" label="学年を選択してください。" solo class="select-box" v-model="grade"></v-select>
@@ -65,6 +63,7 @@
     <br><br>
 
     <v-btn outlined width="160" height="30" color="#B3424A" @click="signUp"><font color='black'><b>登録</b></font></v-btn>
+    <br><br>
 
   </div>
 </template>

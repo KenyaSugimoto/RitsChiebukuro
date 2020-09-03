@@ -2,26 +2,23 @@
   <div>
     <!-- 質問 -->
     <v-container>
-      <br><hr><br>
-      <v-row justify="center" class="title">
-        <v-col cols="10"><p><b>質問</b></p></v-col>
-      </v-row>
+      <br>
+      <v-row justify="center" class="title"><v-col cols="11"><h3>質問</h3><hr><br></v-col></v-row>
 
       <!-- 質問詳細 -->
       <v-row justify="center" class="question">
         <v-col cols="11">
-          <v-card>
-
+          <v-card color="#ecf5fc">
             <!-- 気になるボタン -->
             <v-row justify="end">
               <v-col cols="2" sm="2" md="2" lg="1">
-                <v-btn v-if='!favoritePostIds.includes(post.document.fields.postId.stringValue)' icon x-large @click='updateFavorite(true)'><v-icon>mdi-star</v-icon></v-btn>
-                <v-btn v-else icon x-large color='#FFE240' @click='updateFavorite(false)'><v-icon>mdi-star</v-icon></v-btn>
+                <v-btn elevation="1" v-if='!favoritePostIds.includes(post.document.fields.postId.stringValue)' icon x-large @click='updateFavorite(true)'><v-icon>mdi-star</v-icon></v-btn>
+                <v-btn  v-else icon x-large color='#FFE240' @click='updateFavorite(false)'><v-icon>mdi-star</v-icon></v-btn>
               </v-col>
 
               <!-- 削除ボタン -->
               <v-col cols="3" sm="2" md="2" lg="1">
-                <v-btn v-if='uid == post.document.fields.uid.stringValue' @click='deletePost' icon x-large class="mx-auto">
+                <v-btn elevation="1" v-if='uid == post.document.fields.uid.stringValue' @click='deletePost' icon x-large class="mx-auto">
                   <v-icon >mdi-delete</v-icon>
                 </v-btn>
               </v-col>
@@ -81,17 +78,17 @@
             <template v-if='isDisplayAnswerArea'>
               <v-row justify="center">
                 <v-col cols="12">
-                  <v-textarea class='text-area' label='回答' outlined auto-grow rows=8 v-model='answer'></v-textarea>
+                  <v-textarea class='text-area' label='回答' outlined  auto-grow rows=8 v-model='answer' color="#c63535" background-color="#ffffff"></v-textarea>
                 </v-col>
                 <v-col lg="6" md="9" sm="9">
-                  <v-btn class='btn' outlined @click='addAnswer'><b>回答を送信</b></v-btn>
+                  <v-btn elevation="1" class='btn' outlined @click='addAnswer'><b>回答を送信</b></v-btn>
                 </v-col>
               </v-row>
             </template>
             <template v-else>
               <v-row justify="center">
                 <v-col lg="6" md="9" sm="9">
-                  <v-btn class='btn' outlined @click='displayAnswerArea'><b>回答する</b></v-btn>
+                  <v-btn elevation="1" class='btn' outlined @click='displayAnswerArea'><b>回答する</b></v-btn>
                 </v-col>
               </v-row>
             </template>
@@ -108,14 +105,14 @@
           <template v-if='this.isAnswered'>
             <v-row>
               <v-col>
-                <h3>回答 {{thread.answers.arrayValue.values.length}}件</h3>
+                <h2>回答 {{thread.answers.arrayValue.values.length}}件</h2>
                 <hr><br>
               </v-col>
             </v-row>
 
             <!-- ベストアンサー -->
             <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue + "best"'>
-              <v-card v-if='answer.mapValue.fields.isBestAnswer.booleanValue'>
+              <v-card v-if='answer.mapValue.fields.isBestAnswer.booleanValue' elevation="12" color="#ffe5e7">
                 <v-row justify="center">
                   <v-col cols="11" sm="11" md="10" lg="10">
                     <br>
@@ -125,7 +122,7 @@
                 </v-row>
                 <v-row v-if='uid == answer.mapValue.fields.uid.stringValue' justify="end">
                   <v-col cols="3" sm="2" md="3" lg="3">
-                    <v-btn @click='deleteAnswer(answer.mapValue.fields, false)' icon class="mx-auto">
+                    <v-btn elevation="1" @click='deleteAnswer(answer.mapValue.fields, true)' icon class="mx-auto">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-col>
@@ -158,11 +155,11 @@
                 <!-- コメントエリア -->
                 <v-row justify="center">
                   <v-col cols="10">
-                    <v-card class="comments">
+                    <v-card class="comments" color="#ffe5e7" outlined>
                       <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue + "best"'>
                         <v-row justify="center">
                           <v-col cols="11">
-                            <v-card>
+                            <v-card class="comment">
                               <v-row justify="center">
                                 <v-col cols="11" sm="11" md="10" lg="10">
                                   <h3>コメント</h3>
@@ -172,7 +169,7 @@
                               <v-row justify="end">
                                 <v-col cols="3" sm="2" md="3" lg="3">
                                   <!-- コメント削除ボタン -->
-                                  <v-btn v-if='uid == comment.mapValue.fields.uid.stringValue' @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)' icon class="mx-auto">
+                                  <v-btn elevation="1" v-if='uid == comment.mapValue.fields.uid.stringValue' @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)' icon class="mx-auto">
                                     <v-icon>mdi-delete</v-icon>
                                   </v-btn>
                                 </v-col>
@@ -208,16 +205,16 @@
                       </div>
                       <v-row v-if='isDisplayCommentArea[index].value' justify="center">
                         <v-col cols="12">
-                          <v-textarea class='text-area' label='コメント' outlined auto-grow rows=4 v-model='comment[index].value'></v-textarea>
+                          <v-textarea class='text-area' label='コメント' outlined  auto-grow rows=4 v-model='comment[index].value' color="#c63535" background-color="#ffffff"></v-textarea>
                         </v-col>
                         <v-col cols="12" lg="6" md="9">
-                          <v-btn class='btn' outlined @click='addComment(answer.mapValue.fields, index)'><b>コメントを送信</b></v-btn>
+                          <v-btn elevation="1" class='btn' outlined @click='addComment(answer.mapValue.fields, index)'><b>コメントを送信</b></v-btn>
                           <br><br>
                         </v-col>
                       </v-row>
                       <v-row v-else justify="center">
                         <v-col cols="12" lg="6" md="9">
-                          <v-btn class='btn' outlined @click='displayCommentArea(index)'><b>コメントする</b></v-btn>
+                          <v-btn elevation="1" class='btn' outlined @click='displayCommentArea(index)'><b>コメントする</b></v-btn>
                           <br><br>
                         </v-col>
                       </v-row>
@@ -231,7 +228,7 @@
             <!-- 回答 -->
             <div v-for='(answer, index) in thread.answers.arrayValue.values' :key='answer.mapValue.fields.answerId.stringValue'>
               <br><br>
-              <v-card v-if='!answer.mapValue.fields.isBestAnswer.booleanValue'>
+              <v-card v-if='!answer.mapValue.fields.isBestAnswer.booleanValue' color="#fff4f6">
                 <v-row justify="center">
                   <v-col cols="11" sm="11" md="10" lg="10">
                     <h3>回答</h3>
@@ -241,7 +238,7 @@
                 <!-- 回答削除ボタン -->
                 <v-row v-if='uid == answer.mapValue.fields.uid.stringValue' justify="end">
                   <v-col cols="3" sm="2" md="3" lg="3">
-                    <v-btn @click='deleteAnswer(answer.mapValue.fields, false)' icon class="mx-auto">
+                    <v-btn elevation="1" @click='deleteAnswer(answer.mapValue.fields, false)' icon class="mx-auto">
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-col>
@@ -273,22 +270,20 @@
                 <!-- ベストアンサーボタン -->
                 <v-row v-if='!answer.mapValue.fields.isBestAnswer.booleanValue && uid == post.document.fields.uid.stringValue && !thread.isResolved.booleanValue'>
                   <v-col>
-                    <v-btn class='btn' outlined min-width="300px" @click='updateBestAnswer(answer.mapValue.fields)'><b>この回答をベストアンサーにする</b></v-btn>
+                    <v-btn elevation="1" class='btn' outlined min-width="300px" @click='updateBestAnswer(answer.mapValue.fields)'><b>この回答をベストアンサーにする</b></v-btn>
                   </v-col>
                 </v-row>
-
-
 
                 <br>
 
                 <!-- コメントエリア -->
                 <v-row justify="center">
                   <v-col cols="10">
-                    <v-card class="comments">
+                    <v-card class="comments" outlined color="#fff4f6">
                       <div v-for='comment in answer.mapValue.fields.comments.arrayValue.values' :key='comment.mapValue.fields.commentId.stringValue'>
                         <v-row justify="center">
                           <v-col cols="11">
-                            <v-card>
+                            <v-card class="comment">
                               <v-row justify="center">
                                 <v-col cols="11" sm="11" md="10" lg="10">
                                   <h3>コメント</h3>
@@ -298,7 +293,7 @@
                               <v-row justify="end">
                                 <v-col cols="3" sm="2" md="3" lg="3">
                                   <!-- コメント削除ボタン -->
-                                  <v-btn v-if='uid == comment.mapValue.fields.uid.stringValue' @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)' icon class="mx-auto">
+                                  <v-btn elevation="1" v-if='uid == comment.mapValue.fields.uid.stringValue' @click='deleteComment(answer.mapValue.fields, comment.mapValue.fields)' icon class="mx-auto">
                                     <v-icon>mdi-delete</v-icon>
                                   </v-btn>
                                 </v-col>
@@ -335,16 +330,16 @@
                       </div>
                       <v-row v-if='isDisplayCommentArea[index].value' justify="center">
                         <v-col cols="12">
-                          <v-textarea class='text-area' label='コメント' outlined auto-grow rows=4 v-model='comment[index].value'></v-textarea>
+                          <v-textarea color="#c63535" background-color="#ffffff" class='text-area' label='コメント' outlined auto-grow rows=4 v-model='comment[index].value'></v-textarea>
                         </v-col>
                         <v-col cols="12" lg="6" md="9">
-                          <v-btn class='btn' outlined @click='addComment(answer.mapValue.fields, index)'><b>コメントを送信</b></v-btn>
+                          <v-btn elevation="1" class='btn' outlined @click='addComment(answer.mapValue.fields, index)'><b>コメントを送信</b></v-btn>
                           <br><br>
                         </v-col>
                       </v-row>
                       <v-row v-else justify="center">
                         <v-col cols="12" lg="6" md="9">
-                          <v-btn class='btn' outlined @click='displayCommentArea(index)'><b>コメントする</b></v-btn>
+                          <v-btn elevation="1" class='btn' outlined @click='displayCommentArea(index)'><b>コメントする</b></v-btn>
                           <br><br>
                         </v-col>
                       </v-row>
@@ -698,10 +693,9 @@ export default {
 .content {
   white-space: pre-wrap;
   text-align:left;
-  /* word-break: keep-all; */
 }
 .title {
-  text-align:left;
+  text-align: center;
 }
 .question p {
   text-align:left;
@@ -717,5 +711,13 @@ export default {
 }
 .left {
   text-align: left;
+}
+
+.test {
+  color: #ecf5fc;
+}
+
+.comment {
+  opacity: 0.8;
 }
 </style>

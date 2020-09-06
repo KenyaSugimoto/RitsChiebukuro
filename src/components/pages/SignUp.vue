@@ -1,69 +1,116 @@
 <template>
   <div id="app">
-    <h2>ユーザ登録</h2>
+    <v-container>
+      <v-row><v-col><h2>ユーザ登録</h2></v-col></v-row>
+      <br>
+      <v-row><v-col><router-link to="/login" class="login">ログインはこちらから</router-link></v-col></v-row>
 
-    <br>
+      <br><br>
+      <v-row justify="center">
+        <v-col cols="11" lg="6" md="8"  sm="9">
+          <v-text-field class='text-field' label='Email' v-model='email' suffix='@ed.ritsumei.ac.jp' :rules="[rules.email]" />
+        </v-col>
+      </v-row>
 
-    <router-link to="/login" class="login">ログインはこちらから</router-link>
+      <br>
 
-    <br><br><br>
+      <v-row justify="center">
+        <v-col cols="11" lg="6" md="8"  sm="9">
+          <v-text-field
+            class='text-field'
+            v-model="password"
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="[rules.min]"
+            :type="show1 ? 'text' : 'password'"
+            label="パスワード（6文字以上の半角英数字）"
+            counter
+            @click:append="show1 = !show1"
+          ></v-text-field>
+        </v-col>
+      </v-row>
 
-    <v-text-field class='text-field' label='Email' v-model='email' suffix='@ed.ritsumei.ac.jp' :rules="[rules.email]"></v-text-field>
+      <v-row justify="center">
+        <v-col cols="11" lg="6" md="8"  sm="9">
+          <v-text-field
+            class='text-field'
+            v-model="confirmPassword"
+            :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="[rules.min]"
+            :type="show2 ? 'text' : 'password'"
+            label="パスワード(確認用)"
+            counter
+            @click:append="show2 = !show2"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <br>
 
-    <br><br><br>
+      <v-row justify="center">
+        <v-col cols="11" lg="6" md="8"  sm="9">
+          <v-text-field class='text-field' label="ユーザ名（半角英数字のみ）" outlined v-model="userName" />
+        </v-col>
+      </v-row>
 
-    <v-text-field
-      class='text-field'
-      v-model="password"
-      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-      :rules="[rules.min]"
-      :type="show1 ? 'text' : 'password'"
-      label="パスワード（6文字以上の半角英数字）"
-      counter
-      @click:append="show1 = !show1"
-    ></v-text-field>
+      <v-row justify="center">
+        <v-col cols="11" lg="6" md="8"  sm="9">
+          <div @click='resetMajorAndGrade'>
+            <v-row justify="center">
+              <v-col lg="2">
+                <input type="radio" v-model="degree" value="bachelor" id="bachelor" name="grade">
+                <label for="bachelor">学部生</label>
+              </v-col>
+              <v-col lg="2">
+                <input type="radio" v-model="degree" value="master" id="master" name="grade">
+                <label for="master">大学院生</label>
+              </v-col>
+            </v-row>
+          </div>
+        </v-col>
+      </v-row>
 
-    <br><br>
+      <v-row justify="center">
+        <v-col cols="11" lg="6" md="8"  sm="9">
+          <div v-if="degree == 'bachelor'">
+            <v-select :items="department" label="学部を選択してください。" solo class="select-box" v-model="major"></v-select>
+            <v-select :items="bachelorGrade" label="学年を選択してください。" solo class="select-box" v-model="grade"></v-select>
+          </div>
+          <div v-else>
+            <v-select :items="master" label="研究科を選択してください。" solo class="select-box" v-model="major"></v-select>
+            <v-select :items="masterGrade" label="学年を選択してください。" solo class="select-box" v-model="grade"></v-select>
+          </div>
+        </v-col>
+      </v-row>
 
-    <v-text-field
-      class='text-field'
-      v-model="confirmPassword"
-      :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-      :rules="[rules.min]"
-      :type="show2 ? 'text' : 'password'"
-      label="パスワード(確認用)"
-      counter
-      @click:append="show2 = !show2"
-    ></v-text-field>
+      <v-row><v-col><h3>利用規約をご確認ください。</h3></v-col></v-row>
+      <v-row justify="center">
+        <v-dialog v-model="dialog" persistent width="55%">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn text large color="#F44336" v-bind="attrs" v-on="on">
+              <h4>利用規約を確認する</h4>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title class="headline">利用規約</v-card-title>
+            <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="#0D47A1" text @click="dialog = false; agreeCheck = false;">同意しない</v-btn>
+              <v-btn color="#E64A19" large text @click="dialog = false; agreeCheck = true;">同意する</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
 
-    <br><br><br>
+      <v-row>
+        <v-col>
+          <v-btn outlined width="15%" color="#B3424A" @click="signUp">
+            <font color='black'><b>登録</b></font>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row><v-col></v-col></v-row>
 
-    <v-text-field class='text-field' label="ユーザ名（半角英数字のみ）" outlined v-model="userName"></v-text-field>
-
-    <br><br>
-
-    <div @click='resetMajorAndGrade'>
-      <input type="radio" v-model="degree" value="bachelor" id="bachelor" name="grade">
-      <label for="bachelor">学部生</label>
-      <input type="radio" v-model="degree" value="master" id="master" name="grade">
-      <label for="master">大学院生</label>
-    </div>
-
-    <br><br>
-
-    <div v-if="degree == 'bachelor'">
-      <v-select :items="department" label="学部を選択してください。" solo class="select-box" v-model="major"></v-select>
-      <v-select :items="bachelorGrade" label="学年を選択してください。" solo class="select-box" v-model="grade"></v-select>
-    </div>
-    <div v-else>
-      <v-select :items="master" label="研究科を選択してください。" solo class="select-box" v-model="major"></v-select>
-      <v-select :items="masterGrade" label="学年を選択してください。" solo class="select-box" v-model="grade"></v-select>
-    </div>
-
-    <br><br>
-
-    <v-btn outlined width="160" height="30" color="#B3424A" @click="signUp"><font color='black'><b>登録</b></font></v-btn>
-    <br><br>
+    </v-container>
 
   </div>
 </template>
@@ -96,6 +143,9 @@ export default {
       show2: false,
       bachelorGrade: ritsData.bachelorGrade,
       masterGrade: ritsData.masterGrade,
+      dialog: false,
+      agreeCheck: false,
+      col: 6,
     }
   },
 
@@ -110,6 +160,8 @@ export default {
         toast('ユーザIDが不正です。\n半角英数字で入力してください。', "error");
       } else if (!reg.test(this.email)) {
         toast('正しいメールアドレスを入力してください。', "error");
+      } else if (!this.agreeCheck) {
+        toast('利用規約をご確認ください。同意していただけない場合、登録することができません。', "error")
       } else {
         dialog(this, {
           title: 'この入力内容で登録しますか？',
@@ -138,19 +190,10 @@ export default {
 
 <style scoped>
 .login {
-  padding: 10px;
   cursor: pointer;
 }
 .login:hover {
   background-color: #b1abab;
   color: red;
-}
-.text-field {
-  width: 280px;
-  margin: 0 auto;
-}
-.select-box {
-  width: 30%;
-  margin: 0 auto;
 }
 </style>

@@ -27,7 +27,7 @@
 
       <v-row justify="center">
         <v-col cols="11" lg="6" md="8" sm="9">
-          <v-btn width="280" height="40" color="#B3424A" @click="login">
+          <v-btn width="40%" color="#B3424A" @click="login">
             <font color='white'><b>ログイン</b></font>
           </v-btn>
         </v-col>
@@ -40,7 +40,7 @@
       <v-row justify="center">
         <v-col cols="11" lg="6" md="8" sm="9">
           <p>または</p>
-          <v-btn outlined width="160" height="30" color="#B3424A" @click="signUp">
+          <v-btn outlined width="30%" color="#B3424A" @click="signUp">
             <font color='black'><b>ユーザ登録</b></font>
           </v-btn>
         </v-col>

@@ -44,8 +44,9 @@ Vue.filter('dateFormat', function(isoString) {
   const day = date.getDate();
   const hour = date.getHours();
   const minute = date.getMinutes();
-  const second = date.getSeconds();
-  return `${year}年${month}月${day}日 ${hour}時${minute}分${second}秒`
+  // const second = date.getSeconds();
+  return `${year}年${month}月${day}日 ${hour}時${minute}分`
+  // return `${year}年${month}月${day}日 ${hour}時${minute}分${second}秒`
 });
 
 Vue.filter('acceptingAnswer', function(posts) {

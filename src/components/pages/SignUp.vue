@@ -55,11 +55,11 @@
         <v-col cols="11" lg="6" md="8"  sm="9">
           <div @click='resetMajorAndGrade'>
             <v-row justify="center">
-              <v-col lg="2">
+              <v-col lg="3">
                 <input type="radio" v-model="degree" value="bachelor" id="bachelor" name="grade">
                 <label for="bachelor">学部生</label>
               </v-col>
-              <v-col lg="2">
+              <v-col lg="3">
                 <input type="radio" v-model="degree" value="master" id="master" name="grade">
                 <label for="master">大学院生</label>
               </v-col>

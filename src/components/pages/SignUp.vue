@@ -91,7 +91,7 @@
           </template>
           <v-card>
             <v-card-title class="headline">利用規約</v-card-title>
-            <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+            <v-card-text>利用規約の内容</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="#0D47A1" text @click="dialog = false; agreeCheck = false;">同意しない</v-btn>

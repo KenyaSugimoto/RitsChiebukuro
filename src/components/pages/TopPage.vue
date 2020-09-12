@@ -1,37 +1,44 @@
 <template>
-  <div>
-    <v-container>
-      <div class="search-area">
-        <v-row justify="center">
-          <v-col cols="11">
-            <v-tabs v-model="tab" color="basil">
-              <v-tab>キーワードで探す</v-tab>
-              <v-tab>ジャンル別で探す</v-tab>
-            </v-tabs>
-          </v-col>
-        </v-row>
+  <v-container>
+    <!-- 検索エリア -->
+    <template class="search-area">
+      <!-- 検索条件選択 -->
+      <v-row justify="center">
+        <v-col cols="12">
+          <v-tabs v-model="tab" color="#a82e2e">
+            <v-tab>キーワードで探す</v-tab>
+            <v-tab>ジャンル別で探す</v-tab>
+          </v-tabs>
+        </v-col>
+      </v-row>
 
-        <v-row v-if="tab === 0" justify="center">
-          <v-col cols="11">
-            <v-text-field label="キーワードで探す" outlined class="search" v-model='keywords'>
-              <template v-slot:append-outer>
-                <v-btn icon @click='search'><v-icon x-large>mdi-magnify</v-icon></v-btn>
-              </template>
-            </v-text-field>
-          </v-col>
-        </v-row>
-        <v-row v-else justify="center">
-          <v-col cols="11">
-            <v-select :items="categoryData" label="カテゴリを選択してください" outlined class="select-box" v-model="selectedCategory"></v-select>
-          </v-col>
-          <v-col cols="11" sm="7" md="5" lg="4">
-            <h2 v-if="selectedCategory">カテゴリ：{{selectedCategory}}</h2>
-            <h2 v-else> 全てのカテゴリ</h2>
-            <hr><br>
-          </v-col>
-        </v-row>
-      </div>
+      <!-- キーワードで探す -->
+      <v-row v-if="tab === 0" justify="center">
+        <v-col cols="11">
+          <v-text-field label="キーワードで探す" outlined class="search" v-model='keywords'>
+            <template v-slot:append-outer>
+              <v-btn @click='search' icon><v-icon x-large>mdi-magnify</v-icon></v-btn>
+            </template>
+          </v-text-field>
+        </v-col>
+      </v-row>
 
+      <!-- ジャンル別で探す -->
+      <v-row v-else justify="center">
+        <v-col cols="11">
+          <v-select :items="categoryData" label="カテゴリを選択してください" outlined class="select-box" v-model="selectedCategory"></v-select>
+        </v-col>
+        <v-col cols="11" sm="7" md="5" lg="4">
+          <h2 v-if="selectedCategory">カテゴリ：{{selectedCategory}}</h2>
+          <h2 v-else> 全てのカテゴリ</h2>
+          <hr><br>
+        </v-col>
+      </v-row>
+    </template>
+
+    <!-- 質問一覧表示部分 -->
+    <template>
+      <!-- キーワード検索結果（デフォルト） -->
       <v-row v-if="tab === 0" justify="center">
         <template v-if="movile">
           <v-row justify="center">
@@ -74,6 +81,7 @@
         </template>
       </v-row>
 
+      <!-- ジャンル別検索結果 -->
       <v-row v-else justify="center">
         <template v-if="movile">
           <v-row justify="center">
@@ -116,9 +124,8 @@
           </v-col>
         </template>
       </v-row>
-    </v-container>
-
-  </div>
+    </template>
+  </v-container>
 </template>
 
 <script>

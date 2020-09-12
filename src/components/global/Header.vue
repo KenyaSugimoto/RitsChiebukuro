@@ -59,7 +59,7 @@
     <header>
       <v-container>
         <img src="../../assets/header1.jpg" class="img-not-xs" @click="toHome">
-        <br><br>
+        <br>
         <v-toolbar-items>
           <v-row justify="center">
             <v-col cols="3">
@@ -142,7 +142,7 @@ export default {
 
 <style scoped>
 .img-not-xs {
-  width: 50%;
+  width: 90%;
   height: 50%;
   cursor: pointer;
 }
@@ -150,6 +150,5 @@ export default {
   width: 90%;
   height: 70%;
   cursor: pointer;
-  color: #fff5f0e5;
 }
 </style>

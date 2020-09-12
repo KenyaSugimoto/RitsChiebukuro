@@ -2,7 +2,7 @@
   <!-- スマホ画面用レイアウト -->
   <v-container v-if="xs">
     <!-- ヘッダー画像 -->
-    <img src="../../assets/header.jpg" class="img-xs" @click="toHome">
+    <img src="../../assets/header1.jpg" class="img-xs" @click="toHome">
 
     <!-- ハンバーガーメニュー部分 -->
     <v-row justify="start">
@@ -58,7 +58,7 @@
 
     <header>
       <v-container>
-        <img src="../../assets/header.jpg" class="img-not-xs" @click="toHome">
+        <img src="../../assets/header1.jpg" class="img-not-xs" @click="toHome">
         <br><br>
         <v-toolbar-items>
           <v-row justify="center">
@@ -142,8 +142,8 @@ export default {
 
 <style scoped>
 .img-not-xs {
-  width: 30%;
-  height: 30%;
+  width: 50%;
+  height: 50%;
   cursor: pointer;
 }
 .img-xs {

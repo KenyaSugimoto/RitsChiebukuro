@@ -83,7 +83,7 @@
 
       <v-row><v-col><h3>利用規約をご確認ください。</h3></v-col></v-row>
       <v-row justify="center">
-        <v-dialog v-model="dialog" persistent width="55%">
+        <v-dialog v-model="dialog" persistent :width="width">
           <template v-slot:activator="{ on, attrs }">
             <v-btn text large color="#F44336" v-bind="attrs" v-on="on">
               <h4>利用規約を確認する</h4>
@@ -183,6 +183,12 @@ export default {
       this.major = '';
       this.grade = '';
     },
+  },
+
+  computed: {
+    width() {
+      return this.$vuetify.breakpoint.name === "xs" ? "90%" : "55%";
+    }
   }
 }
 

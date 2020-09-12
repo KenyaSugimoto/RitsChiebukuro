@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <!-- <div> -->
     <v-container>
       <div class="search-area">
         <v-row justify="center">
@@ -118,7 +118,7 @@
       </v-row>
     </v-container>
 
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>

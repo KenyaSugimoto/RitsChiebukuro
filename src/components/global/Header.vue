@@ -1,52 +1,56 @@
 <template>
   <!-- スマホ画面用レイアウト -->
   <v-container v-if="xs">
-    <!-- ヘッダー画像 -->
-    <img src="../../assets/header.jpg" class="img-xs" @click="toHome">
+    <header>
+      <v-row justify="space-between">
+        <!-- ヘッダー画像 -->
+        <v-col cols="auto">
+          <img src="../../assets/header.png" class="img-xs" @click="toHome">
+        </v-col>
 
-    <!-- ハンバーガーメニュー部分 -->
-    <v-row justify="start">
-      <v-col cols="1">
-        <v-menu v-model="menu" offset-x value="false">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" icon><v-icon>mdi-menu</v-icon></v-btn>
-          </template>
-          <v-card width="400px" color="#fff5f0e5">
+        <!-- ハンバーガーメニュー部分 -->
+        <v-col cols="2" align-self="end">
+          <v-menu v-model="menu" offset-x value="false">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn v-bind="attrs" v-on="on" icon><v-icon>mdi-menu</v-icon></v-btn>
+            </template>
+            <v-card width="400px" color="#fff5f0e5">
 
-            <!-- マイページボタン -->
-            <v-row justify="center">
-              <v-col cols="11">
-                <v-btn text @click="toMypage" color="black"><v-icon>mdi-account</v-icon>マイページ</v-btn>
-                <br><hr>
-              </v-col>
-            </v-row>
+              <!-- マイページボタン -->
+              <v-row justify="center">
+                <v-col cols="11">
+                  <v-btn text @click="toMypage" color="black"><v-icon>mdi-account</v-icon>マイページ</v-btn>
+                  <br><hr>
+                </v-col>
+              </v-row>
 
-            <!-- 通知ボタン -->
-            <v-row justify="center">
-              <v-col cols="11">
-                <v-badge
-                  :content="notifications"
-                  :value="notifications"
-                  color="red"
-                  overlap
-                >
-                  <v-btn text @click="getNotification" color="black"><v-icon>mdi-bell-ring</v-icon> 通知 </v-btn>
-                </v-badge>
-                <hr>
-              </v-col>
-            </v-row>
+              <!-- 通知ボタン -->
+              <v-row justify="center">
+                <v-col cols="11">
+                  <v-badge
+                    :content="notifications"
+                    :value="notifications"
+                    color="red"
+                    overlap
+                  >
+                    <v-btn text @click="getNotification" color="black"><v-icon>mdi-bell-ring</v-icon> 通知 </v-btn>
+                  </v-badge>
+                  <hr>
+                </v-col>
+              </v-row>
 
-            <!-- 質問投稿ボタン -->
-            <v-row>
-              <v-col cols="12">
-                <v-btn text @click="toPostQuestion" color="black"><v-icon>mdi-help</v-icon>質問する</v-btn>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-menu>
-      </v-col>
-    </v-row>
-    <hr>
+              <!-- 質問投稿ボタン -->
+              <v-row>
+                <v-col cols="12">
+                  <v-btn text @click="toPostQuestion" color="black"><v-icon>mdi-help</v-icon>質問する</v-btn>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-menu>
+        </v-col>
+      </v-row>
+      <hr>
+    </header>
   </v-container>
 
   <!-- スマホ以外のレイアウト -->
@@ -58,7 +62,7 @@
 
     <header>
       <v-container>
-        <img src="../../assets/header2.jpg" class="img-not-xs" @click="toHome">
+        <img src="../../assets/header.png" class="img-not-xs" @click="toHome">
         <br>
         <v-toolbar-items>
           <v-row justify="center">
@@ -142,13 +146,13 @@ export default {
 
 <style scoped>
 .img-not-xs {
-  width: 90%;
-  height: 50%;
+  width: 300px;
+  height: 100px;
   cursor: pointer;
 }
 .img-xs {
-  width: 90%;
-  height: 70%;
+  width: 210px;
+  height: 70px;
   cursor: pointer;
 }
 </style>

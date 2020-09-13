@@ -1,10 +1,10 @@
 <template>
   <!-- スマホ画面用レイアウト -->
-  <v-container v-if="xs">
+  <v-container v-if="screenSize === 'xs'">
     <header>
       <v-row justify="space-between">
         <!-- ヘッダー画像 -->
-        <v-col cols="auto">
+        <v-col cols="8">
           <img src="../../assets/header.png" class="img-xs" @click="toHome">
         </v-col>
 
@@ -62,28 +62,55 @@
 
     <header>
       <v-container>
-        <img src="../../assets/header.png" class="img-not-xs" @click="toHome">
-        <br>
-        <v-toolbar-items>
-          <v-row justify="center">
-            <v-col cols="3">
-              <v-btn text @click="toMypage" color="black" x-large><v-icon large>mdi-account</v-icon>マイページ</v-btn>
-            </v-col>
-            <v-col cols="3">
-              <v-btn text @click="toPostQuestion" color="black" x-large><v-icon medium>mdi-help</v-icon>質問する</v-btn>
-            </v-col>
-            <v-col cols="3">
-              <v-badge
-                :content="notifications"
-                :value="notifications"
-                color="red"
-                overlap
-              >
-                <v-btn text @click="switchOn" color="black" x-large><v-icon medium left>mdi-bell-ring</v-icon> 通知 </v-btn>
-              </v-badge>
-            </v-col>
-          </v-row>
-        </v-toolbar-items>
+        <v-row justify="space-between">
+          <!-- ヘッダー画像 -->
+          <v-col sm="3" md="1" lg="4">
+            <img src="../../assets/header.png" :class="headerImgSize" @click="toHome">
+          </v-col>
+
+          <!-- ヘッダーメニュー -->
+          <v-col sm="8" md="10" lg="8" align-self="end">
+            <v-toolbar-items>
+              <v-row justify="space-around" justify-md="end" v-if="screenSize === 'md' || screenSize === 'sm'">
+                <v-col cols="3">
+                  <v-btn text @click="toMypage" color="black" x-large><v-icon>mdi-account</v-icon><h4>マイページ</h4></v-btn>
+                </v-col>
+                <v-col cols="3">
+                  <v-btn text @click="toPostQuestion" color="black" x-large><v-icon>mdi-help</v-icon><h4>質問する</h4></v-btn>
+                </v-col>
+                <v-col cols="3">
+                  <v-badge
+                    :content="notifications"
+                    :value="notifications"
+                    color="red"
+                    overlap
+                  >
+                    <v-btn text @click="switchOn" color="black" x-large><v-icon left>mdi-bell-ring</v-icon><h4>通知</h4></v-btn>
+                  </v-badge>
+                </v-col>
+              </v-row>
+
+              <v-row justify="center" justify-md="end" v-else>
+                <v-col cols="3">
+                  <v-btn text @click="toMypage" color="black" x-large><v-icon x-large>mdi-account</v-icon><h2>マイページ</h2></v-btn>
+                </v-col>
+                <v-col cols="3">
+                  <v-btn text @click="toPostQuestion" color="black" x-large><v-icon large>mdi-help</v-icon><h2>質問する</h2></v-btn>
+                </v-col>
+                <v-col cols="3">
+                  <v-badge
+                    :content="notifications"
+                    :value="notifications"
+                    color="red"
+                    overlap
+                  >
+                    <v-btn text @click="switchOn" color="black" x-large><v-icon large left>mdi-bell-ring</v-icon><h2>通知</h2></v-btn>
+                  </v-badge>
+                </v-col>
+              </v-row>
+            </v-toolbar-items>
+          </v-col>
+        </v-row>
       </v-container>
       <hr>
     </header>
@@ -111,8 +138,11 @@ export default {
         return 0;
       }
     },
-    xs() {
-      return this.$vuetify.breakpoint.xs;
+    screenSize() {
+      return this.$vuetify.breakpoint.name;
+    },
+    headerImgSize() {
+      return "img-" + this.$vuetify.breakpoint.name;
     },
   },
   methods: {
@@ -145,14 +175,27 @@ export default {
 </script>
 
 <style scoped>
-.img-not-xs {
-  width: 300px;
-  height: 100px;
+.img-lg, .img-xl {
+  width: 450px;
+  height: 150px;
   cursor: pointer;
 }
-.img-xs {
+
+.img-md {
+  width: 240px;
+  height: 80px;
+  cursor: pointer;
+}
+
+.img-sm {
   width: 210px;
   height: 70px;
+  cursor: pointer;
+}
+
+.img-xs {
+  width: 195px;
+  height: 65px;
   cursor: pointer;
 }
 </style>

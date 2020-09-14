@@ -7,7 +7,7 @@
         <v-spacer></v-spacer>
         <v-menu v-model="menu" offset-x value="false">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn v-bind="attrs" v-on="on" icon><v-icon>mdi-menu</v-icon></v-btn>
+              <v-btn v-bind="attrs" v-on="on" icon><v-icon color="#fefefe">mdi-menu</v-icon></v-btn>
             </template>
             <v-card width="400px" color="#fff5f0e5">
 

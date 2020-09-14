@@ -2,15 +2,10 @@
   <!-- スマホ画面用レイアウト -->
   <v-container v-if="screenSize === 'xs'">
     <header>
-      <v-row justify="space-between">
-        <!-- ヘッダー画像 -->
-        <v-col cols="8">
-          <img src="../../assets/header.png" class="img-xs" @click="toHome">
-        </v-col>
-
-        <!-- ハンバーガーメニュー部分 -->
-        <v-col cols="2" align-self="end">
-          <v-menu v-model="menu" offset-x value="false">
+      <v-toolbar elevation="0" color="#9b1423" :height="headerHeight">
+        <img src="../../assets/header.png" class="img-xs" @click="toHome">
+        <v-spacer></v-spacer>
+        <v-menu v-model="menu" offset-x value="false">
             <template v-slot:activator="{ on, attrs }">
               <v-btn v-bind="attrs" v-on="on" icon><v-icon>mdi-menu</v-icon></v-btn>
             </template>
@@ -47,8 +42,8 @@
               </v-row>
             </v-card>
           </v-menu>
-        </v-col>
-      </v-row>
+      </v-toolbar>
+
       <hr>
     </header>
   </v-container>
@@ -63,53 +58,32 @@
     <header>
       <v-container>
         <v-row justify="space-between">
-          <!-- ヘッダー画像 -->
-          <v-col sm="3" md="1" lg="4">
+          <v-toolbar elevation="0" color="#9b1423" :height="headerHeight">
             <img src="../../assets/header.png" :class="headerImgSize" @click="toHome">
-          </v-col>
-
-          <!-- ヘッダーメニュー -->
-          <v-col sm="8" md="10" lg="8" align-self="end">
-            <v-toolbar-items>
-              <v-row justify="space-around" justify-md="end" v-if="screenSize === 'md' || screenSize === 'sm'">
-                <v-col cols="3">
-                  <v-btn text @click="toMypage" color="black" x-large><v-icon>mdi-account</v-icon><h4>マイページ</h4></v-btn>
-                </v-col>
-                <v-col cols="3">
-                  <v-btn text @click="toPostQuestion" color="black" x-large><v-icon>mdi-help</v-icon><h4>質問する</h4></v-btn>
-                </v-col>
-                <v-col cols="3">
-                  <v-badge
-                    :content="notifications"
-                    :value="notifications"
-                    color="red"
-                    overlap
-                  >
-                    <v-btn text @click="switchOn" color="black" x-large><v-icon left>mdi-bell-ring</v-icon><h4>通知</h4></v-btn>
-                  </v-badge>
-                </v-col>
-              </v-row>
-
-              <v-row justify="center" justify-md="end" v-else>
-                <v-col cols="3">
-                  <v-btn text @click="toMypage" color="black" x-large><v-icon x-large>mdi-account</v-icon><h2>マイページ</h2></v-btn>
-                </v-col>
-                <v-col cols="3">
-                  <v-btn text @click="toPostQuestion" color="black" x-large><v-icon large>mdi-help</v-icon><h2>質問する</h2></v-btn>
-                </v-col>
-                <v-col cols="3">
-                  <v-badge
-                    :content="notifications"
-                    :value="notifications"
-                    color="red"
-                    overlap
-                  >
-                    <v-btn text @click="switchOn" color="black" x-large><v-icon large left>mdi-bell-ring</v-icon><h2>通知</h2></v-btn>
-                  </v-badge>
-                </v-col>
-              </v-row>
-            </v-toolbar-items>
-          </v-col>
+            <v-spacer></v-spacer>
+            <v-btn text @click="toMypage" x-large color="#fefefe">
+              <v-icon>mdi-account</v-icon>
+              <h2 v-if="screenSize === 'lg' || screenSize === 'xl'">マイページ</h2>
+              <h4 v-if="screenSize === 'md' || screenSize === 'sm'">マイページ</h4>
+            </v-btn>
+            <v-btn text @click="toPostQuestion" x-large color="#fefefe">
+              <v-icon>mdi-help</v-icon>
+              <h2 v-if="screenSize === 'lg' || screenSize === 'xl'">質問する</h2>
+              <h4 v-if="screenSize === 'md' || screenSize === 'sm'">質問する</h4>
+            </v-btn>
+            <v-badge
+              :content="notifications"
+              :value="notifications"
+              color="red"
+              overlap
+            >
+              <v-btn text @click="switchOn" x-large color="#fefefe">
+                <v-icon left>mdi-bell-ring</v-icon>
+                <h2 v-if="screenSize === 'lg' || screenSize === 'xl'">通知</h2>
+                <h4 v-if="screenSize === 'md' || screenSize === 'sm'">通知</h4>
+              </v-btn>
+            </v-badge>
+          </v-toolbar>
         </v-row>
       </v-container>
       <hr>
@@ -144,6 +118,15 @@ export default {
     headerImgSize() {
       return "img-" + this.$vuetify.breakpoint.name;
     },
+    headerHeight() {
+      switch (this.screenSize) {
+        case 'sm': return '70px'
+        case 'md': return '80px'
+        case 'lg': return '150px'
+        case 'xl': return '150px'
+      }
+      return "65px"
+    }
   },
   methods: {
     getNotification() {

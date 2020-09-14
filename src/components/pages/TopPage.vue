@@ -40,6 +40,7 @@
     <template>
       <!-- キーワード検索結果（デフォルト） -->
       <v-row v-if="tab === 0" justify="center">
+        <!-- スマホ用 -->
         <template v-if="movile">
           <v-row justify="center">
             <v-col cols="10">
@@ -59,6 +60,8 @@
             <div v-if="selectedKindOfQuestions==='解決済みの質問'"><Posts v-bind:posts='newPosts | resolved' name='解決済みの質問' iconName="mdi-frequently-asked-questions"></Posts></div>
           </v-col>
         </template>
+
+        <!-- スマホ以外 -->
         <template v-else>
           <v-col cols="11">
             <v-tabs

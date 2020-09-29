@@ -27,10 +27,10 @@
           </v-card>
         </v-col>
         <v-col cols="12" sm="12" md="6" lg="6">
-          <v-card class="mx-auto" max-width="100%" outlined @click="toResetPassword">
+          <v-card class="mx-auto" max-width="100%" outlined @click="toGoogleForm">
             <br>
             <v-list-item-content>
-              <v-list-item-title class="headline mb-1"><v-icon x-large color='#111111'>mdi-lock-reset</v-icon> パスワードの変更</v-list-item-title>
+              <v-list-item-title class="headline mb-1"><v-icon x-large color='#111111'>mdi-email</v-icon> お問い合わせ</v-list-item-title>
             </v-list-item-content>
             <br>
           </v-card>
@@ -79,8 +79,8 @@ export default {
     toMyPosts() {
       this.$router.push("/myPosts").catch(() => {});
     },
-    toResetPassword() {
-      this.$router.push("/resetPassword").catch(() => {});
+    toGoogleForm() {
+      window.open("https://forms.gle/EJSVnMuKKKtT7Le68", "_blank");
     },
     toNotificationConfig() {
       this.$router.push("/notificationConfig").catch(() => {});

@@ -6,51 +6,60 @@
       <v-row><v-col><router-link to="/login" class="login">ログインはこちらから</router-link></v-col></v-row>
 
       <br><br>
+      <!-- メール -->
       <v-row justify="center">
         <v-col cols="11" lg="6" md="8"  sm="9">
           <v-text-field class='text-field' label='Email' v-model='email' suffix='@ed.ritsumei.ac.jp' :rules="[rules.email]" />
         </v-col>
       </v-row>
-
       <br>
 
+      <!-- パスワード -->
       <v-row justify="center">
         <v-col cols="11" lg="6" md="8"  sm="9">
           <v-text-field
             class='text-field'
             v-model="password"
             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.min]"
+            :rules="[rules.min, rules.max, rules.password]"
             :type="show1 ? 'text' : 'password'"
-            label="パスワード（6文字以上の半角英数字）"
+            label="パスワード"
             counter
             @click:append="show1 = !show1"
           ></v-text-field>
         </v-col>
       </v-row>
 
+      <!-- パスワード確認 -->
       <v-row justify="center">
         <v-col cols="11" lg="6" md="8"  sm="9">
           <v-text-field
             class='text-field'
             v-model="confirmPassword"
             :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.min]"
+            :rules="[rules.min, rules.max, rules.password]"
             :type="show2 ? 'text' : 'password'"
             label="パスワード(確認用)"
             counter
             @click:append="show2 = !show2"
           ></v-text-field>
+          <p></p>
+          <p>半角英小文字大文字, 記号をそれぞれ1種類以上含む8文字以上16文字以下のパスワードを設定してください</p>
+          <p class="warning-text">（注意）RAINBOW IDのパスワードと同じものを絶対に設定しないでください</p>
+          <p class="warning-text">（注意）一度設定したパスワードは変更できません</p>
         </v-col>
       </v-row>
       <br>
 
+      <!-- ユーザ名 -->
       <v-row justify="center">
         <v-col cols="11" lg="6" md="8"  sm="9">
           <v-text-field class='text-field' label="ユーザ名（半角英数字のみ）" outlined v-model="userName" />
+          <p class="warning-text">※ ユーザ名は個人が特定できないように設定してください</p>
         </v-col>
       </v-row>
 
+      <!-- 学部・院選択 -->
       <v-row justify="center">
         <v-col cols="11" lg="6" md="8"  sm="9">
           <div @click='resetMajorAndGrade'>
@@ -81,6 +90,7 @@
         </v-col>
       </v-row>
 
+      <!-- 利用規約 -->
       <v-row><v-col><h3>利用規約をご確認ください。</h3></v-col></v-row>
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent :width="width">
@@ -96,7 +106,7 @@
               利用のルール<br>
               Rits知恵袋は、その内容を立命館大学の学生みなさんで作っていくサービスです。<br>
               たくさんの方々がご利用し、さまざまな価値観が交わされる場であるからこそ、時にはなじみのない意見に出合ったり、不快と感じられるような経験をされることがあるかもしれません。<br>
-              ご利用にあたっては、こうしたサービスの趣旨をご理解いただいたうえでのご利用をお願いいたします。なお、運営としては、できるかぎり多くの方々に快適にご利用いただける環境をご提供するために、誹謗中傷など明らかに悪意のある行為や不正利用には、強制的にメッセージを削除する等厳しく対処してまいりますので、一部の心ない方に心をわずらわされることなく、Rits知恵袋をご利用いただければと考えております。<br>
+              ご利用にあたっては、こうしたサービスの趣旨をご理解いただいたうえでのご利用をお願いいたします。なお、運営としては、できるかぎり多くの方々に快適にご利用いただける環境をご提供するために、誹謗中傷など明らかに悪意のある行為や不正利用には、強制的にメッセージを削除する等厳しく対処してまいりますので、一部の心ない方に心をわずらわされることなく、Rits知恵袋をご利用いただきますようお願いいたします。<br>
               <br>
 
               ●禁止事項について<br>
@@ -128,12 +138,20 @@
               このページに記載されていない行為でも、運営が不適切だと判断した場合、なんらかの措置を行う可能性があります。<br>
               <br>
 
+              ●当ウェブサイトの収集する情報について<br>
+              収集した個人情報については、管理責任者による適切な管理を行います。また、外部への流出防止、情報の紛失、破壊、改ざんの危険や外部からの不正なアクセス等の危険に対して、適切な安全対策を実施し、個人情報の保護に努めます。<br>
+              <br>
+
               ●ガイドライン違反と判断した場合の対処について<br>
               みなさんの投稿が運営の利用規約に反していると運営が判断したときは、投稿の削除やRits知恵袋の利用停止といった措置を予告なく行う場合があります。<br>
               <br>
 
-              ●さいごに
-              質問や回答をするときや、コメントなどを書くときに、これから投稿しようとしている内容が相手を傷つけないか、また、ほかの利用者に迷惑をかけることにならないか、上記の事項を参考にサービスへご参加ください。
+              ●Rits知恵袋で扱う情報内容について<br>
+              Rits知恵袋上での情報は、ユーザーが独自に回答している情報で、正しい情報では無い場合があることをご理解の上、Rits知恵袋をご利用ください。<br>
+              <br>
+
+              ●さいごに<br>
+              質問や回答をするときや、コメントなどを書くときに、これから投稿しようとしている内容が相手を傷つけないか、また、ほかの利用者に迷惑をかけることにならないか、上記の事項を参考にサービスへご参加ください。<br>
 
             </v-card-text>
             <v-card-actions>
@@ -145,6 +163,7 @@
         </v-dialog>
       </v-row>
 
+      <!-- 登録ボタン -->
       <v-row>
         <v-col>
           <v-btn outlined width="15%" color="#B3424A" @click="signUp">
@@ -178,7 +197,12 @@ export default {
       department: ritsData.department,
       master: ritsData.master,
       rules: {
-        min: value => value.length >= 6 || '最低6文字必要です',
+        min: value => value.length >= 8 || 'パスワードは8文字以上必要です。',
+        max: value => value.length <= 16 || 'パスワードは16文字以下に設定してください。',
+        password: value => {
+          const pattern = /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-\/:-@[-`{-~])[!-~]{8,16}$/i // eslint-disable-line
+          return pattern.test(value) || '不正なパスワードです。';
+        },
         email: value => {
           const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))$/
           return pattern.test(value) || '不正なEmailアドレスです';
@@ -196,14 +220,17 @@ export default {
 
   methods: {
     signUp() {
-      const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*$/;
-      if (this.email == "" || this.password == "", this.confirmPassword == "", this.userName == "", this.major == "", this.grade == "") {
+      const regEmail = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*$/;
+      const regPassword = /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[!-\/:-@[-`{-~])[!-~]{8,16}$/i; // eslint-disable-line
+      if (this.email == "" || this.password == "" || this.confirmPassword == "" || this.userName == "" || this.major == "" || this.grade == "") {
         toast('登録情報を全て入力してください。', "error");
+      } else if (!regPassword.test(this.password)) {
+        toast('パスワードが不正です。', "error");
       } else if (this.password != this.confirmPassword) {
         toast('パスワードが一致しません。', "error");
       } else if (this.userName.match(/[^0-9 ^a-z ^A-Z]/g )) {
         toast('ユーザIDが不正です。\n半角英数字で入力してください。', "error");
-      } else if (!reg.test(this.email)) {
+      } else if (!regEmail.test(this.email)) {
         toast('正しいメールアドレスを入力してください。', "error");
       } else if (!this.agreeCheck) {
         toast('利用規約をご確認ください。同意していただけない場合、登録することができません。', "error")
@@ -249,5 +276,9 @@ export default {
 }
 .text {
   text-align: left;
+}
+.warning-text {
+  color: #F44336;
+  font-weight: bold;
 }
 </style>

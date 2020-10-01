@@ -6,12 +6,15 @@
       </template>
 
       <router-view></router-view>
+      <br>
+      <Footer></Footer>
     </v-app>
   </v-container>
 </template>
 
 <script>
 import Header from "./components/global/Header";
+import Footer from "./components/global/Footer";
 export default {
   computed: {
     isAuthenticated() {
@@ -20,6 +23,7 @@ export default {
   },
   components: {
     Header,
+    Footer,
   },
   created() {
     try {

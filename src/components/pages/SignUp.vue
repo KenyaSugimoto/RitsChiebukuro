@@ -174,8 +174,8 @@
       <!-- 登録ボタン -->
       <v-row>
         <v-col>
-          <v-btn outlined width="15%" color="#B3424A" @click="signUp">
-            <font color='black'><b>登録</b></font>
+          <v-btn outlined width="15%" color="#B3424A" @click="signUp" class="br">
+            <strong class="signup-button">登録</strong>
           </v-btn>
         </v-col>
       </v-row>
@@ -288,5 +288,11 @@ export default {
 .warning-text {
   color: #F44336;
   font-weight: bold;
+}
+.signup-button {
+  color: black;
+}
+.br {
+  margin-bottom: 24px;
 }
 </style>

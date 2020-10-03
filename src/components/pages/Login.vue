@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <v-container>
-
-      <v-row><v-col><h2>ログイン</h2></v-col></v-row>
-
       <v-row justify="center">
+        <v-col cols="11" lg="7" md="8" sm="9">
+          <h2>ログイン</h2>
+        </v-col>
         <v-col cols="11" lg="6" md="8" sm="9">
           <v-text-field class='text-field' label='Email' v-model='email' suffix='@ed.ritsumei.ac.jp' :rules="[rules.email]" />
         </v-col>
@@ -28,7 +28,7 @@
       <v-row justify="center">
         <v-col cols="11" lg="6" md="8" sm="9">
           <v-btn width="40%" color="#B3424A" @click="login">
-            <font color='white'><b>ログイン</b></font>
+            <strong class="login-button">ログイン</strong>
           </v-btn>
         </v-col>
       </v-row>
@@ -40,17 +40,14 @@
       <v-row justify="center">
         <v-col cols="11" lg="6" md="8" sm="9">
           <p>または</p>
-          <v-btn outlined width="30%" color="#B3424A" @click="signUp">
-            <font color='black'><b>ユーザ登録</b></font>
+          <v-btn
+            outlined
+            width="30%"
+            color="#B3424A"
+            @click="signUp"
+          >
+            <strong class="signup-button">ユーザ登録</strong>
           </v-btn>
-        </v-col>
-      </v-row>
-
-      <br><br>
-
-      <v-row justify="center">
-        <v-col cols="11" lg="6" md="8" sm="9">
-          <router-link to="/resetPassword" class="reset-password">パスワードを忘れた方はこちら</router-link>
         </v-col>
       </v-row>
 
@@ -114,5 +111,11 @@ export default {
 .reset-password:hover {
   background-color: #b1abab;
   color: red;
+}
+.login-button {
+  color: white;
+}
+.signup-button {
+  color: black;
 }
 </style>

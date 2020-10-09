@@ -1,114 +1,218 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import router from "../router";
-import axios from "../axios-auth";
-import axiosRefresh from "../axios-refresh";
+import createPersistedState from "vuex-persistedstate";
+import auth from "./modules/auth";
+import login from "./modules/login";
+import logout from "./modules/logout";
+import signUp from "./modules/signUp";
+import post from "./modules/post";
+import user from "./modules/user";
+import reset from "./modules/reset";
+import notification from "./modules/notification";
+import thread from "./modules/thread";
+import search from "./modules/search";
+import SecureLS from "secure-ls";
+const ls = new SecureLS({ isCompression: false });
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
+export const initialState = {
+  userInfo: {
+    uid: null,
+    userName: null,
+    major: null,
+    grade: null,
+    watchedPostIds: [],
+    favoritePostIds: [],
+    notificationConfigValues: null,
+  },
+  authInfo: {
     idToken: null,
+    refreshToken: null,
+    expiryTimeMs: null,
+    emailVerified: false,
   },
-  getters: {
-    idToken: state => state.idToken
+  postsInfo: {
+    newPosts: null,
+    individualNewPosts: null,
+    selectedCategoryNewPosts: null,
+    watchingPost: null,
+    searchResultPosts: null,
+    searchKeyWords: null,
+    favoritePosts: null,
   },
-  mutations: {
+  notificationInfo: {
+    questionerNotifications: null,
+    displayNotifications: null,
+    respondentNotifications: null,
+  },
+  threadInfo: {
+    thread: null,
+    isResolved: false,
+  },
+};
+
+const getters = {
+  // userInfo
+  ... {
+    uid: state => state.userInfo.uid,
+    userName: state => state.userInfo.userName,
+    major: state => state.userInfo.major,
+    grade: state => state.userInfo.grade,
+    watchedPostIds: state => state.userInfo.watchedPostIds,
+    favoritePostIds: state => state.userInfo.favoritePostIds,
+    notificationConfigValues: state => state.userInfo.notificationConfigValues,
+  },
+  // authInfo
+  ... {
+    idToken: state => state.authInfo.idToken,
+    refreshToken: state => state.authInfo.refreshToken,
+    expiryTimeMs: state => state.authInfo.expiryTimeMs,
+    emailVerified: state => state.authInfo.emailVerified,
+  },
+  // postsInfo
+  ... {
+    newPosts: state => state.postsInfo.newPosts,
+    individualNewPosts: state => state.postsInfo.individualNewPosts,
+    selectedCategoryNewPosts: state => state.postsInfo.selectedCategoryNewPosts,
+    watchingPost: state => state.postsInfo.watchingPost,
+    searchResultPosts: state => state.postsInfo.searchResultPosts,
+    searchKeyWords: state => state.postsInfo.searchKeyWords,
+    favoritePosts: state => state.postsInfo.favoritePosts,
+  },
+
+  // notificationInfo
+  ... {
+    questionerNotifications: state => state.notificationInfo.questionerNotifications,
+    respondentNotifications: state => state.notificationInfo.respondentNotifications,
+    displayNotifications: state => state.notificationInfo.displayNotifications,
+  },
+  // threadInfo
+  ... {
+    thread: state => state.threadInfo.thread,
+    isResolved: state => state.threadInfo.isResolved,
+  },
+};
+
+const mutations = {
+  // userInfo
+  ...{
+    updateUid(state, uid) {
+      state.userInfo.uid = uid;
+    },
+    updateUserName(state, userName) {
+      state.userInfo.userName = userName;
+    },
+    updateMajor(state, major) {
+      state.userInfo.major = major;
+    },
+    updateGrade(state, grade) {
+      state.userInfo.grade = grade;
+    },
+    addWatchedPostId(state, watchedPostId) {
+      state.userInfo.watchedPostIds.push(watchedPostId);
+    },
+    updateFavoritePostIds(state, favoritePostIds) {
+      state.userInfo.favoritePostIds = favoritePostIds;
+    },
+    updateNotificationConfigValues(state, notificationConfigValues) {
+      state.userInfo.notificationConfigValues = notificationConfigValues;
+    },
+  },
+  // authInfo
+  ... {
     updateIdToken(state, idToken) {
-      state.idToken = idToken;
+      state.authInfo.idToken = idToken;
+    },
+    updateRefreshToken(state, refreshToken) {
+      state.authInfo.refreshToken = refreshToken;
+    },
+    updateExpiryTimeMs(state, expiryTimeMs) {
+      state.authInfo.expiryTimeMs = expiryTimeMs;
+    },
+    updateEmailVerified(state, emailVerified) {
+      state.authInfo.emailVerified = emailVerified;
+    },
+    resetState(state) {
+      Object.assign(state, JSON.parse(JSON.stringify(initialState)));
+    }
+  },
+  // postsInfo
+  ... {
+    updateNewPosts(state, newPosts) {
+      state.postsInfo.newPosts = newPosts;
+    },
+    updateIndividualNewPosts(state, individualNewPosts) {
+      state.postsInfo.individualNewPosts = individualNewPosts;
+    },
+    updateSelectedCategoryNewPosts(state, selectedCategoryNewPosts) {
+      state.postsInfo.selectedCategoryNewPosts = selectedCategoryNewPosts;
+    },
+    updateWatchingPost(state, watchingPost) {
+      state.postsInfo.watchingPost = watchingPost;
+    },
+    updateSearchResultPosts(state, searchResultPosts) {
+      state.postsInfo.searchResultPosts = searchResultPosts;
+    },
+    updateSearchKeyWords(state, searchKeyWords) {
+      state.postsInfo.searchKeyWords = searchKeyWords;
+    },
+    addNewPost(state, newPostData) {
+      state.postsInfo.newPosts.unshift(newPostData);
+    },
+    updateFavoritePosts(state, favoritePosts) {
+      state.postsInfo.favoritePosts = favoritePosts;
+    }
+  },
+  // notificationInfo
+  ... {
+    updateQuestionerNotifications(state, questionerNotifications) {
+      state.notificationInfo.questionerNotifications = questionerNotifications;
+    },
+    updateRespondentNotifications(state, respondentNotifications) {
+      state.notificationInfo.respondentNotifications = respondentNotifications;
+    },
+    updateDisplayNotifications(state, displayNotifications) {
+      state.notificationInfo.displayNotifications = displayNotifications;
     },
   },
-  actions: {
-    autoLogin({commit, dispatch}) {
-      const idToken = localStorage.getItem('idToken');
-      if (!idToken) return; //過去のIDトークンが残っているかの確認
-      const now = new Date();
-      const expiryTimeMs = localStorage.getItem('expiryTimeMs');
-      const isExpired = expiryTimeMs <= now.getTime();
-      const refreshToken = localStorage.getItem('refreshToken');
-      if(isExpired) {
-        //IDトークンの期限が切れている時
-        dispatch('refreshIdToken', refreshToken);
-      }else {
-        //IDトークンの期限が切れていない時
-        const expiresInMs = expiryTimeMs - now.getTime();
-        setTimeout(() => {
-          dispatch('refreshIdToken', refreshToken);
-        }, expiresInMs);
-        commit('updateIdToken', idToken);
-      }
-
+  // threadInfo
+  ...{
+    updateThread(state, thread) {
+      state.threadInfo.thread = thread;
     },
-    login({dispatch}, authData){
-      axios.post(
-        "/accounts:signInWithPassword?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs",
-        {
-          email: authData.email,
-          password: authData.password,
-          returnSecureToken: true
-        }
-      ).then(response => {
-        dispatch('setAuthData', {
-          idToken: response.data.idToken,
-          refreshToken: response.data.refreshToken,
-          expiresIn: response.data.expiresIn
-        });
-        router.push('/');
-      });
-    },
-    refreshIdToken({dispatch}, refreshToken) {
-      axiosRefresh.post(
-        "/token?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs",
-        {
-          grant_type: "refresh_token",
-          refresh_token: refreshToken
-        }
-      ).then(response => {
-        dispatch('setAuthData', {
-          idToken: response.data.id_token,
-          refreshToken: response.data.refresh_token,
-          expiresIn: response.data.expires_in
-        });
-      });
-    },
-    register({dispatch}, authData) {
-      axios.post(
-        "/accounts:signUp?key=AIzaSyDpcvWCZbO4hP2Kzl1dcXlisQnihF16LFs",
-        {
-          email: authData.email,
-          password: authData.password,
-          returnSecureToken: true
-        },
-      )
-      .then(response => {
-        dispatch('setAuthData', {
-          idToken: response.data.idToken,
-          refreshToken: response.data.refreshToken,
-          expiresIn: response.data.expiresIn
-        });
-        router.push('/login');
-      });
-    },
-    setAuthData({commit, dispatch}, authData) {
-      commit('updateIdToken',authData.idToken);
-
-      const now = new Date();
-      const expiryTimeMs = now.getTime() + authData.expiresIn * 1000; //今のトークンの期限が切れる時刻を算出
-
-      localStorage.setItem('idToken',authData.idToken);
-      localStorage.setItem('refreshToken',authData.refreshToken);
-      localStorage.setItem('expiryTimeMs',expiryTimeMs);
-
-      setTimeout(() => {
-        dispatch('refreshIdToken', authData.refreshToken);
-      }, authData.expiresIn * 1000);
-    },
-    logout({commit}) {
-      commit('updateIdToken', null);
-      localStorage.removeItem('idToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('expiryTimeMs');
-      router.replace('/login');
+    updateIsResolved(state, isResolved) {
+      state.threadInfo.isResolved = isResolved;
     },
   },
+};
+
+
+export default new Vuex.Store({
+  state: JSON.parse(JSON.stringify(initialState)),
+  getters,
+  mutations,
+  actions: {},
+  modules: {
+    auth,
+    login,
+    logout,
+    signUp,
+    post,
+    user,
+    reset,
+    notification,
+    thread,
+    search,
+  },
+  plugins: [
+    createPersistedState({
+      key: 'RitsChiebukuro',
+      storage: {
+        getItem: key => ls.get(key),
+        setItem: (key, value) => ls.set(key, value),
+        removeItem: key => ls.remove(key),
+      },
+    }),
+  ],
 });

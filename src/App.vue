@@ -1,45 +1,47 @@
 <template>
-  <div id="app">
-    <template v-if="isAuthenticated">
-      <header>
-        <router-link to="/" class="header-item">掲示板</router-link>
-        <span class="header-item" @click="logout">ログアウト</span>
-        <router-view name="header"></router-view>
-      </header>
-      <router-view name="search"></router-view>
-    </template>
-    <template v-if="!isAuthenticated">
-      <header>
-        <router-link to="/login" class="header-item">ログイン</router-link>
-        <router-link to="/register" class="header-item">登録</router-link>
-      </header>
-    </template>
-    <router-view></router-view>
+  <v-container>
+    <v-app>
+      <template v-if="isAuthenticated">
+        <Header></Header>
+      </template>
 
-  </div>
+      <router-view></router-view>
+      <br>
+      <Footer></Footer>
+    </v-app>
+  </v-container>
 </template>
 
 <script>
+import Header from "./components/global/Header";
+import Footer from "./components/global/Footer";
 export default {
   computed: {
-    isAuthenticated(){
+    isAuthenticated() {
       return this.$store.getters.idToken !== null;
+    },
+  },
+  components: {
+    Header,
+    Footer,
+  },
+  created() {
+    try {
+      const ls = JSON.parse(localStorage.getItem('RitsChiebukuro'));
+      Object.assign(this.$store.state, JSON.parse(JSON.stringify(ls)));
+    } catch (error) {
+      localStorage.removeItem('RitsChiebukuro');
     }
   },
-  methods: {
-    logout() {
-      this.$store.dispatch('logout');
+  watch: {
+    '$route': function (to, from) {
+      if (to.path !== from.path) {
+        this.$store.dispatch("notification/getNotifications");
+      }
     }
-  },
+  }
 }
 </script>
-
-<style scoped>
-.header-item{
-  padding:  10px;
-  cursor: pointer;
-}
-</style>
 
 <style>
 #app {

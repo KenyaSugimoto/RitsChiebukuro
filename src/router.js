@@ -1,17 +1,22 @@
 import Vue from "vue";
 import Router from "vue-router";
-import store from "./store";
 
-
-const TopPage = () => import("./components/pages/TopPage.vue");
-const Answer = () => import("./components/pages/Answer.vue");
-const Category = () => import("./components/pages/Category.vue");
-const MyPage = () => import("./components/pages/MyPage.vue");
-const Header = () => import("./components/global/Header.vue");
-const Search = () => import("./components/parts/Search.vue");
-const Login = () => import("./components/pages/Login.vue");
-const Register = () => import("./components/pages/Register.vue");
-
+const TopPage = () => import("./components/pages/TopPage");
+const Category = () => import("./components/pages/Category");
+const MyPage = () => import("./components/pages/MyPage");
+const Login = () => import("./components/pages/Login");
+const SignUp = () => import("./components/pages/SignUp");
+const ActivateAccount = () => import("./components/pages/ActivateAccount");
+const ResetPassword = () => import("./components/pages/ResetPassword");
+const Post = () => import("./components/pages/Post");
+const SearchResult = () => import("./components/pages/SearchResult")
+const Notification = () => import("./components/parts/Notification");
+const NoNotification = () => import("./components/parts/NoNotification");
+const Favorite = () => import("./components/pages/Favorite");
+const MyPosts = () => import("./components/pages/MyPosts");
+const NotificationConfig = () => import("./components/pages/NotificationConfig");
+const NotFoundPost = () => import("./components/pages/NotFoundPost");
+const PostQuestion = () => import("./components/pages/PostQuestion");
 
 //Vue Routerの利用宣言
 Vue.use(Router)
@@ -21,90 +26,107 @@ export default new Router({
   routes:[
     {
       path: "/",
-      component: TopPage,
       components: {
         default: TopPage,
-        header: Header,
-        search: Search,
       },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next();
-        }else {
-          next("/login");
-        }
-      }
-    },
-    {
-      path: "/answer",
-      components: {
-        default: Answer,
-        header: Header,
-        search: Search,
-      },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next();
-        }else {
-          next("/login");
-        }
-      }
     },
     {
       path: "/category",
       components: {
         default: Category,
-        header: Header,
-        search: Search,
       },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next();
-        }else {
-          next("/login");
-        }
-      }
     },
     {
       path: "/my-page",
       components: {
         default: MyPage,
-        header: Header,
-        search: Search,
       },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next();
-        }else {
-          next("/login");
-        }
-      }
     },
     {
       path: "/login",
       components: {
         default: Login,
       },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next("/");
-        }else {
-          next();
-        }
+    },
+    {
+      path: "/signUp",
+      components: {
+        default: SignUp,
+      },
+    },
+    {
+      path: '/activateAccount',
+      components: {
+        default: ActivateAccount,
+      },
+    },
+    {
+      path: '/resetPassword',
+      components: {
+        default: ResetPassword,
       }
     },
     {
-      path: "/register",
+      path: '/post/:postId',
+      name: 'post',
+      component: Post,
+      props: true,
+    },
+    {
+      path: "/searchResult",
       components: {
-        default: Register,
-      },
-      beforeEnter(to, from, next) {
-        if(store.getters.idToken) {
-          next("/");
-        }else {
-          next();
-        }
+        default: SearchResult,
       }
     },
+    {
+      path: "/notification",
+      name: "notification",
+      components: {
+        default: Notification,
+      },
+    },
+    {
+      path: "/noNotification",
+      name: "noNotification",
+      components: {
+        default: NoNotification,
+      },
+    },
+    {
+      path: "/favorite",
+      components: {
+        default: Favorite,
+      },
+    },
+    {
+      path: "/myPosts",
+      components: {
+        default: MyPosts,
+      },
+    },
+    {
+      path: "/notificationConfig",
+      components: {
+        default: NotificationConfig,
+      }
+    },
+    {
+      path: "/notFoundPost",
+      name: "notFound",
+      components: {
+        default: NotFoundPost,
+      }
+    },
+    {
+      path: "/postQuestion",
+      components: {
+        default: PostQuestion,
+      }
+    },
+    // 上記全てのURL以外
+    {
+      path: "*",
+      redirect: "/"
+    }
   ]
 })

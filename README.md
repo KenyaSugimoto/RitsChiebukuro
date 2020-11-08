@@ -3,7 +3,7 @@
 ## 概要
 - 学生間で質問や相談が気軽にできる掲示板サイト。
 
-[Rits知恵袋](http://sugimoto-kenya.work/images/chiebukuro.jpg)
+![Rits知恵袋](http://sugimoto-kenya.work/images/chiebukuro.jpg)
 
 ## 背景・目的
 - 大学の授業がオンライン化になり、情報を得ることが難しくなった。
